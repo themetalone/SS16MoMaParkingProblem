@@ -7,6 +7,13 @@
     <groupId>com.github.themetalone</groupId>
     <artifactId>parking</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+    </dependencies>
     <packaging>jar</packaging>
 
 
