@@ -7,6 +7,7 @@
     <bean name="Simulation" class="com.github.themetalone.parking.core.Simulation">
         <constructor-arg name="streetProvider" ref="StreetProvider"/>
         <constructor-arg name="ticks" value="864000"/>
+        <property name="simulationDataCollector" ref="SimulationDataCollector"/>
     </bean>
 
     <bean name="StreetProvider" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetProviderImpl">

@@ -69,13 +69,11 @@ public class HutchinsonCarImpl implements Car {
 
     @Override
     public void update(Observable o, Object arg) {
-        LOG.info("recieved tick");
         parkingTime--;
         if (parkingTime == 0 && parkingSlot != null) {
             parkingSlot.clear();
             parkingSlot = null;
         }
-        LOG.info("Put data check:{}{}", (o instanceof Street),(arg instanceof Long));
         if((o instanceof Street) && (arg instanceof Long)){
             Integer parkingId = parkingSlot==null?-1:parkingSlot.getId();
             Integer distance = parkingSlot==null?-1:parkingSlot.getDistance();

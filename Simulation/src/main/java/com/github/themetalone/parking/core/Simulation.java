@@ -1,5 +1,6 @@
 package com.github.themetalone.parking.core;
 
+import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import com.github.themetalone.parking.core.street.Street;
 import com.github.themetalone.parking.core.street.StreetProvider;
 import org.slf4j.Logger;
@@ -12,6 +13,12 @@ public class Simulation {
 
     private Logger LOG = LoggerFactory.getLogger(Simulation.class);
     private long ticks;
+
+    public void setSimulationDataCollector(SimulationDataCollector simulationDataCollector) {
+        this.simulationDataCollector = simulationDataCollector;
+    }
+
+    private SimulationDataCollector simulationDataCollector;
 
     public Simulation(StreetProvider streetProvider, long ticks) {
         this.ticks = ticks;
@@ -33,7 +40,7 @@ public class Simulation {
             }
         }
         LOG.info("Simulation done! :)");
-
+        simulationDataCollector.close();
     }
 
 

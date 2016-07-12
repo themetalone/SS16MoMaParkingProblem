@@ -9,4 +9,5 @@ public interface SimulationDataCollector {
 
     void putCarData(int id, int parkingSlotId, int distance, String heuristic, long tick);
 
+    void close();
 }
