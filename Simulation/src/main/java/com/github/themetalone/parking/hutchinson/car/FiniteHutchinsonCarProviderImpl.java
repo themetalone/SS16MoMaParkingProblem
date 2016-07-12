@@ -74,9 +74,8 @@ public class FiniteHutchinsonCarProviderImpl implements CarProvider {
     @Override
     public Car getObject(int id) {
         Predicate<Car> findId = c -> c.getId() == id;
-        Stream<Car> stream = cars.parallelStream();
-        if (stream.anyMatch(findId)) {
-            return stream.filter(findId).findFirst().get();
+        if (cars.stream().anyMatch(findId)) {
+            return cars.stream().filter(findId).findFirst().get();
         } else {
 
             if (id >= numberOfCars) {

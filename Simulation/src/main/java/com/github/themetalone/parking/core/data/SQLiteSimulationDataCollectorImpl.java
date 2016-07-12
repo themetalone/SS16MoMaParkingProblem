@@ -14,11 +14,11 @@ import java.sql.Statement;
 public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollector {
 
     private final String jdbcPrefix = "jdbc:sqlite";
-    private final String jdbcDriver = "org.sqlite.DBC";
+    private final String jdbcDriver = "org.sqlite.JDBC";
     private final String jdbcUrl;
     private final String sqlMakeParkingTable = "CREATE TABLE IF NOT EXISTS parking_spots (" +
             "id Numeric," +
-            "distance Numeric" +
+            "distance Numeric," +
             "occupied Numeric," +
             "tick Numeric" +
             ")";
@@ -41,10 +41,11 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
             stmnt.execute(sqlMakeCarTable);
             stmnt.execute(sqlMakeParkingTable);
             stmnt.close();
+            LOG.info("Initialization done");
         } catch (ClassNotFoundException e) {
             LOG.error("Could not load sqlite driver!\n Fallback to Logger");
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Encountered a SQLException:{}",e.getMessage());
         }
 
     }

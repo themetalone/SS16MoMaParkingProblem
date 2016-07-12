@@ -6,6 +6,8 @@ import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 import com.github.themetalone.parking.core.street.Street;
 import org.apache.commons.math3.distribution.RealDistribution;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Observable;
 
@@ -18,7 +20,7 @@ public class HutchinsonCarImpl implements Car {
         counter++;
         return counter;
     }
-
+    private Logger LOG = LoggerFactory.getLogger(HutchinsonCarImpl.class);
     private RealDistribution realDistribution;
     public static int counter = -1;
     private int id;
@@ -67,11 +69,13 @@ public class HutchinsonCarImpl implements Car {
 
     @Override
     public void update(Observable o, Object arg) {
+        LOG.info("recieved tick");
         parkingTime--;
         if (parkingTime == 0 && parkingSlot != null) {
             parkingSlot.clear();
             parkingSlot = null;
         }
+        LOG.info("Put data check:{}{}", (o instanceof Street),(arg instanceof Long));
         if((o instanceof Street) && (arg instanceof Long)){
             Integer parkingId = parkingSlot==null?-1:parkingSlot.getId();
             Integer distance = parkingSlot==null?-1:parkingSlot.getDistance();

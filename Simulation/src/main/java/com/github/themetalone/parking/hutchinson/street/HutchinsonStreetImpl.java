@@ -20,7 +20,7 @@ public class HutchinsonStreetImpl extends Observable implements Street {
 
     private Logger LOG = LoggerFactory.getLogger(HutchinsonStreetImpl.class);
 
-    private IntegerDistribution integerDistribution = new UniformIntegerDistribution(0,10000);
+    private IntegerDistribution integerDistribution;
     private int streetLength;
     private CarProvider carProvider;
     private ParkingSlotProvider parkingSlotProvider;
@@ -78,34 +78,42 @@ public class HutchinsonStreetImpl extends Observable implements Street {
 
 
     public void enterLane(Car car) {
-        if (car instanceof Observable) {
-            ((Observable) car).addObserver(this);
-        }
         this.addObserver(car);
         carList.add(car.getId());
         laneCarMap.put(car.getId(), 0);
     }
 
     public void tick() {
-        this.notifyObservers(getCounter());
+        LOG.debug("tick");
+        this.setChanged();
+        this.notifyObservers(getTicker());
         markedToLeaveLane = new LinkedList<>();
         for (Integer i : carList) {
             int newSpot = laneCarMap.get(i) + 1;
             // Move the car one parking slot forward
             laneCarMap.put(i, newSpot);
-            ParkingSlot peek = parkingSlotProvider.getObject(laneParkingMap.get(newSpot + 1));
-            if (peek == null) {
+            Integer peekId = laneParkingMap.get(newSpot + 1);
+            ParkingSlot peek;
+            LOG.debug("Moving Car {} to slot {}", i, newSpot);
+            if (peekId == null) {
                 peek = new AlwaysOccupiedParkingSlot();
+            } else {
+                peek = parkingSlotProvider.getObject(peekId);
+            }
+            if (newSpot > laneEndPoint) {
+                LOG.debug("Car {} leaves the lane", i);
+                markedToLeaveLane.add(i);
+                continue;
             }
             if (carProvider.getObject(i).decide(parkingSlotProvider.getObject(laneParkingMap.get(newSpot)), peek) != -1) {
+                LOG.debug("Car {} parks at spot {}", i, newSpot);
                 parkingSlotProvider.getObject(laneParkingMap.get(newSpot)).occupy(carProvider.getObject(i));
                 markedToLeaveLane.add(i);
             }
-            if (newSpot > laneEndPoint) {
-                markedToLeaveLane.add(i);
-            }
+
         }
         if (toa == 0) {
+            LOG.debug("Next Car enters lane");
             enterLane(carProvider.next());
             toa = getNextTOA();
         } else {
@@ -115,7 +123,9 @@ public class HutchinsonStreetImpl extends Observable implements Street {
     }
 
     private long getNextTOA() {
-        return integerDistribution.sample();
+        long ticks = (long) integerDistribution.sample();
+        LOG.debug("Next Car in {} ticks", ticks);
+        return ticks;
     }
 
     private Map<Integer, Integer> laneParkingMap;

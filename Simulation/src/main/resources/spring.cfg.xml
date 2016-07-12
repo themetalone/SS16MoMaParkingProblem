@@ -13,6 +13,7 @@
         <constructor-arg name="streetlength" value="150"/>
         <property name="carProvider" ref="CarProvider"/>
         <property name="parkingSlotProvider" ref="ParkingSpotProvider"/>
+        <property name="integerDistribution" ref="StreetWaitingDistribution"/>
     </bean>
 
     <bean name="CarProvider" class="com.github.themetalone.parking.hutchinson.car.FiniteHutchinsonCarProviderImpl">
