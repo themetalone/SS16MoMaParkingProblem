@@ -13,9 +13,10 @@ public interface Car extends ModelObject {
     /**
      * Decides if the car chooses a parkingspot
      * @param parkingSlot the parking spot
-     * @return true if the car chooses the parking sport. false otherwise
+     * @param peek the next parkingspot.
+     * @return n >= 0 if the car chooses the parking sport. -1 otherwise
      */
-    boolean decide(ParkingSlot parkingSlot);
+    int decide(ParkingSlot parkingSlot, ParkingSlot peek);
 
 
 }

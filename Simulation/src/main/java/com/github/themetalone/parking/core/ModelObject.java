@@ -7,7 +7,7 @@ import java.util.Observer;
  */
 public interface ModelObject extends Observer {
 
-    long getId();
-    void setId(long id);
+    int getId();
+    void setId(int id);
 
 }

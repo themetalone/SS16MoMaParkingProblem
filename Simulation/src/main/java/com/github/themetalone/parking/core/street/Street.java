@@ -9,12 +9,6 @@ import com.github.themetalone.parking.core.car.Car;
 public interface Street extends ModelObject{
 
     /**
-     * Let's a car enter the street
-     * @param car the car to enter the street
-     */
-    void enterLane(Car car);
-
-    /**
      * Execute one discrete time step
      */
     void tick();

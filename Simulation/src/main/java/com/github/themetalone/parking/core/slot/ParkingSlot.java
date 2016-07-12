@@ -24,5 +24,7 @@ public interface ParkingSlot extends ModelObject{
      */
     void clear();
 
+    int getDistance();
+    void setDistance(int d);
 
 }

@@ -8,7 +8,7 @@ import java.util.Collection;
 public interface ModelProvider <T extends ModelObject> {
 
     Collection<T> getObjects();
-    T getObject(long id);
+    T getObject(int id);
     T next();
 
 }
