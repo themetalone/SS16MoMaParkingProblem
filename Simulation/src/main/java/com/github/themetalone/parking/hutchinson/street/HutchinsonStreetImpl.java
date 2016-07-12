@@ -31,6 +31,13 @@ public class HutchinsonStreetImpl extends Observable implements Street {
     private List<Integer> markedToLeaveLane;
     private LinkedList<Integer> carList = new LinkedList<>();
 
+    public Long getTicker() {
+        ticker++;
+        return ticker;
+    }
+
+    private long ticker = -1;
+
     public HutchinsonStreetImpl(int numberOfParkingSpots, CarProvider carProvider, ParkingSlotProvider parkingSlotProvider, IntegerDistribution integerDistribution) {
         this.integerDistribution = integerDistribution;
         init(numberOfParkingSpots, carProvider, parkingSlotProvider);
@@ -50,7 +57,9 @@ public class HutchinsonStreetImpl extends Observable implements Street {
         this.parkingSlotProvider = parkingSlotProvider;
         List<ParkingSlot> parkingSlotList = new LinkedList<>();
         for (long i = 0; i < numberOfParkingSpots; i++) {
-            parkingSlotList.add(this.parkingSlotProvider.next());
+            ParkingSlot pslot = this.parkingSlotProvider.next();
+            this.addObserver(pslot);
+            parkingSlotList.add(pslot);
         }
         this.laneParkingMap = new LinkedHashMap<>();
         this.laneCarMap = new LinkedHashMap<>();
@@ -78,7 +87,7 @@ public class HutchinsonStreetImpl extends Observable implements Street {
     }
 
     public void tick() {
-        this.notifyObservers();
+        this.notifyObservers(getCounter());
         markedToLeaveLane = new LinkedList<>();
         for (Integer i : carList) {
             int newSpot = laneCarMap.get(i) + 1;

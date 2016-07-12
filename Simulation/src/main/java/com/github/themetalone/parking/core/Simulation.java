@@ -9,7 +9,10 @@ import com.github.themetalone.parking.core.street.StreetProvider;
 public class Simulation {
 
 
-    public Simulation(StreetProvider streetProvider) {
+    private long ticks;
+
+    public Simulation(StreetProvider streetProvider, long ticks) {
+        this.ticks = ticks;
         this.streetProvider = streetProvider;
     }
 
@@ -17,11 +20,10 @@ public class Simulation {
 
     /**
      * Simulates the Parking Problem
-     * @param length the number of ticks
      */
-    public void simulate(int length){
+    public void simulate(){
         Street street = streetProvider.next();
-        for(int i = 0;i<length;i++){
+        for(int i = 0;i<ticks;i++){
             street.tick();
         }
 

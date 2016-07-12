@@ -2,9 +2,9 @@ package com.github.themetalone.parking.hutchinson.car;
 
 import com.github.themetalone.parking.core.car.Car;
 import com.github.themetalone.parking.core.car.heuristic.Heuristic;
-import com.github.themetalone.parking.core.car.heuristic.HeuristicProvider;
+import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
-import org.apache.commons.math3.distribution.GammaDistribution;
+import com.github.themetalone.parking.core.street.Street;
 import org.apache.commons.math3.distribution.RealDistribution;
 
 import java.util.Observable;
@@ -26,15 +26,18 @@ public class HutchinsonCarImpl implements Car {
     private int parkingTime = -1;
     private ParkingSlot parkingSlot = null;
     private int longestParkingTime;
+    private SimulationDataCollector simulationDataCollector;
 
-    public HutchinsonCarImpl(Heuristic heuristic, RealDistribution realDistribution, int longestParkingTime) {
+    public HutchinsonCarImpl(Heuristic heuristic, RealDistribution realDistribution, int longestParkingTime, SimulationDataCollector simulationDataCollector) {
+        this.simulationDataCollector = simulationDataCollector;
         this.longestParkingTime = longestParkingTime;
         this.realDistribution = realDistribution;
         this.id = getCounter();
         this.heuristic = heuristic;
     }
 
-    public HutchinsonCarImpl(int id, Heuristic heuristic, RealDistribution realDistribution, int longestParkingTime) {
+    public HutchinsonCarImpl(int id, Heuristic heuristic, RealDistribution realDistribution, int longestParkingTime, SimulationDataCollector simulationDataCollector) {
+        this.simulationDataCollector = simulationDataCollector;
         this.longestParkingTime = longestParkingTime;
         this.realDistribution = realDistribution;
         this.heuristic = heuristic;
@@ -69,16 +72,22 @@ public class HutchinsonCarImpl implements Car {
             parkingSlot.clear();
             parkingSlot = null;
         }
+        if((o instanceof Street) && (arg instanceof Long)){
+            Integer parkingId = parkingSlot==null?-1:parkingSlot.getId();
+            Integer distance = parkingSlot==null?-1:parkingSlot.getDistance();
+            simulationDataCollector.putCarData(id,parkingId,distance, heuristic.toString(),(Long)arg);
+        }
+
     }
 
     private int getOccupationTime() {
         double sample = realDistribution.sample();
-        if(sample > longestParkingTime){
+        if (sample > longestParkingTime) {
             return longestParkingTime;
         }
-        if(sample < 0){
+        if (sample < 0) {
             return 0;
         }
-        return (int)sample;
+        return (int) sample;
     }
 }

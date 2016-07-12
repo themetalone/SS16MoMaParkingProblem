@@ -26,4 +26,9 @@ public class DecideAfterNSlotsHeuristic implements Heuristic {
     public Heuristic copy() {
         return new DecideAfterNSlotsHeuristic(n);
     }
+
+    @Override
+    public String toString(){
+        return "DecideAfterNSlotsHeuristic[n:"+n+"]";
+    }
 }

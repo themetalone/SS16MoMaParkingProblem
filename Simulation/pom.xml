@@ -23,6 +23,33 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.8.11.2</version>
         </dependency>
+        <!-- Core utilities used by other modules.
+            Define this if you use Spring Utility APIs
+            (org.springframework.core.*/org.springframework.util.*)-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
+        <!-- Bean Factory and JavaBeans utilities (depends on spring-core)
+            Define this if you use Spring Bean APIs
+            (org.springframework.beans.*)-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
+        <!-- Application Context
+            (depends on spring-core, spring-expression, spring-aop, spring-beans)
+            This is the central artifact for Spring's Dependency Injection Container
+            and is generally always defined-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
+
+
     </dependencies>
     <packaging>jar</packaging>
     <build>

@@ -1,6 +1,8 @@
 package com.github.themetalone.parking.core.slot;
 
 import com.github.themetalone.parking.core.car.Car;
+import com.github.themetalone.parking.core.data.SimulationDataCollector;
+import com.github.themetalone.parking.core.street.Street;
 
 import java.util.Observable;
 
@@ -9,12 +11,16 @@ import java.util.Observable;
  */
 public class ParkingSlotImpl implements ParkingSlot {
 
-    public ParkingSlotImpl() {
+    private SimulationDataCollector simulationDataCollector;
+
+    public ParkingSlotImpl(SimulationDataCollector simulationDataCollector) {
+        this.simulationDataCollector = simulationDataCollector;
         this.id = getCounter();
 
     }
 
-    public ParkingSlotImpl(int id) {
+    public ParkingSlotImpl(int id, SimulationDataCollector simulationDataCollector) {
+        this.simulationDataCollector = simulationDataCollector;
         this.id = id;
         counter = id;
     }
@@ -68,6 +74,8 @@ public class ParkingSlotImpl implements ParkingSlot {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if((o instanceof Street)&& (arg instanceof Long)){
+            simulationDataCollector.putParkingData(id,distance,isOccupied(), (Long)arg);
+        }
     }
 }

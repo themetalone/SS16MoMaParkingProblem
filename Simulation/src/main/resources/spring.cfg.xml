@@ -6,6 +6,7 @@
 
     <bean name="Simulation" class="com.github.themetalone.parking.core.Simulation">
         <constructor-arg name="streetProvider" ref="StreetProvider"/>
+        <constructor-arg name="ticks" value="864000"/>
     </bean>
 
     <bean name="StreetProvider" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetProviderImpl">
@@ -18,10 +19,13 @@
         <constructor-arg name="numberOfCars" value="150"/>
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="heuristicProvider" ref="HeuristicProvider"/>
-        <property name="longestParkingTime" value=""/>
+        <property name="longestParkingTime" value="14400"/>
+        <property name="simulationDataCollector" ref="SimulationDataCollector"/>
     </bean>
 
-    <bean name="ParkingSpotProvider" class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl"/>
+    <bean name="ParkingSpotProvider" class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
+        <property name="simulationDataCollector" ref="SimulationDataCollector"/>
+    </bean>
 
     <bean name="HeuristicProvider"
           class="com.github.themetalone.parking.core.car.heuristic.SingleMutantHeuristicProvider">
@@ -39,14 +43,14 @@
 
     <bean name="CarWaitingDistribution" class="org.apache.commons.math3.distribution.GammaDistribution">
         <constructor-arg name="scale" value="2"/>
-        <constructor-arg name="shape" value=""/>
+        <constructor-arg name="shape" value="601"/>
     </bean>
     <bean name="StreetWaitingDistribution" class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
         <constructor-arg name="lower" value="0"/>
-        <constructor-arg name="upper" value=""/>
+        <constructor-arg name="upper" value="200"/>
     </bean>
     <bean name="SimulationDataCollector" class="com.github.themetalone.parking.core.data.SQLiteSimulationDataCollectorImpl">
-        <constructor-arg name="location" value=""/>
+        <constructor-arg name="location" value="./simulationData.sqlite"/>
     </bean>
 
 </beans>

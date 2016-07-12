@@ -3,6 +3,7 @@ package com.github.themetalone.parking.hutchinson.car;
 import com.github.themetalone.parking.core.car.Car;
 import com.github.themetalone.parking.core.car.CarProvider;
 import com.github.themetalone.parking.core.car.heuristic.HeuristicProvider;
+import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import org.apache.commons.math3.distribution.RealDistribution;
 
 import java.util.Collection;
@@ -16,6 +17,16 @@ import java.util.stream.Stream;
 public class FiniteHutchinsonCarProviderImpl implements CarProvider {
 
     private Collection<Car> cars = new HashSet<>();
+
+    public SimulationDataCollector getSimulationDataCollector() {
+        return simulationDataCollector;
+    }
+
+    public void setSimulationDataCollector(SimulationDataCollector simulationDataCollector) {
+        this.simulationDataCollector = simulationDataCollector;
+    }
+
+    private SimulationDataCollector simulationDataCollector;
 
     public HeuristicProvider getHeuristicProvider() {
         return heuristicProvider;
@@ -72,7 +83,7 @@ public class FiniteHutchinsonCarProviderImpl implements CarProvider {
                 throw new IndexOutOfBoundsException();
             }
 
-            Car newCar = new HutchinsonCarImpl(id, heuristicProvider.getNewHeuristic(), realDistribution, longestParkingTime);
+            Car newCar = new HutchinsonCarImpl(id, heuristicProvider.getNewHeuristic(), realDistribution, longestParkingTime,simulationDataCollector);
             cars.add(newCar);
             return newCar;
         }
@@ -83,7 +94,7 @@ public class FiniteHutchinsonCarProviderImpl implements CarProvider {
     public Car next() {
         pointer++;
         if (pointer < numberOfCars) {
-            Car newCar = new HutchinsonCarImpl(heuristicProvider.getNewHeuristic(), realDistribution, longestParkingTime);
+            Car newCar = new HutchinsonCarImpl(heuristicProvider.getNewHeuristic(), realDistribution, longestParkingTime, simulationDataCollector);
             cars.add(newCar);
             return newCar;
         } else {

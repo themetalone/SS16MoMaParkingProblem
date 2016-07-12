@@ -30,4 +30,9 @@ public class DecideAfterNCandidatesHeuristic implements Heuristic{
     public Heuristic copy() {
         return new DecideAfterNCandidatesHeuristic(n);
     }
+
+    @Override
+    public String toString(){
+        return "DecideAfterNCandidatesHeuristic[n:"+n+"]";
+    }
 }

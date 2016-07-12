@@ -17,16 +17,17 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
     private final String jdbcDriver = "org.sqlite.DBC";
     private final String jdbcUrl;
     private final String sqlMakeParkingTable = "CREATE TABLE IF NOT EXISTS parking_spots (" +
-            "id INTEGER," +
-            "occupied INTEGER," +
-            "tick INTEGER" +
+            "id Numeric," +
+            "distance Numeric" +
+            "occupied Numeric," +
+            "tick Numeric" +
             ")";
     private final String sqlMakeCarTable = "CREATE TABLE IF NOT EXISTS cars (" +
-            "id INTEGER," +
-            "parkingSlot INTEGER," +
-            "distance INTEGER," +
+            "id Numeric," +
+            "parkingSlot Numeric," +
+            "distance Numeric," +
             "heuristic TEXT," +
-            "tick INTEGER" +
+            "tick Numeric" +
             ")";
     private Logger LOG = LoggerFactory.getLogger(SQLiteSimulationDataCollectorImpl.class);
     private Connection connection = null;
@@ -49,15 +50,15 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
     }
 
     @Override
-    public void putParkingData(int id, boolean occupied, int tick) {
-        String sqlInsertParkingData = "INSERT INTO parking_spots (id,occupied,tick) VALUES (" + id + "," + (occupied ? 1 : 0) + "," + tick + ")";
+    public void putParkingData(int id, int distance, boolean occupied, long tick) {
+        String sqlInsertParkingData = "INSERT INTO parking_spots (id,distance,occupied,tick) VALUES (" + id + "," + distance + "," + (occupied ? 1 : 0) + "," + tick + ")";
         putData(sqlInsertParkingData);
         LOG.info("{}::{}|{}|{}", "ParkingSpot", id, (occupied ? 1 : 0), tick);
     }
 
     @Override
-    public void putCarData(int id, int parkingSlotId, int distance, int heuristic, int tick) {
-        String sqlInsertCarData = "INSERT INTO cars (id,parkingSlotId, distance, heuristic, tick) VALUES(" + id + "," + parkingSlotId + "," + distance + "," + heuristic + "," + tick + ")";
+    public void putCarData(int id, int parkingSlotId, int distance, String heuristic, long tick) {
+        String sqlInsertCarData = "INSERT INTO cars (id,parkingSlotId, distance, heuristic, tick) VALUES(" + id + "," + parkingSlotId + "," + distance + ",'" + heuristic + "'," + tick + ")";
         putData(sqlInsertCarData);
         LOG.info("{}::{}|{}|{}|{}|[}", "Car", id, parkingSlotId, distance, heuristic, tick);
     }

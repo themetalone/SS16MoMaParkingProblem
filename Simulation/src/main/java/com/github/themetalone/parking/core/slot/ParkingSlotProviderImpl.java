@@ -1,5 +1,7 @@
 package com.github.themetalone.parking.core.slot;
 
+import com.github.themetalone.parking.core.data.SimulationDataCollector;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -12,6 +14,16 @@ import java.util.function.Predicate;
 public class ParkingSlotProviderImpl implements ParkingSlotProvider {
 
     private Collection<ParkingSlot> parkingSlots;
+
+    public SimulationDataCollector getSimulationDataCollector() {
+        return simulationDataCollector;
+    }
+
+    public void setSimulationDataCollector(SimulationDataCollector simulationDataCollector) {
+        this.simulationDataCollector = simulationDataCollector;
+    }
+
+    private SimulationDataCollector simulationDataCollector;
 
     public ParkingSlotProviderImpl() {
         parkingSlots = new HashSet<>();
@@ -30,7 +42,7 @@ public class ParkingSlotProviderImpl implements ParkingSlotProvider {
         if (parkingSlots.stream().anyMatch(findId)) {
             return parkingSlots.stream().filter(findId).findFirst().get();
         } else {
-            ParkingSlot p = new ParkingSlotImpl(id);
+            ParkingSlot p = new ParkingSlotImpl(id, simulationDataCollector);
             parkingSlots.add(p);
             return p;
         }
@@ -39,6 +51,6 @@ public class ParkingSlotProviderImpl implements ParkingSlotProvider {
 
     @Override
     public ParkingSlot next() {
-        return new ParkingSlotImpl();
+        return new ParkingSlotImpl(simulationDataCollector);
     }
 }

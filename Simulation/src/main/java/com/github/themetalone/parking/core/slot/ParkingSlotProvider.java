@@ -3,7 +3,6 @@ package com.github.themetalone.parking.core.slot;
 import com.github.themetalone.parking.core.ModelProvider;
 import com.github.themetalone.parking.core.car.Car;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 

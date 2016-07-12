@@ -5,8 +5,8 @@ package com.github.themetalone.parking.core.data;
  */
 public interface SimulationDataCollector {
 
-    void putParkingData(int id, boolean occupied, int tick);
+    void putParkingData(int id, int distance, boolean occupied, long tick);
 
-    void putCarData(int id, int parkingSlotId, int distance, int heuristic, int tick);
+    void putCarData(int id, int parkingSlotId, int distance, String heuristic, long tick);
 
 }

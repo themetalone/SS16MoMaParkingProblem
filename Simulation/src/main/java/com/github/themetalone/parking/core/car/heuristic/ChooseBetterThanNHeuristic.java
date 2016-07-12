@@ -22,4 +22,9 @@ public class ChooseBetterThanNHeuristic implements Heuristic{
     public Heuristic copy() {
         return new ChooseBetterThanNHeuristic(threshold);
     }
+
+    @Override
+    public String toString(){
+        return "ChooseBetterThanNHeuristic[threshold:"+threshold+"]";
+    }
 }
