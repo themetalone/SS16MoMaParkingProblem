@@ -1,1 +1,3 @@
 Simulation/lib/
+*.jar
+*.db

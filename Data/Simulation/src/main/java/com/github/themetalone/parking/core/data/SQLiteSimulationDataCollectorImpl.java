@@ -87,10 +87,17 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PARKINGSIMULATION.PARKING_SPOTS (ID INTEGER PRIMARY KEY ,DISTANCE INTEGER);");
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PARKINGSIMULATION.CARDATA (ID INTEGER ,DISTANCE INTEGER,TICK BIGINT, PRIMARY KEY (ID,TICK));");
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PARKINGSIMULATION.PARKINGDATA (STATE VARCHAR(255),TICK BIGINT PRIMARY KEY);");
+            stmnt.addBatch("DELETE FROM PARKINGSIMULATION.CARS WHERE TRUE");
+            stmnt.addBatch("DELETE FROM PARKINGSIMULATION.CARDATA WHERE TRUE");
+            stmnt.addBatch("DELETE FROM PARKINGSIMULATION.PARKING_SPOTS WHERE TRUE");
+            stmnt.addBatch("DELETE FROM PARKINGSIMULATION.PARKINGDATA WHERE TRUE");
             stmnt.executeBatch();
             stmnt.close();
             connection = DriverManager.getConnection(jdbcUrl, "simulation", "simulation");
             LOG.info("Storage Initialization done");
+            LOG.info("usr:simulation, pw:simulation");
+            LOG.info("schema:PARKINGSIMULATION");
+            LOG.info("Tables:CARS, CARSDATA, PARKING_SPOTS, PARKINGDATA");
         } catch (ClassNotFoundException e) {
             LOG.error("Could not load sqlite driver!\n Fallback to Logger");
         } catch (SQLException e) {

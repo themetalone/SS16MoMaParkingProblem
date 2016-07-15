@@ -4,17 +4,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- ###PARAMETERS### -->
-    <bean name="NumberOfTicks" class="java.lang.Long" factory-method="valueOf">
-        <constructor-arg name="l" value="100"/>
+    <bean name="NumberOfTicks" class="java.lang.Long">
+        <constructor-arg index="0" value="100" type="long"/>
     </bean>
-    <bean name="StreetLength" class="java.lang.Integer" factory-method="valueOf">
-        <constructor-arg name="i" value="10"/>
+    <bean name="StreetLength" class="java.lang.Integer">
+        <constructor-arg index="0" value="10" type="int"/>
     </bean>
-    <bean name="LongestParkingTime" class="java.lang.Integer" factory-method="valueOf">
-        <constructor-arg name="i" value="10"/>
+    <bean name="LongestParkingTime" class="java.lang.Integer">
+        <constructor-arg index="0" value="10" type="int"/>
     </bean>
-    <bean name="NumberOfCars" class="java.lang.Integer" factory-method="valueOf">
-        <constructor-arg name="i" value="5"/>
+    <bean name="NumberOfCars" class="java.lang.Integer">
+        <constructor-arg index="0" value="5" type="int"/>
     </bean>
     <bean name="Population" class="com.github.themetalone.parking.core.car.heuristic.DecideAfterNSlotsHeuristic">
         <constructor-arg name="n" value="5"/>

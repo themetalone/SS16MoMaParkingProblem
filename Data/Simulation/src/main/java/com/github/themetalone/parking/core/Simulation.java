@@ -16,7 +16,6 @@ public class Simulation {
     private long ticks;
 
     /**
-     *
      * @param simulationDataCollector the SimulationDataCollector to be used
      */
     public void setSimulationDataCollector(SimulationDataCollector simulationDataCollector) {
@@ -27,8 +26,9 @@ public class Simulation {
 
     /**
      * Constructor
+     *
      * @param streetProvider the provider of a street object
-     * @param ticks number of ticks the simulation will run. A tick is the discrete time unit of the simulation
+     * @param ticks          number of ticks the simulation will run. A tick is the discrete time unit of the simulation
      */
     public Simulation(StreetProvider streetProvider, long ticks) {
         this.ticks = ticks;
@@ -45,7 +45,7 @@ public class Simulation {
         Street street = streetProvider.next();
         for (int i = 0; i < ticks; i++) {
             street.tick();
-            if (i % 1000 == 0) {
+            if (i % 1000 == 0 && i > 0) {
                 LOG.info("{} steps passed", i);
             }
         }
