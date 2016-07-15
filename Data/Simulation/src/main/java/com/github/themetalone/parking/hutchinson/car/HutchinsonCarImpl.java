@@ -15,7 +15,7 @@ import java.util.Observable;
 /**
  * Created by steff on 09.07.2016.
  */
-public class HutchinsonCarImpl implements Car {
+public class HutchinsonCarImpl extends Observable implements Car {
 
     @Override
     public boolean equals(Object o) {
@@ -70,7 +70,7 @@ public class HutchinsonCarImpl implements Car {
     public int decide(ParkingSlot parkingSlot, ParkingSlot peek) {
         boolean decision = heuristic.decide(parkingSlot, peek);
         if (decision) {
-            LOG.info("Car {} chooses {} with distance {}", id, parkingSlot.getId(), parkingSlot.getDistance());
+            LOG.debug("Car {} chooses {} with distance {}", id, parkingSlot.getId(), parkingSlot.getDistance());
             putData = true;
             this.parkingSlot = parkingSlot.getId();
             parkingSlotProvider.getObject(this.parkingSlot).occupy(this);
@@ -99,12 +99,16 @@ public class HutchinsonCarImpl implements Car {
             parkingSlot = null;
             o.deleteObserver(this);
             putData = false;
+            parkingTime = -1;
+            heuristic = heuristic.copy();
+            setChanged();
+            notifyObservers(CarState.Free);
         }
         if ((o instanceof Street) && (arg instanceof Long)) {
             if (putData) {
                 Integer distance = parkingSlot == null ? -1 : parkingSlotProvider.getObject(parkingSlot).getDistance();
                 // Write the data set to the database. -1 since the decision is made in the previous click
-                simulationDataCollector.putCarData(id, distance, (Long) arg-1);
+                simulationDataCollector.putCarData(id, distance, (Long) arg - 1);
                 putData = false;
             }
         }
@@ -125,6 +129,6 @@ public class HutchinsonCarImpl implements Car {
         if (sample < 0) {
             sample = 0;
         }
-        return (int) sample + parkingSlotProvider.getObject(parkingSlot).getDistance()*5;
+        return (int) sample + parkingSlotProvider.getObject(parkingSlot).getDistance() * 5;
     }
 }

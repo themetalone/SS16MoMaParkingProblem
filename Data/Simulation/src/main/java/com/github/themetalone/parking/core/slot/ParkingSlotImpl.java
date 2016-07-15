@@ -81,7 +81,7 @@ public class ParkingSlotImpl implements ParkingSlot {
     @Override
     public void update(Observable o, Object arg) {
         if ((o instanceof Street) && (arg instanceof Long)) {
-            simulationDataCollector.putParkingData(id, isOccupied(), (Long) arg);
+            simulationDataCollector.putParkingData(id, isOccupied(), (Long) arg-1);
         }
     }
 }

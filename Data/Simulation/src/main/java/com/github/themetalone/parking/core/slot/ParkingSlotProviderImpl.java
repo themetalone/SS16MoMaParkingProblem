@@ -1,6 +1,8 @@
 package com.github.themetalone.parking.core.slot;
 
 import com.github.themetalone.parking.core.data.SimulationDataCollector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -42,6 +44,7 @@ public class ParkingSlotProviderImpl implements ParkingSlotProvider {
         if (parkingSlots.stream().anyMatch(findId)) {
             return parkingSlots.stream().filter(findId).findFirst().get();
         } else {
+
             ParkingSlot p = new ParkingSlotImpl(id, simulationDataCollector);
             parkingSlots.add(p);
             return p;

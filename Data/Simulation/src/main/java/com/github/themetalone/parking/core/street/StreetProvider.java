@@ -7,5 +7,6 @@ import com.github.themetalone.parking.core.ModelProvider;
  */
 public interface StreetProvider extends ModelProvider<Street> {
 
+    Street next();
 
 }

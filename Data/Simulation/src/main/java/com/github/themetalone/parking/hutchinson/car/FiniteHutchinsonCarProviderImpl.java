@@ -2,21 +2,22 @@ package com.github.themetalone.parking.hutchinson.car;
 
 import com.github.themetalone.parking.core.car.Car;
 import com.github.themetalone.parking.core.car.CarProvider;
-import com.github.themetalone.parking.core.car.heuristic.HeuristicProvider;
+import com.github.themetalone.parking.core.car.heuristic.providers.HeuristicProvider;
 import com.github.themetalone.parking.core.data.SimulationDataCollector;
+import com.github.themetalone.parking.core.exceptions.NoNextCarException;
 import com.github.themetalone.parking.core.slot.ParkingSlotProvider;
 import org.apache.commons.math3.distribution.RealDistribution;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
  * Created by steff on 09.07.2016.
  */
-public class FiniteHutchinsonCarProviderImpl implements CarProvider {
+public class FiniteHutchinsonCarProviderImpl implements CarProvider, Observer {
 
     private Collection<Car> cars = new HashSet<>();
+    private Queue<Car> freeCars = new LinkedList<>();
 
     public ParkingSlotProvider getParkingSlotProvider() {
         return parkingSlotProvider;
@@ -92,22 +93,43 @@ public class FiniteHutchinsonCarProviderImpl implements CarProvider {
                 throw new IndexOutOfBoundsException();
             }
 
-            Car newCar = new HutchinsonCarImpl(id, heuristicProvider.getNewHeuristic(), realDistribution, longestParkingTime,simulationDataCollector, parkingSlotProvider);
+            Car newCar = new HutchinsonCarImpl(id, heuristicProvider.getNewHeuristic(), realDistribution, longestParkingTime, simulationDataCollector, parkingSlotProvider);
             cars.add(newCar);
+            ((HutchinsonCarImpl) newCar).addObserver(this);
             return newCar;
         }
 
     }
 
     @Override
-    public Car next() {
+    public Car next() throws NoNextCarException {
         pointer++;
         if (pointer < numberOfCars) {
             Car newCar = new HutchinsonCarImpl(heuristicProvider.getNewHeuristic(), realDistribution, longestParkingTime, simulationDataCollector, parkingSlotProvider);
             cars.add(newCar);
+            ((HutchinsonCarImpl) newCar).addObserver(this);
             return newCar;
         } else {
-            return getObject(pointer%(numberOfCars));
+            try {
+                return freeCars.remove();
+            }catch (NoSuchElementException e){
+                throw new NoNextCarException();
+            }
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if ((o instanceof HutchinsonCarImpl) && (arg instanceof CarState)) {
+            switch ((CarState) arg) {
+                case InUse:
+                    break;
+                case Free:
+                    Optional<Car> optCar = cars.stream().filter(c -> c.getId() == ((HutchinsonCarImpl) o).getId()).findFirst();
+                    if (optCar.isPresent()) {
+                        freeCars.add(optCar.get());
+                    }
+            }
         }
     }
 }

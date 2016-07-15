@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.sql.*;
 
 /**
+ * Writes data to a H2 sql database. The data is first put into batches of 1000 entries each. If a batch is full the data is put to the database and the batch is cleared.
  * Created by steff on 12.07.2016.
  */
 public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollector {
@@ -25,8 +26,11 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
     private boolean[] parkingState = null;
     private int numberOfParkingSlots = 0;
     private long currentTick = 0;
-    private String lastParkingState = "0";
+    private String lastParkingState = "";
 
+    /**
+     * Writes unprocessed statements in the batch to the database and closes the connection
+     */
     @Override
     public void close() {
         LOG.info("Writing batches to db");
@@ -56,6 +60,19 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
         }
     }
 
+    /**
+     * Initializes a database at the location. The database is initialized with
+     * <ul>
+     * <li>usr:simulation, pw:simulation</li>
+     * <li>schema PARKINGSIMULATION (access by usr:simulation)</li>
+     * <li>table PARKINGSIMULATION.CARS</li>
+     * <li>table PARKINGSIMULATION.PARKING_SPOTS</li>
+     * <li>table PARKINGSIMULATION.CARDATA</li>
+     * <li>table PARKINGSIMULATION.PARKINGDATA</li>
+     * </ul>
+     *
+     * @param location of the h2 database
+     */
     public SQLiteSimulationDataCollectorImpl(String location) {
         String jdbcPrefix = "jdbc:h2";
         String jdbcUrl = jdbcPrefix + ":" + location + ";MV_STORE=FALSE;MVCC=FALSE";
@@ -98,7 +115,7 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
                 executeBatch(parkingBatchStatement);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.warn("Encountered a SQLException:{}", e.getMessage());
         }
     }
 
@@ -117,20 +134,22 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
                 executeBatch(carBatchStatement);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.warn("Encountered a SQLException:{}", e.getMessage());
         }
     }
 
     @Override
     public void putParkingData(int id, boolean occupied, long tick) {
         if (parkingState == null) {
-            LOG.info("Coding parking spot states in {}bit Integer", numberOfParkingSlots);
+            LOG.debug("Coding parking spot states in {}bit Integer", numberOfParkingSlots);
             parkingState = new boolean[numberOfParkingSlots];
             currentTick = tick;
         }
         if (currentTick != tick) {
+            LOG.debug(DataUtil.booleanArrayToString(parkingState));
             currentTick = tick;
             String parkingStateString = new BigInteger(DataUtil.toBytes(parkingState)).toString();
+            LOG.debug("Putting parking data at tick {}:LastState:{} , NewState:{}", tick, lastParkingState, parkingStateString);
             if (!parkingStateString.equals(lastParkingState)) {
                 lastParkingState = parkingStateString;
                 try {
@@ -146,12 +165,10 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
                         executeBatch(parkingDataBatchStatement);
                     }
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    LOG.warn("Encountered a SQLException:{}", e.getMessage());
                 }
             }
             parkingState = new boolean[numberOfParkingSlots];
-            parkingState[id] = occupied;
-
         }
         parkingState[id] = occupied;
     }
@@ -173,7 +190,7 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
                 executeBatch(carDataBatchStatement);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.warn("Encountered a SQLException:{}", e.getMessage());
         }
 
     }

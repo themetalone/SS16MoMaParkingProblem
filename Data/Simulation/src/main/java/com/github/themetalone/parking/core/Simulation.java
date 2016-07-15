@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Main Simulation class. Controls the simulation
  * Created by steff on 12.07.2016.
  */
 public class Simulation {
@@ -14,12 +15,21 @@ public class Simulation {
     private Logger LOG = LoggerFactory.getLogger(Simulation.class);
     private long ticks;
 
+    /**
+     *
+     * @param simulationDataCollector the SimulationDataCollector to be used
+     */
     public void setSimulationDataCollector(SimulationDataCollector simulationDataCollector) {
         this.simulationDataCollector = simulationDataCollector;
     }
 
     private SimulationDataCollector simulationDataCollector;
 
+    /**
+     * Constructor
+     * @param streetProvider the provider of a street object
+     * @param ticks number of ticks the simulation will run. A tick is the discrete time unit of the simulation
+     */
     public Simulation(StreetProvider streetProvider, long ticks) {
         this.ticks = ticks;
         this.streetProvider = streetProvider;

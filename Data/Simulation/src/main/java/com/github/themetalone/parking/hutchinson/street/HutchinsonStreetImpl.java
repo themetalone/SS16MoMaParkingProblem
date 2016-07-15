@@ -2,6 +2,7 @@ package com.github.themetalone.parking.hutchinson.street;
 
 import com.github.themetalone.parking.core.car.Car;
 import com.github.themetalone.parking.core.car.CarProvider;
+import com.github.themetalone.parking.core.exceptions.NoNextCarException;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 import com.github.themetalone.parking.core.slot.ParkingSlotProvider;
 import com.github.themetalone.parking.core.street.Street;
@@ -17,10 +18,9 @@ import java.util.*;
  */
 public class HutchinsonStreetImpl extends Observable implements Street {
 
-    private Logger LOG = LoggerFactory.getLogger(HutchinsonStreetImpl.class);
+    private Logger LOG = LoggerFactory.getLogger(Street.class);
 
     private IntegerDistribution integerDistribution;
-    private int streetLength;
     private CarProvider carProvider;
     private ParkingSlotProvider parkingSlotProvider;
     private int laneTurningPoint;
@@ -28,7 +28,6 @@ public class HutchinsonStreetImpl extends Observable implements Street {
     private int id;
     private long toa;
     private List<Integer> markedToLeaveLane;
-    private LinkedList<Integer> carList = new LinkedList<>();
 
     public Long getTicker() {
         ticker++;
@@ -51,7 +50,6 @@ public class HutchinsonStreetImpl extends Observable implements Street {
 
     private void init(int numberOfParkingSpots, CarProvider carProvider, ParkingSlotProvider parkingSlotProvider) {
         this.id = HutchinsonStreetImpl.getCounter();
-        this.streetLength = numberOfParkingSpots;
         this.carProvider = carProvider;
         this.parkingSlotProvider = parkingSlotProvider;
         List<ParkingSlot> parkingSlotList = new LinkedList<>();
@@ -62,11 +60,11 @@ public class HutchinsonStreetImpl extends Observable implements Street {
         }
         this.laneParkingMap = new LinkedHashMap<>();
         this.laneCarMap = new LinkedHashMap<>();
-        this.laneTurningPoint = streetLength;
-        this.laneEndPoint = this.laneTurningPoint + streetLength - 1;
-        this.linkParkingSlotsToLane(laneParkingMap, parkingSlotList, streetLength - 1, this.laneEndPoint);
+        this.laneTurningPoint = numberOfParkingSpots;
+        this.laneEndPoint = this.laneTurningPoint + numberOfParkingSpots;
+        this.linkParkingSlotsToLane(laneParkingMap, parkingSlotList, numberOfParkingSpots - 1, this.laneEndPoint);
         toa = 0;
-        LOG.info("Created HutchinsonStreet:: Parkingspots:{} Streetlength:{}", numberOfParkingSpots, streetLength);
+        LOG.info("Created HutchinsonStreet:: Parkingspots:{} Streetlength:{}", numberOfParkingSpots, numberOfParkingSpots);
     }
 
     public static int getCounter() {
@@ -79,8 +77,8 @@ public class HutchinsonStreetImpl extends Observable implements Street {
 
     public void enterLane(Car car) {
         this.addObserver(carProvider.getObject(car.getId()));
-        carList.add(car.getId());
-        laneCarMap.put(car.getId(), 0);
+        // set car into waiting position in the lane (so in the next tick it will be at 0
+        laneCarMap.put(car.getId(), -1);
     }
 
     public void tick() {
@@ -88,18 +86,15 @@ public class HutchinsonStreetImpl extends Observable implements Street {
         this.setChanged();
         this.notifyObservers(getTicker());
         markedToLeaveLane = new LinkedList<>();
-        for (Integer carId : carList) {
+        for (Integer carId : laneCarMap.keySet()) {
             // Next position for current car
             int newSpot = laneCarMap.get(carId) + 1;
             // Move the car one parking slot forward
             laneCarMap.put(carId, newSpot);
-            Integer peekId = laneParkingMap.get(newSpot + 1);
-            ParkingSlot peek;
             LOG.debug("Moving Car {} to slot {}", carId, newSpot);
-            if (peekId == null) {
-                peek = new AlwaysOccupiedParkingSlot();
-            } else {
-                peek = parkingSlotProvider.getObject(peekId);
+            if (newSpot == laneTurningPoint) {
+                LOG.debug("Car {} is in the turning point", carId);
+                continue;
             }
             if (newSpot > laneEndPoint) {
                 LOG.debug("Car {} leaves the lane", carId);
@@ -107,15 +102,26 @@ public class HutchinsonStreetImpl extends Observable implements Street {
                 this.deleteObserver(carProvider.getObject(carId));
                 continue;
             }
+            Integer peekId = laneParkingMap.get(newSpot + 1);
+            ParkingSlot peek;
+            if (peekId == null) {
+                peek = parkingSlotProvider.getAlwaysOccupiedSlot();
+            } else {
+                peek = parkingSlotProvider.getObject(peekId);
+            }
             if (carProvider.getObject(carId).decide(parkingSlotProvider.getObject(laneParkingMap.get(newSpot)), peek) != -1) {
-                LOG.info("Car {} parks in spot {} at tick {}", carId, newSpot, this.ticker);
+                LOG.debug("Car {} parks in spot {} at tick {}", carId, newSpot, this.ticker);
                 markedToLeaveLane.add(carId);
             }
         }
         if (toa == 0) {
-            enterLane(carProvider.next());
-            toa = getNextTOA();
-            LOG.info("New Car enters lane at tick {}. {} ticks until next car", this.ticker, toa);
+            try {
+                enterLane(carProvider.next());
+                toa = getNextTOA();
+                LOG.debug("New Car enters lane at tick {}. {} ticks until next car", this.ticker, toa);
+            } catch (NoNextCarException e) {
+               LOG.debug("No free car left. Just waiting");
+            }
         } else {
             toa--;
         }
@@ -123,8 +129,7 @@ public class HutchinsonStreetImpl extends Observable implements Street {
     }
 
     private long getNextTOA() {
-        long ticks = (long) integerDistribution.sample();
-        return ticks;
+        return (long) integerDistribution.sample();
     }
 
     private Map<Integer, Integer> laneParkingMap;
@@ -143,10 +148,7 @@ public class HutchinsonStreetImpl extends Observable implements Street {
     }
 
     private void leaveLane() {
-        markedToLeaveLane.forEach(carId -> {
-            laneCarMap.remove(carId);
-            carList.remove(carId);
-        });
+        markedToLeaveLane.forEach(carId -> laneCarMap.remove(carId));
     }
 
     public void linkParkingSlotsToLane(Map<Integer, Integer> map, List<ParkingSlot> list, int singleLaneLength, int laneEndPoint) {
@@ -155,50 +157,9 @@ public class HutchinsonStreetImpl extends Observable implements Street {
             parkingSlotProvider.getObject(i).setDistance(singleLaneLength - i);
             map.put(i, list.get(i).getId());
             map.put(laneEndPoint - i, list.get(i).getId());
+            ParkingSlot p = parkingSlotProvider.getObject(i);
+            LOG.debug("Linking Parking Sport {} with distance {} to lane position {} and {}", p.getId(), p.getDistance(), i, laneEndPoint - i);
         }
 
-    }
-
-    public class AlwaysOccupiedParkingSlot implements ParkingSlot {
-
-        @Override
-        public boolean isOccupied() {
-            return true;
-        }
-
-        @Override
-        public void occupy(Car car) {
-
-        }
-
-        @Override
-        public void clear() {
-
-        }
-
-        @Override
-        public int getDistance() {
-            return 0;
-        }
-
-        @Override
-        public void setDistance(int d) {
-
-        }
-
-        @Override
-        public int getId() {
-            return 0;
-        }
-
-        @Override
-        public void setId(int id) {
-
-        }
-
-        @Override
-        public void update(Observable o, Object arg) {
-
-        }
     }
 }

@@ -2,6 +2,7 @@ package com.github.themetalone.parking.core.slot;
 
 import com.github.themetalone.parking.core.ModelProvider;
 import com.github.themetalone.parking.core.car.Car;
+import com.github.themetalone.parking.core.exceptions.NoNextObjectException;
 
 import java.util.List;
 import java.util.Observable;
@@ -12,6 +13,9 @@ import java.util.Observable;
 public interface ParkingSlotProvider extends ModelProvider<ParkingSlot> {
 
     List<ParkingSlot> getObjects();
+
+    @Override
+    ParkingSlot next();
 
     default ParkingSlot getAlwaysOccupiedSlot() {
         return new ParkingSlot() {
