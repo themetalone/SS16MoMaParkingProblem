@@ -40,4 +40,6 @@ public interface SimulationDataCollector {
      * Finishes all open operations and closes the connection to the database
      */
     void close();
+
+    void putHeuristicData(long tick, String heuristic);
 }

@@ -2,6 +2,7 @@ package com.github.themetalone.parking.hutchinson.car;
 
 import com.github.themetalone.parking.core.car.Car;
 import com.github.themetalone.parking.core.car.CarProvider;
+import com.github.themetalone.parking.core.car.heuristic.Heuristic;
 import com.github.themetalone.parking.core.car.heuristic.providers.HeuristicProvider;
 import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import com.github.themetalone.parking.core.exceptions.NoNextCarException;

@@ -10,19 +10,21 @@ import java.sql.*;
  * Writes data to a H2 sql database. The data is first put into batches of 1000 entries each. If a batch is full the data is put to the database and the batch is cleared.
  * Created by steff on 12.07.2016.
  */
-public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollector {
+public class H2SimulationDataCollectorImpl implements SimulationDataCollector {
 
-    private Logger LOG = LoggerFactory.getLogger(SQLiteSimulationDataCollectorImpl.class);
+    private Logger LOG = LoggerFactory.getLogger(H2SimulationDataCollectorImpl.class);
     private Connection connection = null;
     private PreparedStatement parkingDataBatchStatement = null;
     private PreparedStatement carDataBatchStatement = null;
     private PreparedStatement carBatchStatement = null;
     private PreparedStatement parkingBatchStatement = null;
+    private PreparedStatement heuristicBatchStatement = null;
     private long batchThreshold = 10000;
     private long parkingDataBatchSize = 0;
     private long carDataBatchSize = 0;
     private long carBatchSize = 0;
     private long parkingBatchSize = 0;
+    private long heuristicBatchSize = 0;
     private boolean[] parkingState = null;
     private int numberOfParkingSlots = 0;
     private long currentTick = 0;
@@ -38,6 +40,7 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
         finalBatchExecution(carBatchStatement);
         finalBatchExecution(parkingDataBatchStatement);
         finalBatchExecution(carDataBatchStatement);
+        finalBatchExecution(heuristicBatchStatement);
         try {
             LOG.info("Closing Database");
             connection.close();
@@ -46,6 +49,25 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
         }
         LOG.info("Done!");
 
+    }
+
+    @Override
+    public void putHeuristicData(long tick, String heuristic) {
+        try {
+            if(heuristicBatchStatement == null || heuristicBatchStatement.isClosed()){
+                heuristicBatchStatement = connection.prepareStatement("INSERT INTO PS.HEURISTICS (TICK, HEURISTIC) VALUES (?,?)");
+            }
+            heuristicBatchStatement.setLong(1,tick);
+            heuristicBatchStatement.setString(2,heuristic);
+            heuristicBatchStatement.addBatch();
+            heuristicBatchSize++;
+            if(heuristicBatchSize > batchThreshold){
+                heuristicBatchSize = 0;
+                executeBatch(heuristicBatchStatement);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void finalBatchExecution(Statement stmnt) {
@@ -64,16 +86,16 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
      * Initializes a database at the location. The database is initialized with
      * <ul>
      * <li>usr:simulation, pw:simulation</li>
-     * <li>schema PARKINGSIMULATION (access by usr:simulation)</li>
-     * <li>table PARKINGSIMULATION.CARS</li>
-     * <li>table PARKINGSIMULATION.PARKING_SPOTS</li>
-     * <li>table PARKINGSIMULATION.CARDATA</li>
-     * <li>table PARKINGSIMULATION.PARKINGDATA</li>
+     * <li>schema PS (access by usr:simulation)</li>
+     * <li>table PS.CARS</li>
+     * <li>table PS.PARKING_SPOTS</li>
+     * <li>table PS.CARDATA</li>
+     * <li>table PS.PARKINGDATA</li>
      * </ul>
      *
      * @param location of the h2 database
      */
-    public SQLiteSimulationDataCollectorImpl(String location) {
+    public H2SimulationDataCollectorImpl(String location) {
         String jdbcPrefix = "jdbc:h2";
         String jdbcUrl = jdbcPrefix + ":" + location + ";MV_STORE=FALSE;MVCC=FALSE";
         try {
@@ -82,22 +104,24 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
             Connection initConnection = DriverManager.getConnection(jdbcUrl, "", "");
             Statement stmnt = initConnection.createStatement();
             stmnt.addBatch("CREATE USER IF NOT EXISTS simulation PASSWORD 'simulation' ADMIN");
-            stmnt.addBatch("CREATE SCHEMA IF NOT EXISTS PARKINGSIMULATION AUTHORIZATION simulation");
-            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PARKINGSIMULATION.CARS (ID INTEGER PRIMARY KEY ,HEURISTIC VARCHAR(255));");
-            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PARKINGSIMULATION.PARKING_SPOTS (ID INTEGER PRIMARY KEY ,DISTANCE INTEGER);");
-            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PARKINGSIMULATION.CARDATA (ID INTEGER ,DISTANCE INTEGER,TICK BIGINT, PRIMARY KEY (ID,TICK));");
-            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PARKINGSIMULATION.PARKINGDATA (STATE VARCHAR(255),TICK BIGINT PRIMARY KEY);");
-            stmnt.addBatch("DELETE FROM PARKINGSIMULATION.CARS WHERE TRUE");
-            stmnt.addBatch("DELETE FROM PARKINGSIMULATION.CARDATA WHERE TRUE");
-            stmnt.addBatch("DELETE FROM PARKINGSIMULATION.PARKING_SPOTS WHERE TRUE");
-            stmnt.addBatch("DELETE FROM PARKINGSIMULATION.PARKINGDATA WHERE TRUE");
+            stmnt.addBatch("CREATE SCHEMA IF NOT EXISTS PS AUTHORIZATION simulation");
+            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.CARS (ID INTEGER ,HEURISTIC VARCHAR(255), PRIMARY KEY (ID, HEURISTIC));");
+            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.PARKING_SPOTS (ID INTEGER PRIMARY KEY ,DISTANCE INTEGER);");
+            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.CARDATA (ID INTEGER ,DISTANCE INTEGER,TICK BIGINT, PRIMARY KEY (ID,TICK));");
+            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.PARKINGDATA (STATE VARCHAR(255),TICK BIGINT PRIMARY KEY);");
+            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.HEURISTICS (TICK BIGINT, HEURISTIC VARCHAR(255))");
+            stmnt.addBatch("DELETE FROM PS.CARS WHERE TRUE");
+            stmnt.addBatch("DELETE FROM PS.CARDATA WHERE TRUE");
+            stmnt.addBatch("DELETE FROM PS.PARKING_SPOTS WHERE TRUE");
+            stmnt.addBatch("DELETE FROM PS.PARKINGDATA WHERE TRUE");
+            stmnt.addBatch("DELETE FROM PS.HEURISTICS WHERE TRUE");
             stmnt.executeBatch();
             stmnt.close();
             connection = DriverManager.getConnection(jdbcUrl, "simulation", "simulation");
             LOG.info("Storage Initialization done");
             LOG.info("usr:simulation, pw:simulation");
-            LOG.info("schema:PARKINGSIMULATION");
-            LOG.info("Tables:CARS, CARSDATA, PARKING_SPOTS, PARKINGDATA");
+            LOG.info("schema:PS");
+            LOG.info("Tables:CARS, CARSDATA, PARKING_SPOTS, PARKINGDATA, HEURISTICS");
         } catch (ClassNotFoundException e) {
             LOG.error("Could not load sqlite driver!\n Fallback to Logger");
         } catch (SQLException e) {
@@ -111,7 +135,7 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
         numberOfParkingSlots = ((numberOfParkingSlots < id + 1) ? id + 1 : numberOfParkingSlots);
         try {
             if (parkingBatchStatement == null || parkingBatchStatement.isClosed()) {
-                parkingBatchStatement = connection.prepareStatement("INSERT INTO PARKINGSIMULATION.PARKING_SPOTS (ID,DISTANCE) VALUES (?,?);");
+                parkingBatchStatement = connection.prepareStatement("INSERT INTO PS.PARKING_SPOTS (ID,DISTANCE) VALUES (?,?);");
             }
             parkingBatchStatement.setInt(1, id);
             parkingBatchStatement.setInt(2, distance);
@@ -130,7 +154,7 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
     public void putCar(int id, String heuristic) {
         try {
             if (carBatchStatement == null || carBatchStatement.isClosed()) {
-                carBatchStatement = connection.prepareStatement("INSERT INTO PARKINGSIMULATION.CARS (ID, HEURISTIC) VALUES (?,?);");
+                carBatchStatement = connection.prepareStatement("INSERT INTO PS.CARS (ID, HEURISTIC) VALUES (?,?);");
             }
             carBatchStatement.setInt(1, id);
             carBatchStatement.setString(2, heuristic);
@@ -155,13 +179,18 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
         if (currentTick != tick) {
             LOG.debug(DataUtil.booleanArrayToString(parkingState));
             currentTick = tick;
-            String parkingStateString = new BigInteger(DataUtil.toBytes(parkingState)).toString();
+            String parkingStateString;
+            if(numberOfParkingSlots > 255) {
+                parkingStateString = new BigInteger(DataUtil.toBytes(parkingState)).toString();
+            }else{
+                parkingStateString = DataUtil.booleanArrayToString(parkingState);
+            }
             LOG.debug("Putting parking data at tick {}:LastState:{} , NewState:{}", tick, lastParkingState, parkingStateString);
             if (!parkingStateString.equals(lastParkingState)) {
                 lastParkingState = parkingStateString;
                 try {
                     if (parkingDataBatchStatement == null || parkingDataBatchStatement.isClosed()) {
-                        parkingDataBatchStatement = connection.prepareStatement("INSERT INTO PARKINGSIMULATION.PARKINGDATA (STATE,TICK) VALUES (?,?);");
+                        parkingDataBatchStatement = connection.prepareStatement("INSERT INTO PS.PARKINGDATA (STATE,TICK) VALUES (?,?);");
                     }
                     parkingDataBatchStatement.setString(1, parkingStateString);
                     parkingDataBatchStatement.setLong(2, tick);
@@ -182,7 +211,7 @@ public class SQLiteSimulationDataCollectorImpl implements SimulationDataCollecto
 
     @Override
     public void putCarData(int id, int distance, long tick) {
-        String sqlInsertCarData = "INSERT INTO PARKINGSIMULATION.CARDATA (ID,DISTANCE,TICK) VALUES(?,?,?);";
+        String sqlInsertCarData = "INSERT INTO PS.CARDATA (ID,DISTANCE,TICK) VALUES(?,?,?);";
         try {
             if (carDataBatchStatement == null || carDataBatchStatement.isClosed()) {
                 carDataBatchStatement = connection.prepareStatement(sqlInsertCarData);

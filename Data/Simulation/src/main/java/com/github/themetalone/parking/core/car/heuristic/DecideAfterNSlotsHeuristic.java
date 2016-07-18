@@ -8,7 +8,7 @@ import com.github.themetalone.parking.core.slot.ParkingSlot;
  */
 public class DecideAfterNSlotsHeuristic implements Heuristic {
 
-    private final int n;
+    protected final int n;
     private int stepsTaken;
     private int lastDistance = Integer.MAX_VALUE;
 

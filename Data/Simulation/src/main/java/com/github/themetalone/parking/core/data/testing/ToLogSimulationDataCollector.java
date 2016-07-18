@@ -37,6 +37,11 @@ public class ToLogSimulationDataCollector implements SimulationDataCollector {
     }
 
     @Override
+    public void putHeuristicData(long tick, String heuristic) {
+        LOG.info("Heuristic added::tick:{}, heuristic:{}", tick, heuristic);
+    }
+
+    @Override
     public void close() {
         LOG.info("Closed");
     }

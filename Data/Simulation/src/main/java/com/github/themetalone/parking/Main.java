@@ -1,6 +1,8 @@
 package com.github.themetalone.parking;
 
 import com.github.themetalone.parking.core.Simulation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -13,27 +15,22 @@ import java.io.File;
  */
 public class Main {
 
-    public static void main(String[] args){
+    private static Logger LOG = LoggerFactory.getLogger(Main.class);
 
-        // Try to load external spring config
+    public static void main(String[] args) {
+        String externalConfig = System.getProperty("cfg");
         ApplicationContext applicationContext;
-        applicationContext = new ClassPathXmlApplicationContext("spring.cfg.xml");
-        if(args!=null) {
-            for (String s : args) {
-                if(s.startsWith("cfg=")){
-                    String location = s.replaceFirst("cfg=","");
-                    if((new File(location)).exists()){
-                        // may throw RuntimeException
-                        applicationContext = new FileSystemXmlApplicationContext(location);
-                    }
-                    break;
-                }
-            }
+        if (externalConfig == null) {
+            LOG.info("Loading internal configuration");
+            applicationContext = new ClassPathXmlApplicationContext("spring-config.xml");
+        } else {
+            LOG.info("Loading external configuration file {}", externalConfig);
+            applicationContext = new FileSystemXmlApplicationContext(externalConfig);
         }
 
-
         Object bean = applicationContext.getBean("Simulation");
-        if(!(bean instanceof Simulation)){
+        if (!(bean instanceof Simulation)) {
+            LOG.error("Simulation bean is not instanceof Simulation but of {}", bean.getClass().getName());
             return;
         }
         Simulation simulation = (Simulation) bean;

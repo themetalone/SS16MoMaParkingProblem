@@ -11,6 +11,15 @@
 
     <artifactId>parking.analysis</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github.themetalone</groupId>
+            <artifactId>parking.simulation</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
     <packaging>jar</packaging>
     <build>
         <plugins>

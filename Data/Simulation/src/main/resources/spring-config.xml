@@ -5,36 +5,47 @@
 
     <!-- ###PARAMETERS### -->
     <bean name="NumberOfTicks" class="java.lang.Long">
-        <constructor-arg index="0" value="100" type="long"/>
+        <constructor-arg index="0" value="38400" type="long"/> <!-- 8h -->
     </bean>
     <bean name="StreetLength" class="java.lang.Integer">
-        <constructor-arg index="0" value="10" type="int"/>
+        <constructor-arg index="0" value="150" type="int"/>
     </bean>
     <bean name="LongestParkingTime" class="java.lang.Integer">
-        <constructor-arg index="0" value="10" type="int"/>
+        <constructor-arg index="0" value="4800" type="int"/> <!-- 1h -->
     </bean>
     <bean name="NumberOfCars" class="java.lang.Integer">
-        <constructor-arg index="0" value="5" type="int"/>
+        <constructor-arg index="0" value="150" type="int"/>
     </bean>
-    <bean name="Population" class="com.github.themetalone.parking.core.car.heuristic.DecideAfterNSlotsHeuristic">
-        <constructor-arg name="n" value="5"/>
+    <bean name="Heuristic"
+          class="com.github.themetalone.parking.core.car.heuristic.evolutionary.EvolutionaryDecideAfterNSlotsHeuristic">
+        <constructor-arg index="0">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg name="upper" value="150"/>
+                <constructor-arg name="lower" value="0"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1" value="50"/> <!-- Wait for 50 Parking Decisions before starting the evolution -->
     </bean>
-    <bean name="HeuristicProvider" class="com.github.themetalone.parking.core.car.heuristic.providers.UniformHeuristicProvider">
-        <property name="heuristic" ref="Population"/>
+    <bean name="HeuristicProvider"
+          class="com.github.themetalone.parking.core.car.heuristic.providers.UniformHeuristicProvider"> <!-- Provides a single heursitic -->
+        <property name="heuristic" ref="Heuristic"/>
     </bean>
     <bean name="CarWaitingDistribution" class="org.apache.commons.math3.distribution.GammaDistribution">
         <constructor-arg name="scale" value="2"/>
-        <constructor-arg name="shape" value="5"/>
+        <constructor-arg name="shape" value="1200"/> <!-- equivalent to mode = 15 min -->
     </bean>
-    <bean name="StreetWaitingDistribution" class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-        <constructor-arg name="lower" value="2"/>
-        <constructor-arg name="upper" value="5"/>
+    <bean name="StreetWaitingDistribution"
+          class="com.github.themetalone.parking.hutchinson.distribution.ThreePhaseIntegerDistribution">
+        <constructor-arg index="0" value="9600"/> <!-- 2h -->
+        <constructor-arg index="1" value="28000"/><!-- 2+4h -->
+        <constructor-arg index="2" value="80"/>   <!-- Mean of 2 Cars per minute -->
+        <constructor-arg index="3" value="160"/>  <!-- Mean of 1 Cars per minute -->
+        <constructor-arg index="4" value="40"/>   <!-- Mean of 4 Cars per minute -->
     </bean>
     <bean name="SimulationDataCollector"
-          class="com.github.themetalone.parking.core.data.SQLiteSimulationDataCollectorImpl">
+          class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
         <constructor-arg name="location" value="./simulationData"/>
     </bean>
-    <!--bean name="SimulationDataCollector" class="com.github.themetalone.parking.core.data.testing.ToLogSimulationDataCollector"/-->
 
     <!-- ###CONFIG### -->
     <!-- Proceed only if you know what you're doing -->
@@ -63,15 +74,5 @@
     <bean name="ParkingSpotProvider" class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
         <property name="simulationDataCollector" ref="SimulationDataCollector"/>
     </bean>
-    <!--bean name="HeuristicProvider"
-          class="com.github.themetalone.parking.core.car.heuristic.providers.SingleMutantHeuristicProvider">
-        <property name="mutant" ref="Mutant"/>
-        <property name="population" ref="Population"/>
-        <property name="providedUntil" value="10"/>
-    </bean-->
-    <!--bean name="Mutant" class="com.github.themetalone.parking.core.car.heuristic.DecideAfterNSlotsHeuristic">
-        <constructor-arg name="n" value="30"/>
-    </bean-->
-
 
 </beans>
