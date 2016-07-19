@@ -100,11 +100,7 @@ public class HutchinsonCarImpl extends Observable implements Car {
             o.deleteObserver(this);
             putData = false;
             parkingTime = -1;
-            String oldHeuristic = heuristic.toString();
             heuristic = heuristic.copy();
-            if (!oldHeuristic.equals(heuristic.toString()) && arg instanceof Long) {
-                this.simulationDataCollector.putHeuristicData((Long) arg, heuristic.toString());
-            }
             setChanged();
             notifyObservers(CarState.Free);
         }

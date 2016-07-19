@@ -55,7 +55,7 @@ public class H2SimulationDataCollectorImpl implements SimulationDataCollector {
     public void putHeuristicData(long tick, String heuristic) {
         try {
             if(heuristicBatchStatement == null || heuristicBatchStatement.isClosed()){
-                heuristicBatchStatement = connection.prepareStatement("INSERT INTO PS.HEURISTICS (TICK, HEURISTIC) VALUES (?,?)");
+                heuristicBatchStatement = connection.prepareStatement("INSERT INTO PS.HEURISTICS (ID, HEURISTIC) VALUES (?,?)");
             }
             heuristicBatchStatement.setLong(1,tick);
             heuristicBatchStatement.setString(2,heuristic);
@@ -109,7 +109,7 @@ public class H2SimulationDataCollectorImpl implements SimulationDataCollector {
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.PARKING_SPOTS (ID INTEGER PRIMARY KEY ,DISTANCE INTEGER);");
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.CARDATA (ID INTEGER ,DISTANCE INTEGER,TICK BIGINT, PRIMARY KEY (ID,TICK));");
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.PARKINGDATA (STATE VARCHAR(255),TICK BIGINT PRIMARY KEY);");
-            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.HEURISTICS (TICK BIGINT, HEURISTIC VARCHAR(255))");
+            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.HEURISTICS (ID BIGINT, HEURISTIC VARCHAR(255))");
             stmnt.addBatch("DELETE FROM PS.CARS WHERE TRUE");
             stmnt.addBatch("DELETE FROM PS.CARDATA WHERE TRUE");
             stmnt.addBatch("DELETE FROM PS.PARKING_SPOTS WHERE TRUE");

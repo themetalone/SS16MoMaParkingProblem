@@ -5,7 +5,7 @@
 
     <!-- ###PARAMETERS### -->
     <bean name="NumberOfTicks" class="java.lang.Long">
-        <constructor-arg index="0" value="38400" type="long"/> <!-- 8h -->
+        <constructor-arg index="0" value="57600" type="long"/> <!-- 12h -->
     </bean>
     <bean name="StreetLength" class="java.lang.Integer">
         <constructor-arg index="0" value="150" type="int"/>
@@ -14,7 +14,7 @@
         <constructor-arg index="0" value="4800" type="int"/> <!-- 1h -->
     </bean>
     <bean name="NumberOfCars" class="java.lang.Integer">
-        <constructor-arg index="0" value="150" type="int"/>
+        <constructor-arg index="0" value="200" type="int"/>
     </bean>
     <bean name="Heuristic"
           class="com.github.themetalone.parking.core.car.heuristic.evolutionary.EvolutionaryDecideAfterNSlotsHeuristic">
@@ -24,7 +24,13 @@
                 <constructor-arg name="lower" value="0"/>
             </bean>
         </constructor-arg>
-        <constructor-arg index="1" value="50"/> <!-- Wait for 50 Parking Decisions before starting the evolution -->
+        <constructor-arg index="1" value="30"/> <!-- Wait for n Parking Decisions before starting the evolution -->
+        <property name="mutationRate" value="0.15"/>
+        <property name="simulationDataCollector" ref="SimulationDataCollector"/>
+        <property name="bestQuarterWeight" value="10"/>
+        <property name="bestHalfWeight" value="3"/>
+        <property name="worstHalfWeight" value="0"/>
+        <property name="worstQuarterWeight" value="0"/>
     </bean>
     <bean name="HeuristicProvider"
           class="com.github.themetalone.parking.core.car.heuristic.providers.UniformHeuristicProvider"> <!-- Provides a single heursitic -->
@@ -36,8 +42,8 @@
     </bean>
     <bean name="StreetWaitingDistribution"
           class="com.github.themetalone.parking.hutchinson.distribution.ThreePhaseIntegerDistribution">
-        <constructor-arg index="0" value="9600"/> <!-- 2h -->
-        <constructor-arg index="1" value="28000"/><!-- 2+4h -->
+        <constructor-arg index="0" value="19200"/> <!-- 4h -->
+        <constructor-arg index="1" value="38400"/><!-- 4+4h -->
         <constructor-arg index="2" value="80"/>   <!-- Mean of 2 Cars per minute -->
         <constructor-arg index="3" value="160"/>  <!-- Mean of 1 Cars per minute -->
         <constructor-arg index="4" value="40"/>   <!-- Mean of 4 Cars per minute -->
@@ -62,8 +68,7 @@
         <property name="integerDistribution" ref="StreetWaitingDistribution"/>
     </bean>
 
-    <bean name="CarProvider" class="com.github.themetalone.parking.hutchinson.car.FiniteHutchinsonCarProviderImpl">
-        <constructor-arg name="numberOfCars" ref="NumberOfCars"/>
+    <bean name="CarProvider" class="com.github.themetalone.parking.hutchinson.car.HutchinsonCarProviderImpl">
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="heuristicProvider" ref="HeuristicProvider"/>
         <property name="longestParkingTime" ref="LongestParkingTime"/>
