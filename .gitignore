@@ -1,3 +1,9 @@
 Simulation/lib/
 *.jar
 *.db
+*.aux
+*.nav
+*.out
+*.snm
+*.toc
+Vortrag/ParkingProblem.pdf
