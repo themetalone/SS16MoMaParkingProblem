@@ -5,7 +5,7 @@
 
     <!-- ###PARAMETERS### -->
     <bean name="NumberOfTicks" class="java.lang.Long">
-        <constructor-arg index="0" value="57600" type="long"/> <!-- 12h -->
+        <constructor-arg index="0" value="100000" type="long"/> <!-- 12h -->
     </bean>
     <bean name="StreetLength" class="java.lang.Integer">
         <constructor-arg index="0" value="150" type="int"/>
@@ -50,7 +50,7 @@
     </bean>
     <bean name="SimulationDataCollector"
           class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
-        <constructor-arg name="location" value="./simulationData"/>
+        <constructor-arg name="location" value="./simulationData2"/>
     </bean>
 
     <!-- ###CONFIG### -->

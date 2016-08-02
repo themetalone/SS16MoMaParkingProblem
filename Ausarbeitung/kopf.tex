@@ -1,0 +1,66 @@
+%-----Papier-----%
+\documentclass[12pt, a4paper]{article}
+\usepackage[a4paper,lmargin={4cm},rmargin={2cm},tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
+
+\usepackage[utf8]{inputenc} %Zeichenunterstützung für Umlaute u.ä.
+%-----AMS-----%
+\usepackage{amsmath} %Mathepakete
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%-----Layout-----%
+\usepackage{ngerman} %Deutsches Layout
+\usepackage[onehalfspacing]{setspace} %Zeilenabstand
+\usepackage[colorlinks=true,urlcolor=blue, linkcolor=black, citecolor=black]{hyperref} %Links innerhalb des Dokuments, alle schwarz
+\sloppy %Blocksatz wird erzwungen (sinnvoll, da Latex Probleme hat, deutsche Wörter zu trennen
+%-----Pakete-----%
+\usepackage{hyperref} % Hyperlinks %http://en.wikibooks.org/wiki/LaTeX/Labels_and_Cross-referencing
+\usepackage{graphicx} %Einbinden von Bildern
+\usepackage{float} %Erlaubt figures mit option H fest im text zu verankern
+\usepackage{caption} %Erlaubt unnummerierte figure-captions
+\usepackage{listings} %Erlaubt das (automatische) Einbinden von SourceCode http://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+\usepackage{tikz} %Zum Zeichnen von Diagrammen http://csweb.ucc.ie/~dongen/LAF/TikZ.pdf
+\usepackage{tabularx}%Fuer eigene Tabulararten
+\usepackage{longtable}
+
+%-----Literatur-----%
+%\usepackage{./din1505/natbib} 
+%\usepackage{../../Vorlagen/din1505/natbib} %Dokument liegt eine Ebene unter LaTeX
+%\bibliographystyle{./din1505/natdin}
+%\bibliographystyle{../../Vorlagen/din1505/alphadin}
+
+\usepackage{pgffor}
+
+%---Deckblatt---%
+\newcommand{\myauthor}{Steffen Holzer}
+\newcommand{\mytitle}{}
+\newcommand{\subtitle}{}
+\newcommand{\dozent}{}
+\newcommand{\semester}{}
+\newcommand{\logo}{}
+
+\newcounter{Definition}
+\newenvironment{definition}[1]{\begin{description}
+\stepcounter{Definition}
+\item[Definition \theDefinition :]#1\hfill\\}
+{\end{description}}
+
+\newenvironment{definition*}[1]{\begin{description}
+\item[Definition  :]#1\hfill\\}
+{\end{description}}
+
+\newcounter{Satz}
+\newenvironment{satz}[1]{\begin{description}
+\stepcounter{Satz}
+\item[Satz \theSatz :]#1\hfill\\}
+{\end{description}}
+
+\newenvironment{satz*}[1]{\begin{description}
+\item[Satz :]#1\hfill\\}
+{\end{description}}
+
+\newcommand{\degr}{^{\circ}}
+
+%---Tabular---%
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % linksbündig mit Breitenangabe
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
