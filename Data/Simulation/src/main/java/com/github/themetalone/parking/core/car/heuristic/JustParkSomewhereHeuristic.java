@@ -8,10 +8,20 @@ import com.github.themetalone.parking.core.slot.ParkingSlot;
 public class JustParkSomewhereHeuristic implements Heuristic {
 
     private int knownLength = 1;
+    private int lastDistance = -1;
 
 
     @Override
     public boolean decide(ParkingSlot slot, ParkingSlot peek) {
+        if (lastDistance == -1) {
+            lastDistance = slot.getDistance();
+        }
+        if (lastDistance >= slot.getDistance()) {
+            lastDistance = slot.getDistance();
+        }
+        if (lastDistance < slot.getDistance()) {
+            return true;
+        }
         if (slot.getDistance() > knownLength) {
             knownLength = slot.getDistance();
         }

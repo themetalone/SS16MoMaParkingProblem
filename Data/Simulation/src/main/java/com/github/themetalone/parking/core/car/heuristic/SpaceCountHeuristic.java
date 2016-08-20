@@ -3,25 +3,27 @@ package com.github.themetalone.parking.core.car.heuristic;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 
 /**
- * Implementation of the ''Decide after n candidates'' heuristic
+ * Implementation of the ''Space count'' heuristic
  * Created by steff on 11.07.2016.
  */
-public class DecideAfterNCandidatesHeuristic implements Heuristic {
+public class SpaceCountHeuristic implements Heuristic<Integer> {
 
-    private final int n;
+    private int n;
     private int passedCandidates;
     private int lastDistance = Integer.MAX_VALUE;
+    private boolean counting = false;
 
     /**
      * @param n the number of candidates to be passed by
      */
-    public DecideAfterNCandidatesHeuristic(int n) {
+    public SpaceCountHeuristic(int n) {
         this.n = n;
         passedCandidates = 0;
     }
 
     /**
      * Decides if a parking spot should be taken
+     *
      * @param slot the parking spot to be tested
      * @param peek the following parking spot
      * @return true if and only if slot is empty AND ((peek is occupied AND n candidates are passed by) OR destination is already passed by)
@@ -34,21 +36,35 @@ public class DecideAfterNCandidatesHeuristic implements Heuristic {
             if (turningPointPassed) {
                 return true;
             }
-            passedCandidates++;
-            if (passedCandidates > n) {
-                return peek.isOccupied();
+            if (counting) {
+                passedCandidates++;
+                if (passedCandidates > n) {
+                    return peek.isOccupied();
+                }
             }
+        }else{
+            counting = true;
         }
         return false;
     }
 
     @Override
-    public Heuristic copy() {
-        return new DecideAfterNCandidatesHeuristic(n);
+    public Heuristic<Integer> copy() {
+        return new SpaceCountHeuristic(n);
+    }
+
+    @Override
+    public Integer getParam() {
+        return n;
+    }
+
+    @Override
+    public void setParam(Integer param) {
+        this.n = param;
     }
 
     @Override
     public String toString() {
-        return "DecideAfterNCandidatesHeuristic[n:" + n + "]";
+        return "SpaceCountHeuristic[n:" + n + "]";
     }
 }

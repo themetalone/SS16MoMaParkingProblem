@@ -55,7 +55,7 @@
 
     <!-- ###CONFIG### -->
     <!-- Proceed only if you know what you're doing -->
-    <bean name="Simulation" class="com.github.themetalone.parking.core.Simulation">
+    <bean name="Simulation" class="com.github.themetalone.parking.core.SingleCaseSimulation">
         <constructor-arg name="streetProvider" ref="StreetProvider"/>
         <constructor-arg name="ticks" ref="NumberOfTicks"/>
         <property name="simulationDataCollector" ref="SimulationDataCollector"/>
