@@ -19,6 +19,7 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
     private long totalWork = 0;
     private long remainingWork = 0;
     private int runningSimulationCounter = 0;
+    private Collection<SimulationDataCollector> simulationDataCollectors = new HashSet<>();
 
     public MultipleCasesParallelSimulation(long ticks, List<Street> streets) {
         this.ticks = ticks;
@@ -28,6 +29,10 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
     @Override
     public void setSimulationDataCollector(SimulationDataCollector simulationDataCollector) {
 
+    }
+
+    public void setSimulationDataCollectors(Collection<SimulationDataCollector> simulationDataCollectors){
+        this.simulationDataCollectors = simulationDataCollectors;
     }
 
     @Override
@@ -50,11 +55,12 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
                 LOG.error("Encountered {}:{}", e.getClass().getName(), e.getMessage());
             }
         });
+        simulationDataCollectors.stream().forEach(SimulationDataCollector::close);
         LOG.info("Done");
     }
 
     @Override
-    public synchronized void update(Observable o, Object arg) {
+    public void update(Observable o, Object arg) {
         if (o instanceof SimulationRun && arg instanceof Long) {
             long workDone = (long) arg;
             if (workDone == -1) {

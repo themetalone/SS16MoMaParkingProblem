@@ -10,6 +10,11 @@
                 <ref bean="BlockCountStreet"/>
             </list>
         </constructor-arg>
+        <property name="simulationDataCollectors">
+            <list>
+                <ref bean="BlockCountDataCollector"/>
+            </list>
+        </property>
     </bean>
 
     <bean name="MemorySize" class="java.lang.Integer">
@@ -34,22 +39,26 @@
         <constructor-arg index="3" ref="BlockCountParkingSpotProvider"/>
         <constructor-arg index="4" ref="NextCarDistribution"/>
         <property name="observers">
-            <ref bean="BlockCountHeuristic"/>
+            <list>
+                <ref bean="BlockCountHeuristic"/>
+            </list>
         </property>
     </bean>
 
     <bean name="BlockCountDataCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
 
-        <constructor-arg value="BlockCountData"/>
+        <constructor-arg value="./BlockCountData"/>
     </bean>
 
-    <bean name="BlockCountHeuristicProvider" class="com.github.themetalone.parking.core.car.heuristic.providers.SingleMutantHeuristicProvider">
+    <bean name="BlockCountHeuristicProvider"
+          class="com.github.themetalone.parking.core.car.heuristic.providers.SingleMutantHeuristicProvider">
         <property name="population" ref="PopulationHeuristic"/>
         <property name="mutant" ref="BlockCountHeuristic"/>
         <property name="providedUntil" value="50"/>
     </bean>
 
-    <bean name="BlockCountHeuristic" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+    <bean name="BlockCountHeuristic"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
 
         <constructor-arg index="0">
             <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
@@ -76,7 +85,8 @@
         <property name="simulationDataCollector" ref="BlockCountDataCollector"/>
     </bean>
 
-    <bean name="BlockCountCarProvider" class="com.github.themetalone.parking.hutchinson.car.FiniteHutchinsonCarProviderImpl">
+    <bean name="BlockCountCarProvider"
+          class="com.github.themetalone.parking.hutchinson.car.FiniteHutchinsonCarProviderImpl">
         <constructor-arg value="150"/>
         <property name="heuristicProvider" ref="BlockCountHeuristicProvider"/>
         <property name="simulationDataCollector" ref="BlockCountDataCollector"/>
@@ -86,8 +96,8 @@
     </bean>
 
 
-
-    <bean name="PopulationHeuristic" class="com.github.themetalone.parking.core.car.heuristic.JustParkSomewhereHeuristic"/>
+    <bean name="PopulationHeuristic"
+          class="com.github.themetalone.parking.core.car.heuristic.JustParkSomewhereHeuristic"/>
     <bean name="ZeroToOneUniformRealDistribution" class="org.apache.commons.math3.distribution.UniformRealDistribution">
         <constructor-arg index="0" value="0" type="double"/>
         <constructor-arg index="1" value="1" type="double"/>
