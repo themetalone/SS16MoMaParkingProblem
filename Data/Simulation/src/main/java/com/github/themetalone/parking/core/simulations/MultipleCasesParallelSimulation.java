@@ -50,6 +50,7 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
                 LOG.error("Encountered {}:{}", e.getClass().getName(), e.getMessage());
             }
         });
+        LOG.info("Done");
     }
 
     @Override

@@ -25,7 +25,8 @@ public abstract class SelfLearningHeuristic<T> implements Heuristic<T>, Observer
     protected RealDistribution realDistribution;
 
     protected SimulationDataCollector simulationDataCollector;
-    private Long tick;
+    private Long tick = (long) -1;
+    protected Observable observable = null;
 
     protected boolean unused = false;
 
@@ -86,7 +87,7 @@ public abstract class SelfLearningHeuristic<T> implements Heuristic<T>, Observer
         copy.mutationRate = mutationRate;
         copy.memory = memory;
         copy.realDistribution = realDistribution;
-
+        observable.addObserver(copy);
         return copy;
     }
 
@@ -97,6 +98,7 @@ public abstract class SelfLearningHeuristic<T> implements Heuristic<T>, Observer
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Street && arg instanceof Long) {
+            this.observable = (Observable) o;
             this.tick = (Long) arg;
             if (unused) {
                 o.deleteObserver(this);
