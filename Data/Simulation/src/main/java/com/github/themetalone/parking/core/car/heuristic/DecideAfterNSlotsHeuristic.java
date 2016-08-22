@@ -6,14 +6,13 @@ import com.github.themetalone.parking.core.slot.ParkingSlot;
  * Created by steff on 11.07.2016.
  * Chooses the first free parking slot after N passed slots
  */
-public class DecideAfterNSlotsHeuristic implements Heuristic {
+public class DecideAfterNSlotsHeuristic implements Heuristic<Integer> {
 
-    protected final int n;
+    protected int n;
     private int stepsTaken;
     private int lastDistance = Integer.MAX_VALUE;
 
     /**
-     *
      * @param n number of parking slots to be passed before picking a parking slot
      */
     public DecideAfterNSlotsHeuristic(int n) {
@@ -23,6 +22,7 @@ public class DecideAfterNSlotsHeuristic implements Heuristic {
 
     /**
      * Decides if a parking slot is to be chosen by a car
+     *
      * @param slot the parking spot to be tested
      * @param peek the following parking spot
      * @return return true if and only if slot is empty AND ((peek is occupied AND n slots or more are passed by) OR destination is already passed by)
@@ -47,8 +47,18 @@ public class DecideAfterNSlotsHeuristic implements Heuristic {
     }
 
     @Override
-    public Heuristic copy() {
+    public Heuristic<Integer> copy() {
         return new DecideAfterNSlotsHeuristic(n);
+    }
+
+    @Override
+    public Integer getParam() {
+        return n;
+    }
+
+    @Override
+    public void setParam(Integer param) {
+        this.n = param;
     }
 
     @Override

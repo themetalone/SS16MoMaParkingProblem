@@ -1,6 +1,6 @@
 package com.github.themetalone.parking;
 
-import com.github.themetalone.parking.core.Simulation;
+import com.github.themetalone.parking.core.simulations.Simulation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +20,7 @@ public class Main {
         ApplicationContext applicationContext;
         if (externalConfig == null) {
             LOG.info("Loading internal configuration");
-            applicationContext = new ClassPathXmlApplicationContext("spring-config.xml");
+            applicationContext = new ClassPathXmlApplicationContext("spring-config2.xml");
         } else {
             LOG.info("Loading external configuration file {}", externalConfig);
             applicationContext = new FileSystemXmlApplicationContext(externalConfig);

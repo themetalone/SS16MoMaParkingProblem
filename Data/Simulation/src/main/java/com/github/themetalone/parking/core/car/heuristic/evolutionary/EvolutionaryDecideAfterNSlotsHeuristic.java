@@ -35,7 +35,7 @@ public class EvolutionaryDecideAfterNSlotsHeuristic extends DecideAfterNSlotsHeu
         super(n);
         EvolutionaryDecideAfterNSlotsHeuristic.wait = wait;
         if (simulationDataCollector != null) {
-            simulationDataCollector.putHeuristicData(count, String.valueOf(super.n));
+            simulationDataCollector.putHeuristicData(count,this.getClass().getName(), String.valueOf(super.n), -1);
         }
     }
 
@@ -45,7 +45,7 @@ public class EvolutionaryDecideAfterNSlotsHeuristic extends DecideAfterNSlotsHeu
             EvolutionaryDecideAfterNSlotsHeuristic.integerDistribution = integerDistribution;
         }
         if (simulationDataCollector != null) {
-            simulationDataCollector.putHeuristicData(count, String.valueOf(super.n));
+            simulationDataCollector.putHeuristicData(count, this.getClass().getName(), String.valueOf(super.n), -1);
         }
         EvolutionaryDecideAfterNSlotsHeuristic.wait = wait;
     }

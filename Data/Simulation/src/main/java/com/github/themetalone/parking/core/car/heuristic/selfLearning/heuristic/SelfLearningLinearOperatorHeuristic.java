@@ -2,6 +2,7 @@ package com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic
 
 import com.github.themetalone.parking.core.car.heuristic.Heuristic;
 import com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.AbstractMemory;
+import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import org.apache.commons.math3.distribution.RealDistribution;
 
 import java.util.LinkedList;
@@ -15,8 +16,8 @@ public class SelfLearningLinearOperatorHeuristic extends SelfLearningHeuristic<L
     protected RealDistribution velocityDistribution;
     protected RealDistribution thresholdDistribution;
 
-    public SelfLearningLinearOperatorHeuristic(Heuristic<List<Double>> heuristic, AbstractMemory<List<Double>> memory, double mutationRate, RealDistribution realDistribution, RealDistribution velocityDistribution, RealDistribution thresholdDistribution) {
-        super(heuristic, memory, mutationRate, realDistribution);
+    public SelfLearningLinearOperatorHeuristic(Heuristic<List<Double>> heuristic, AbstractMemory<List<Double>> memory, double mutationRate, RealDistribution realDistribution, RealDistribution velocityDistribution, RealDistribution thresholdDistribution, SimulationDataCollector simulationDataCollector) {
+        super(heuristic, memory, mutationRate, realDistribution,simulationDataCollector);
         this.velocityDistribution = velocityDistribution;
         this.thresholdDistribution = thresholdDistribution;
     }
@@ -31,6 +32,6 @@ public class SelfLearningLinearOperatorHeuristic extends SelfLearningHeuristic<L
 
     @Override
     protected SelfLearningHeuristic<List<Double>> makeCopy() {
-        return new SelfLearningLinearOperatorHeuristic(heuristic, memory, mutationRate, realDistribution, velocityDistribution, thresholdDistribution);
+        return new SelfLearningLinearOperatorHeuristic(heuristic, memory, mutationRate, realDistribution, velocityDistribution, thresholdDistribution, simulationDataCollector);
     }
 }

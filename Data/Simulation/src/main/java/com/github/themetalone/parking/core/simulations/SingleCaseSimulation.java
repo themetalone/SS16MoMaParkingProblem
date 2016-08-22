@@ -1,6 +1,5 @@
 package com.github.themetalone.parking.core.simulations;
 
-import com.github.themetalone.parking.core.Simulation;
 import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import com.github.themetalone.parking.core.street.Street;
 import com.github.themetalone.parking.core.street.StreetProvider;

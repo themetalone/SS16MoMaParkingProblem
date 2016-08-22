@@ -2,6 +2,7 @@ package com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic
 
 import com.github.themetalone.parking.core.car.heuristic.Heuristic;
 import com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.AbstractMemory;
+import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
 
@@ -16,8 +17,8 @@ public class SelfLearningXOutOfYHeuristic extends SelfLearningHeuristic<List<Int
     protected RealDistribution xRealDistribution;
     protected IntegerDistribution yIntegerDistribution;
 
-    public SelfLearningXOutOfYHeuristic(Heuristic<List<Integer>> heuristic, AbstractMemory<List<Integer>> memory, double mutationRate, RealDistribution realDistribution, RealDistribution xRealDistribution, IntegerDistribution yIntegerDistribution) {
-        super(heuristic, memory, mutationRate, realDistribution);
+    public SelfLearningXOutOfYHeuristic(Heuristic<List<Integer>> heuristic, AbstractMemory<List<Integer>> memory, double mutationRate, RealDistribution realDistribution, RealDistribution xRealDistribution, IntegerDistribution yIntegerDistribution, SimulationDataCollector simulationDataCollector) {
+        super(heuristic, memory, mutationRate, realDistribution, simulationDataCollector);
         this.xRealDistribution = xRealDistribution;
         this.yIntegerDistribution = yIntegerDistribution;
     }
@@ -27,7 +28,7 @@ public class SelfLearningXOutOfYHeuristic extends SelfLearningHeuristic<List<Int
 
         int y = yIntegerDistribution.sample();
         double xByY = xRealDistribution.sample();
-        int x = (int) (xByY*y);
+        int x = (int) (xByY * y);
         List<Integer> result = new LinkedList<>();
         result.add(x);
         result.add(y);
@@ -36,6 +37,6 @@ public class SelfLearningXOutOfYHeuristic extends SelfLearningHeuristic<List<Int
 
     @Override
     protected SelfLearningHeuristic<List<Integer>> makeCopy() {
-        return new SelfLearningXOutOfYHeuristic(heuristic, memory, mutationRate, realDistribution, xRealDistribution, yIntegerDistribution);
+        return new SelfLearningXOutOfYHeuristic(heuristic, memory, mutationRate, realDistribution, xRealDistribution, yIntegerDistribution, simulationDataCollector);
     }
 }

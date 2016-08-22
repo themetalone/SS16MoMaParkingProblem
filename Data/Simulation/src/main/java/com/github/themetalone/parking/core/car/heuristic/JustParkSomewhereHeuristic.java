@@ -5,7 +5,7 @@ import com.github.themetalone.parking.core.slot.ParkingSlot;
 /**
  * Created by steff on 20.07.2016.
  */
-public class JustParkSomewhereHeuristic implements Heuristic {
+public class JustParkSomewhereHeuristic implements Heuristic<Object> {
 
     private int knownLength = 1;
     private int lastDistance = -1;
@@ -30,7 +30,17 @@ public class JustParkSomewhereHeuristic implements Heuristic {
     }
 
     @Override
-    public Heuristic copy() {
+    public Heuristic<Object> copy() {
         return new JustParkSomewhereHeuristic();
+    }
+
+    @Override
+    public Object getParam() {
+        return new Object();
+    }
+
+    @Override
+    public void setParam(Object param) {
+
     }
 }

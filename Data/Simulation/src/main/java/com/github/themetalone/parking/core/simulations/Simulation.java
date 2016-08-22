@@ -1,4 +1,4 @@
-package com.github.themetalone.parking.core;
+package com.github.themetalone.parking.core.simulations;
 
 import com.github.themetalone.parking.core.data.SimulationDataCollector;
 
