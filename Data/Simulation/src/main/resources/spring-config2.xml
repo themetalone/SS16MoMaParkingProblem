@@ -38,8 +38,9 @@
         </property>
     </bean>
 
-    <bean name="BlockCountDataCollector" class="com.github.themetalone.parking.core.data.testing.ToLogSimulationDataCollector">
+    <bean name="BlockCountDataCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
 
+        <constructor-arg value="BlockCountData"/>
     </bean>
 
     <bean name="BlockCountHeuristicProvider" class="com.github.themetalone.parking.core.car.heuristic.providers.SingleMutantHeuristicProvider">
