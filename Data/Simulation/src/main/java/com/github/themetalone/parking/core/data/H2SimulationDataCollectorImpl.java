@@ -120,7 +120,7 @@ public class H2SimulationDataCollectorImpl implements SimulationDataCollector {
             stmnt.executeBatch();
             stmnt.close();
             connection = DriverManager.getConnection(jdbcUrl, "simulation", "simulation");
-            LOG.info("Storage Initialization done");
+            LOG.info("Storage Initialization done for {}.h2.db",location);
             LOG.info("usr:simulation, pw:simulation");
             LOG.info("schema:PS");
             LOG.info("Tables:CARS, CARSDATA, PARKING_SPOTS, PARKINGDATA, HEURISTICS");

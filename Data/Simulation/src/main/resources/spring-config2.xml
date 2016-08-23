@@ -8,11 +8,13 @@
         <constructor-arg index="1">
             <list>
                 <ref bean="BlockCountStreet"/>
+                <ref bean="FixedDistanceStreet"/>
             </list>
         </constructor-arg>
         <property name="simulationDataCollectors">
             <list>
                 <ref bean="BlockCountDataCollector"/>
+                <ref bean="FixedDistanceDataCollector"/>
             </list>
         </property>
     </bean>
@@ -23,7 +25,6 @@
     <bean name="MutationRate" class="java.lang.Double">
         <constructor-arg index="0" type="double" value="0.1"/>
     </bean>
-
     <bean name="NextCarDistribution" class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
         <constructor-arg index="0" value="0"/>
         <constructor-arg index="1" value="80"/> <!--waits at most 80 ticks, mean of 2 Cars per minute -->
@@ -31,10 +32,13 @@
     <bean name="LongestParkingTime" class="java.lang.Integer">
         <constructor-arg index="0" value="4800" type="int"/> <!-- 1h -->
     </bean>
+    <bean name="NumberOfParkingSpots" class="java.lang.Integer">
+        <constructor-arg type="int" value="150"/>
+    </bean>
 
     <bean name="BlockCountStreet" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetImpl">
         <constructor-arg index="0" value="0"/>
-        <constructor-arg index="1" value="150"/>
+        <constructor-arg index="1" ref="NumberOfParkingSpots"/>
         <constructor-arg index="2" ref="BlockCountCarProvider"/>
         <constructor-arg index="3" ref="BlockCountParkingSpotProvider"/>
         <constructor-arg index="4" ref="NextCarDistribution"/>
@@ -44,22 +48,17 @@
             </list>
         </property>
     </bean>
-
     <bean name="BlockCountDataCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
-
         <constructor-arg value="./BlockCountData"/>
     </bean>
-
     <bean name="BlockCountHeuristicProvider"
           class="com.github.themetalone.parking.core.car.heuristic.providers.SingleMutantHeuristicProvider">
         <property name="population" ref="PopulationHeuristic"/>
         <property name="mutant" ref="BlockCountHeuristic"/>
         <property name="providedUntil" value="50"/>
     </bean>
-
     <bean name="BlockCountHeuristic"
           class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-
         <constructor-arg index="0">
             <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
                 <constructor-arg value="10"/>
@@ -80,11 +79,9 @@
         </constructor-arg>
         <constructor-arg index="5" ref="BlockCountDataCollector"/>
     </bean>
-
     <bean name="BlockCountParkingSpotProvider" class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
         <property name="simulationDataCollector" ref="BlockCountDataCollector"/>
     </bean>
-
     <bean name="BlockCountCarProvider"
           class="com.github.themetalone.parking.hutchinson.car.FiniteHutchinsonCarProviderImpl">
         <constructor-arg value="150"/>
@@ -93,6 +90,62 @@
         <property name="longestParkingTime" ref="LongestParkingTime"/>
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="parkingSlotProvider" ref="BlockCountParkingSpotProvider"/>
+    </bean>
+
+    <bean name="FixedDistanceStreet" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetImpl">
+        <constructor-arg index="0" value="1"/>
+        <constructor-arg index="1" ref="NumberOfParkingSpots"/>
+        <constructor-arg index="2" ref="FixedDistanceCarProvider"/>
+        <constructor-arg index="3" ref="FixedDistanceParkingSpotProvider"/>
+        <constructor-arg index="4" ref="NextCarDistribution"/>
+        <property name="observers">
+            <list>
+                <ref bean="FixedDistanceHeuristic"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="FixedDistanceDataCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
+        <constructor-arg value="./FixedDistanceData"/>
+    </bean>
+    <bean name="FixedDistanceHeuristicProvider"
+          class="com.github.themetalone.parking.core.car.heuristic.providers.SingleMutantHeuristicProvider">
+        <property name="population" ref="PopulationHeuristic"/>
+        <property name="mutant" ref="FixedDistanceHeuristic"/>
+        <property name="providedUntil" value="50"/>
+    </bean>
+    <bean name="FixedDistanceHeuristic"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg ref="MemorySize"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="1"/>
+                <constructor-arg index="1" value="150"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="FixedDistanceDataCollector"/>
+    </bean>
+    <bean name="FixedDistanceParkingSpotProvider" class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
+        <property name="simulationDataCollector" ref="FixedDistanceDataCollector"/>
+    </bean>
+    <bean name="FixedDistanceCarProvider"
+          class="com.github.themetalone.parking.hutchinson.car.FiniteHutchinsonCarProviderImpl">
+        <constructor-arg value="150"/>
+        <property name="heuristicProvider" ref="FixedDistanceHeuristicProvider"/>
+        <property name="simulationDataCollector" ref="FixedDistanceDataCollector"/>
+        <property name="longestParkingTime" ref="LongestParkingTime"/>
+        <property name="realDistribution" ref="CarWaitingDistribution"/>
+        <property name="parkingSlotProvider" ref="FixedDistanceParkingSpotProvider"/>
     </bean>
 
 
