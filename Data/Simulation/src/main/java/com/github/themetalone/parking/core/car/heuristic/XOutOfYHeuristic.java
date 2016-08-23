@@ -21,6 +21,7 @@ public class XOutOfYHeuristic implements Heuristic<List<Integer>> {
         this.y = y;
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public boolean decide(ParkingSlot slot, ParkingSlot peek) {
         boolean turningPointPassed = slot.getDistance() > lastDistance;

@@ -5,6 +5,7 @@ import com.github.themetalone.parking.core.street.Street;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -40,6 +41,7 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
 
         for (Street s : streets) {
             SimulationRun simRun = new SimulationRun(s, ticks);
+            simRun.addObserver(this);
             remainingWork += ticks;
             totalWork += ticks;
             Thread t = new Thread(simRun);
@@ -47,7 +49,7 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
             runningSimulationCounter++;
         }
         runningSimulations.forEach(Thread::start);
-        LOG.info("Started {} simulations. This may take while. Have a coffee.", runningSimulationCounter);
+        LOG.info("Started {} simulations with a total of {} ticks. This may take while. Have a coffee.", runningSimulationCounter, totalWork);
         runningSimulations.forEach(t -> {
             try {
                 t.join();
@@ -69,7 +71,8 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
             } else {
                 remainingWork -= workDone;
             }
-            LOG.info("{}% done", remainingWork / totalWork * 100);
+            DecimalFormat df = new DecimalFormat("##%");
+            LOG.info("{} done", df.format(((double)totalWork-remainingWork) / ((double)totalWork)));
         }
     }
 
