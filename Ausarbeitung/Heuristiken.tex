@@ -11,6 +11,12 @@ Bei der \emph{block-count heuristic} wählt der Fahrer einen Parkplatz, wenn er 
 Zuletzt wird die \emph{linear-operator heuristic} beschrieben. Dabei wird ständig der Wert $z_i$, wie folgt, berechnet: $z_i=a\cdotz_{i-1}+b_i$. Dabei ist $a<1$ eine Konstante, die bestimmt, wie schnell ,,vergessen'' wird. $z_0=0$ und $b_i=\lbrace 0$, falls der i-te Platz frei ist $-1$, wenn der i-te Platz besetzt ist. %TODO Klammer bitte schön machen, dass die Klammer groß ist und 0 und -1 untereinander stehen\\
 Falls $z_j>z_T$, wobei $z_T$ ein vom Fahrer gewählter Wert ist, wählt der Fahrer den j-ten Parkplatz, wenn j die Position des ersten freien Parkplatzes ist, bei dem die Ungleichung erfüllt ist. 
 
+\subsection{Das Lernen der Heuristikparameter}
+Um jeweils die beste Konfiguration einer Heurisitk zu ermitteln, wird ein Lernalgorithmus während der Simulation angewandt. Hutchinson et al \textbf{cite} verwenden in ihrem Model dazu einen evolutionären Ansatz, bei dem in regelmäßigen Intervallen eine Selektion der erfolgreichsten Heuristiken stattfinded. Zu Beginn der Simulation erhält jeder Autofahrer eine zufällige Heuristik mit ebenfalls zufälliger Konfiguration. Nach festgelegten Intervallen werden die erfolgreichsten 10 Heuristiken ermittelt und diese auf die gesamte Population übertragen. Um eine fortlaufende Verbesserung der gefundenen Heurstikkonfigurationen zu gewährleisten, erhält ein festgelegter Prozentsatz der Population neue zufällig konfigurierte Heuristiken. 
+%TODO Realitätsfern weil
+%TODO Gekapseltes Lernen
+%TODO Wie
+
 %TODO wie lernt der Algorithmus??
 \begin{itemize}
 	\item Wann ist ein Parkplatz gut
