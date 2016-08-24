@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean name="Simulation" class="com.github.themetalone.parking.core.simulations.MultipleCasesParallelSimulation">
-        <constructor-arg index="0" value="10000"/>
+        <constructor-arg index="0" value="1000000"/>
         <constructor-arg index="1">
             <list>
                 <ref bean="BlockCountStreet"/>
@@ -38,7 +38,7 @@
         <constructor-arg index="1" value="80"/> <!--waits at most 80 ticks, mean of 2 Cars per minute -->
     </bean>
     <bean name="LongestParkingTime" class="java.lang.Integer">
-        <constructor-arg index="0" value="4800" type="int"/> <!-- 1h -->
+        <constructor-arg index="0" value="2400" type="int"/> <!-- 1h -->
     </bean>
     <bean name="NumberOfParkingSpots" class="java.lang.Integer">
         <constructor-arg type="int" value="150"/>
@@ -50,8 +50,8 @@
         <constructor-arg index="1" value="1" type="double"/>
     </bean>
     <bean name="CarWaitingDistribution" class="org.apache.commons.math3.distribution.GammaDistribution">
-        <constructor-arg name="scale" value="2"/>
-        <constructor-arg name="shape" value="1200"/> <!-- equivalent to mode = 15 min -->
+        <constructor-arg name="scale" value="600"/>
+        <constructor-arg name="shape" value="2"/> <!-- equivalent to mode = 15 min -->
     </bean>
 
     <!-- Block Count -->
