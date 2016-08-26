@@ -3,6 +3,7 @@ package com.github.themetalone.parking;
 import com.github.themetalone.parking.core.simulations.Simulation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.impl.SimpleLogger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -16,6 +17,7 @@ public class Main {
     private static Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+
         String externalConfig = System.getProperty("cfg");
         ApplicationContext applicationContext;
         if (externalConfig == null) {

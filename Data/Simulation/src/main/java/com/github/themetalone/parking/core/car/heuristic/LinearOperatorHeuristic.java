@@ -8,13 +8,14 @@ import java.util.List;
 /**
  * Created by steff on 20.08.2016.
  */
-public class LinearOperatorHeuristic implements Heuristic<List<Double>>{
+public class LinearOperatorHeuristic implements Heuristic<List<Double>> {
 
     protected double velocity;
     protected double threshold;
     protected double average = 0;
-    private int lastDistance = 0;
+    private int lastDistance = Integer.MAX_VALUE;
     private boolean takeNext = false;
+    protected boolean firstCarEncountered = false;
 
     public LinearOperatorHeuristic(double velocity, double threshold) {
         this.velocity = velocity;
@@ -22,20 +23,23 @@ public class LinearOperatorHeuristic implements Heuristic<List<Double>>{
     }
 
 
-
-
     @SuppressWarnings("Duplicates")
     @Override
     public boolean decide(ParkingSlot slot, ParkingSlot peek) {
+        if (slot.isOccupied()) {
+            firstCarEncountered = true;
+        }
         boolean turningPointPassed = slot.getDistance() > lastDistance;
         lastDistance = slot.getDistance();
-        average = average*velocity + (slot.isOccupied()?-1:0);
+        if (firstCarEncountered) {
+            average = average * velocity + (slot.isOccupied() ? 1 : 0);
+        }
         boolean densityFulfilled = average > threshold;
         if (!slot.isOccupied()) {
-            if (turningPointPassed || (densityFulfilled && peek.isOccupied()) || (!peek.isOccupied() && takeNext) ) {
+            if (turningPointPassed || (firstCarEncountered && densityFulfilled && peek.isOccupied()) || (!peek.isOccupied() && takeNext)) {
                 return true;
             }
-            if(densityFulfilled && !peek.isOccupied()){
+            if (firstCarEncountered && densityFulfilled && !peek.isOccupied()) {
                 takeNext = true;
             }
         } else {
@@ -60,7 +64,7 @@ public class LinearOperatorHeuristic implements Heuristic<List<Double>>{
 
     @Override
     public void setParam(List<Double> param) {
-        if (param.size()<2){
+        if (param.size() < 2) {
             throw new IllegalArgumentException("Not enough parameters");
         }
         this.velocity = param.get(0);

@@ -12,7 +12,7 @@ public class XOutOfYHeuristic implements Heuristic<List<Integer>> {
 
     protected int x;
     protected int y;
-    private int lastDistance;
+    private int lastDistance = Integer.MAX_VALUE;
     protected LinkedList<Integer> yBlock = new LinkedList<>();
     protected boolean takeNext= false;
 

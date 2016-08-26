@@ -1,5 +1,6 @@
 package com.github.themetalone.parking.core.car.heuristic;
 
+import com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 
 /**
@@ -8,25 +9,21 @@ import com.github.themetalone.parking.core.slot.ParkingSlot;
 public class JustParkSomewhereHeuristic implements Heuristic<Object> {
 
     private int knownLength = 1;
-    private int lastDistance = -1;
+    private int lastDistance = Integer.MAX_VALUE;
 
 
     @Override
     public boolean decide(ParkingSlot slot, ParkingSlot peek) {
-        if (lastDistance == -1) {
-            lastDistance = slot.getDistance();
-        }
-        if (lastDistance >= slot.getDistance()) {
-            lastDistance = slot.getDistance();
-        }
-        if (lastDistance < slot.getDistance()) {
-            return true;
-        }
-        if (slot.getDistance() > knownLength) {
+        // determine the street length
+        if(knownLength == -1){
             knownLength = slot.getDistance();
         }
-
-        return !slot.isOccupied() && ((knownLength - slot.getDistance()) / knownLength >= Math.random()) && peek.isOccupied();
+        // if the turning point is passed by
+        if(lastDistance < slot.getDistance()){
+            return !slot.isOccupied();
+        }
+        lastDistance = slot.getDistance();
+        return !slot.isOccupied() && ((double)((knownLength - slot.getDistance()) / knownLength) >= Math.random()) && peek.isOccupied();
     }
 
     @Override

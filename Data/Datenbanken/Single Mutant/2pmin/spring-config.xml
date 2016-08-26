@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean name="Simulation" class="com.github.themetalone.parking.core.simulations.MultipleCasesParallelSimulation">
-        <constructor-arg index="0" value="1000000"/>
+        <constructor-arg index="0" value="10000000"/>
         <constructor-arg index="1">
             <list>
                 <ref bean="BlockCountStreet"/>
@@ -54,6 +54,7 @@
         <constructor-arg index="1" value="1200"/> <!-- standard derivation: 30min -->
     </bean>
     <bean name="LearningWeight" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.weight.InversDistanceWeight"/>
+
 
     <!-- Block Count -->
     <bean name="BlockCountStreet" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetImpl">
@@ -376,7 +377,7 @@
         <constructor-arg index="0">
             <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
                 <constructor-arg index="0" value="0.5"/>
-                <constructor-arg index="1" value="5"/>
+                <constructor-arg index="1" value="-1"/>
             </bean>
         </constructor-arg>
         <constructor-arg index="1">
@@ -394,8 +395,8 @@
         </constructor-arg>
         <constructor-arg index="5">
             <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
-                <constructor-arg index="0" value="0"/>
-                <constructor-arg index="1" value="100"/>
+                <constructor-arg index="0" value="-100"/>
+                <constructor-arg index="1" value="0"/>
             </bean>
         </constructor-arg>
         <constructor-arg index="6" ref="LinOpDataCollector"/>

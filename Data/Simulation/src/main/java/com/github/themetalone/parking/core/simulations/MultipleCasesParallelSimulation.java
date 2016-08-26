@@ -21,6 +21,7 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
     private long remainingWork = 0;
     private int runningSimulationCounter = 0;
     private Collection<SimulationDataCollector> simulationDataCollectors = new HashSet<>();
+    private String lastPercent = "";
 
     public MultipleCasesParallelSimulation(long ticks, List<Street> streets) {
         this.ticks = ticks;
@@ -32,7 +33,7 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
 
     }
 
-    public void setSimulationDataCollectors(Collection<SimulationDataCollector> simulationDataCollectors){
+    public void setSimulationDataCollectors(Collection<SimulationDataCollector> simulationDataCollectors) {
         this.simulationDataCollectors = simulationDataCollectors;
     }
 
@@ -72,7 +73,11 @@ public class MultipleCasesParallelSimulation implements Simulation, Observer {
                 remainingWork -= workDone;
             }
             DecimalFormat df = new DecimalFormat("##%");
-            LOG.info("{} done", df.format(((double)totalWork-remainingWork) / ((double)totalWork)));
+            String currentPercentage = df.format(((double) totalWork - remainingWork) / ((double) totalWork));
+            if (!currentPercentage.equals(lastPercent)) {
+                lastPercent = currentPercentage;
+                LOG.info("{} done", currentPercentage);
+            }
         }
     }
 

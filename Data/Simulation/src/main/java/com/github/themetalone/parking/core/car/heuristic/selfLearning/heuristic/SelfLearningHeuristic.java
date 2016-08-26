@@ -55,8 +55,10 @@ public abstract class SelfLearningHeuristic<T> implements Heuristic<T>, Observer
     private String getParamString(T param) {
         if (param instanceof Collection) {
             String result = "";
+            boolean firstEntry = true;
             for (Object o : (Collection) param) {
-                result += ", " + o.toString();
+                result += (firstEntry ? "" : ", ") + o.toString();
+                firstEntry = false;
             }
             return result;
         } else {
