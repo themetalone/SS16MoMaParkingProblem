@@ -13,25 +13,23 @@ Zusätzlich werden die \emph{car-count heuristic} und die \emph{space-count heur
 Bei der \emph{block-count heuristic} wählt der Fahrer einen Parkplatz, wenn er zuvor an einer gewählten Anzahl an geparkten Autos, ohne einen freien Platz dazwischen, vorbei gefahren ist.\\
 Ähnlich funktioniert die \emph{x-out-of-y heuristic}, wobei der Fahrer einen Platz wählt, wenn er an y (oder weniger) Plätzen vorbei gefahren ist und innerhalb dieses Blockes mindestens x Plätze besetzt waren. 
 
-Zuletzt wird die \emph{linear-operator heuristic} beschrieben. Dabei wird ständig der Wert $z_i$, wie folgt, berechnet: $z_i=a\cdotz_{i-1}+b_i$. Dabei ist $a<1$ eine Konstante, die bestimmt, wie schnell ,,vergessen'' wird. $z_0=0$ und $b_i=\lbrace 0$, falls der i-te Platz frei ist $-1$, wenn der i-te Platz besetzt ist. %TODO Klammer bitte schön machen, dass die Klammer groß ist und 0 und -1 untereinander stehen\\
+Zuletzt wird die \emph{linear-operator heuristic} beschrieben. Dabei wird ständig der Wert $z_i$, wie folgt, berechnet: $z_i=a\cdot z_{i-1}+b_i$. Dabei ist $a<1$ eine Konstante, die bestimmt, wie schnell ,,vergessen'' wird. $z_0=0$ und $b_i=\lbrace 0$, falls der i-te Platz frei ist $-1$, wenn der i-te Platz besetzt ist. %TODO Klammer bitte schön machen, dass die Klammer groß ist und 0 und -1 untereinander stehen\\
 Falls $z_j>z_T$, wobei $z_T$ ein vom Fahrer gewählter Wert ist, wählt der Fahrer den j-ten Parkplatz, wenn j die Position des ersten freien Parkplatzes ist, bei dem die Ungleichung erfüllt ist. 
 
 \subsection{Das Lernen der Heuristikparameter}
-Um jeweils die beste Konfiguration einer Heurisitk zu ermitteln, wird ein Lernalgorithmus während der Simulation angewandt. Hutchinson et al \textbf{cite} verwenden in ihrem Model dazu einen evolutionären Ansatz, bei dem in regelmäßigen Intervallen eine Selektion der erfolgreichsten Heuristiken stattfinded. Zu Beginn der Simulation erhält jeder Autofahrer eine zufällige Heuristik mit ebenfalls zufälliger Konfiguration. Nach festgelegten Intervallen werden die erfolgreichsten 10 Heuristiken ermittelt und diese auf die gesamte Population übertragen. Um eine fortlaufende Verbesserung der gefundenen Heurstikkonfigurationen zu gewährleisten, erhält ein festgelegter Prozentsatz der Population neue zufällig konfigurierte Heuristiken. Bei entsprechender Simulationslänge ergibt sich dadurch ein Gleichgewichtszustand von Heuristiken. 
+Um jeweils die beste Konfiguration einer Heuristik zu ermitteln, wird ein Lernalgorithmus während der Simulation angewandt. Hutchinson et al \textbf{cite} verwenden in ihrem Model dazu einen evolutionären Ansatz, bei dem in regelmäßigen Intervallen eine Selektion der erfolgreichsten Heuristiken stattfindet. Zu Beginn der Simulation erhält jeder Autofahrer eine zufällige Heuristik mit ebenfalls zufälliger Konfiguration. Nach festgelegten Intervallen werden die erfolgreichsten 10 Heuristiken ermittelt und diese auf die gesamte Population übertragen. Um eine fortlaufende Verbesserung der gefundenen Heurstikkonfigurationen zu gewährleisten, erhält ein festgelegter Prozentsatz der Population neue zufällig konfigurierte Heuristiken. Bei entsprechender Simulationslänge ergibt sich dadurch ein Gleichgewichtszustand von Heuristiken. 
 
-Diese Art des Lernens ist jedoch auf das reale Problem schwer anwendbar. Es ist unwahrscheinlich, dass sich die gesamte Population, also alle Autofahrer der Umgebung, regelmäßig treffen und die zehn besten Strategien feststellen. Im Allgemeinen kann davon ausgegangen werden, dass keine produktive Kommunikation zwischen den Individuen stattfindet. Um dennoch eine optimale Konfiguration für eine Heurstik lernen zu können, muss sich das Lernen auf die Erfahrungen des Individuums beschränken. 
+Diese Art des Lernens ist jedoch in der Reaalität schwer anwendbar. Es ist unwahrscheinlich, dass sich die gesamte Population, also alle Autofahrer der Umgebung, regelmäßig treffen und die zehn besten Strategien feststellen. Im Allgemeinen kann davon ausgegangen werden, dass keine produktive Kommunikation zwischen den Individuen stattfindet. Um dennoch eine optimale Konfiguration für eine Heurstik lernen zu können, muss sich das Lernen auf die Erfahrungen des Individuums beschränken. 
 
-Aus diesem Grund erhält in dem hier verwendeten Modell jeder Fahrer ein Gedächtnis, aus dem sich eine Konfiguration generieren lässt. Das hier verwendete Gedächtnis ist beschränkt, vergisst priorisierend und aktualisiert die Effizienzs der Konfiguirationen
+Aus diesem Grund erhält in dem hier verwendeten Modell jeder Fahrer ein Gedächtnis, aus dem sich eine Konfiguration generieren lässt. Das hier verwendete Gedächtnis ist beschränkt, vergisst priorisierend und aktualisiert die Effizienz der Konfigurationen. In diesem Zusammenhang bedeutet \emph{priorisierendes Vergessen}, dass eine neue Konfiguration nur dann in das Gedächtnis aufgenommen wird, wenn mit dieser ein besserer Parkplatz gefunden wurde als mit einer der bereits im Gedächtnis vorhandenen Konfigurationen. Die Konfiguration, mit der der schwächste Parkplatz gefunden wurde, wird dann durch die neue ersetzt. Befindet sich die neue Konfiguration bereits im Gedächtnis wird lediglich die Güte des gefundenen Parkplatzes aktualisiert (die \emph{Aktualisierung der Effizienz}).
 
+Um nun aus dem Gedächtnis eine neue Konfiguration $x^*$ zu lernen wird das gewichtete arithmetische Mittel 
 
-%TODO Realitätsfern weil
-%TODO Gekapseltes Lernen
-%TODO Wie
+\begin{align}
+	x^{*} &= \frac{\sum\limits_{x \in M} \omega (x) \cdot x}{\sum\limits_{x \in M} \omega (x)}\label{form_gelernterParameter}
+\end{align}
+ berechnet. Dabei steht $M$ für das Gedächtnis, $x\in M$ für die Konfigurationen im Gedächtnis und $\omega : M \rightarrow \mathbb{R}$ für die Gewichtsfunktion. Für die Simulation wurden zwei Gewichtsfunktionen in Betracht gezogen.
 
-%TODO wie lernt der Algorithmus??
-\begin{itemize}
-	\item Wann ist ein Parkplatz gut
-	\item Was kann man tun, um einen guten Parkplatz zu wählen
-	\item welche Heuristiken werden weshalb betrachtet
-	\item Wie wird gelernt
-\end{itemize}
+In der ersten Variante wird die Parkfläche in vier äquvidistante Abschnitte unterteilt. Jeder der Abschnitte erhält ein Gewicht, wobei Abschnitte ein größeres Gewicht erhalten wenn sie näher am Ziel liegen. Die gelernte Konfiguration tendiert dann stärker in Richtung derer, mit deren Hilfe bessere Parkplätze gefunden wurden. Dieser Effekt ist bei entsprechnd großen Gewichtsdifferenzen zwischen den Quadranten am Größten. Liegen jedoch hauptsächlich oder nur Konfigurationen mit dem gleichen Gewicht vor verläuft das Lernen langsamer. 
+
+Um solche starken Sprünge in der Lerngeschwindigkeit zu vermeiden und um eine bessere differenzierung zwischen den Parkplätzen nahe des Ziels zu gewährleisten wird in der hier durchgeführten Simulation jedem Parkplatz eine individuelle Gewichtung zugeordnet. Die Gewichte betragen jeweils den Kehrwert der Entfernung des Parkplatzes zum Ziel. Der ideale Parkplatz direkt vor dem Ziel und mit Entfernung $0$ erhält das Gewicht $2$. Konfigurationen, mit denen in der Nähe des Ziels geparkt wurde, werden so wesentlich stärker gewichtet als diese, mit denen ein Parkplatz mit größerer Entfernung erreicht wurde. Gleichzeitig sind die Gewichte für die besten Parkplätze die mit den größten Differenzen zu ihren Vorgängern und Nachfolgern, womit eine hohe Lerngeschwindigkeit auch unter ähnlich guten Konfigurationen eintritt. 
