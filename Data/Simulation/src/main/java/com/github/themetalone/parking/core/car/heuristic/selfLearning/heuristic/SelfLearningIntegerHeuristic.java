@@ -2,6 +2,7 @@ package com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic
 
 import com.github.themetalone.parking.core.car.heuristic.Heuristic;
 import com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.AbstractMemory;
+import com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory;
 import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
@@ -28,5 +29,10 @@ public class SelfLearningIntegerHeuristic extends SelfLearningHeuristic<Integer>
     @Override
     protected SelfLearningHeuristic<Integer> makeCopy() {
         return new SelfLearningIntegerHeuristic(heuristic, memory, mutationRate, realDistribution, integerDistribution, simulationDataCollector);
+    }
+
+    @Override
+    public SelfLearningHeuristic<Integer> cleanCopy() {
+        return new SelfLearningIntegerHeuristic(heuristic, new IntegerMemory(memory.getMaxSize()), mutationRate, realDistribution, integerDistribution, simulationDataCollector);
     }
 }

@@ -8,6 +8,8 @@ import com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.w
  */
 public class IntegerMemory extends AbstractMemory<Integer> {
 
+
+
     public IntegerMemory(int initialCapacity) {
         super(initialCapacity);
     }

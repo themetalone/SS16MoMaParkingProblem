@@ -97,6 +97,8 @@ public abstract class SelfLearningHeuristic<T> implements Heuristic<T>, Observer
 
     protected abstract SelfLearningHeuristic<T> makeCopy();
 
+    public abstract SelfLearningHeuristic<T> cleanCopy();
+
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Street && arg instanceof Long) {
