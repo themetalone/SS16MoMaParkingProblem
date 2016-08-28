@@ -8,3 +8,5 @@ Simulation/lib/
 *.toc
 Vortrag/ParkingProblem.pdf
 Ausarbeitung/ParkingProblem.pdf
+*.gz
+Data/Datenbanken/

@@ -1,4 +1,44 @@
 \section{Ergebnisse der Simulation}
 
+Simulationen der Parkplatzsuche wurden durchgeführt. Dabei wurden verschiedene Parameter gespeichert. Somit standen nach den Simulationen Tabellen zur Verfügung, in denen die Parameter der Parkheuristik und die Position des gewählten Parkplatzes in Abhängigkeit der Zeit angegeben wurden. \\
+Mit Hilfe dieser Tabellen wurden Graphen erzeugt, die vollständig im Anhang zu finden sind.\\
+Innerhalb der Arbeit wird zu jeder Situation lediglich der Graph der Heuristik, die den besten Parkplatz, und die die den schlechtesten Parkplatz gewählt hat ausführlich betrachtet. Um die Güte des durchschnittlichen Parkplatzes zu bestimmen, wurde die lineare Approximation der Distanz betrachtet. \\
+\subsection{Ein lernender Fahrer}
+\subsubsection{1 Auto pro Minute}
+
+Bei diesem geringen Verkehrsaufkommen unterscheiden sich die Heuristiken in ihrer Güte kaum. Nahezu immer liegt der Parkplatz im Mittel zwischen 26 und 28.\\
+Bei einem niedrigen Aufkommen an Autos findet die \emph{block count Heuristik} nach der oben beschriebenen Betrachtung die besten Parkplätze.
+%TODO Diagramm blockcount1 einfügen.\\
+Hierbei wird der Parkplatz gewählt, der etwa 26  Plätze von der Destination entfernt ist. Dabei liegt der Parameterwert, also die Menge an direkt hintereinander geparkten Autos, an denen der lernende Fahrer vorbei fährt, bei etwa 43.\\
+Der schlechteste Parkplatz wird von der \emph{car count Heuristik} gewählt. \\
+%TODO Diagramm carcount1 einfügen.\\
+Dieser ist sogar mehr als doppelt so weit von der Destination entfernt (54).
+Hierbei lernt der Fahrer an etwa 75 geparkten Autos vorbei zu fahren, bevor er den nächsten freien Parkplatz wählt.\\
+Man sieht an den Graphen, dass es zwar im Durchschnitt sinnvoll ist, Blöcke zu zählen, Autos zu zählen führt jedoch zu einer stabileren Verteilung.\\
+Somit ist der Parkplatz im Mittel zwar wesentlich schlechter, jedoch ist es nahezu garantiert, dass man nie wesentlich schlechter parkt.
+
+\subsubsection{2 Autos pro Minute}
+
+Verändert sich das Verkehrsaufgebot, so werden Unterschiede in den Erfolgen der Heuristiken deutlicher.\\
+Auch bei mittlerem Verkehrsaufkommen erscheint es sinnvoll, die \emph{block count Heuristik} anzuwenden, denn auch hier findet diese den besten Parkplatz.
+%TODO Diagramm blockcount2 einfügen.\\
+Aufgrund dessen, dass mehr Parkplätze belegt werden, entfernt sich der mittlere Parkplatz von der Destination, im Vergleich zum mittleren Parkplatz, wenn lediglich ein Auto pro Minute auf den Parkplatz fährt.\\
+Mit der block count Heuristik wird nun ein Platz gewählt, der etwa 46 Plätze vom Ziel entfernt ist. Wobei der lernende Fahrer beschließt an 62 hintereinander geparkten Autos vorbei zu fahren um danach einen Parkplatz zu finden. Dabei ist die Näherungsgerade jedoch steigend, was bedeutet, der Fahrer würde bei weiteren Wiederholungen weiter lernen und möglicherweise an mehr geparkten Autos vorbei fahren.\\
+Der schlechteste Parkplatz wird in diesem Fall bei der  \emph{x out of y Heuristik} gewählt. \\
+%TODO xy2 einfügen.\\
+Dabei beträgt der Abstand zum Ziel etwa 53 Plätze. Dieser wird dadurch gefunden, dass der Fahrer einen Parkplatz wählt, sobald er an einem Block von 53 Parkplätzen vorbeigefahren ist, von denen 40 besetzt waren.\\
+Hier hätte man erwarten können, dass X und Y sich annähern, da bei X=Y die block count Heuristik erreicht wird. Man stellt jedoch fest, dass in diesem Fall der Abstand zwischen X und Y relativ stabil bei 13 bleibt.\\
+Zusätzlich zeigt dieses Kapitel, dass es durchaus sinnvoll ist, verschiedene Dichten an ankommenden Autos zu betrachten, so ist die car count Heuristik nicht nur als schlechteste Heuristik ersetzt worden, man sieht sogar, dass dieses die einzige Heuristik ist, bei der sich der Parkplatz nicht verschlechtert, es wird dort sogar nur noch 53 Plätze vom Ziel entfernt geparkt.
+
+\subsubsection{4 Autos pro Minute} 
+
+In diesem Fall ändert sich nichts daran, welche Heuristik am besten und welche am schlechtesten abschneidet.\\
+Bei der Block count Heuristik wird nun ein Platz gewählt, der etwa 63 Plätze vom Ziel entfernt ist und bei x out of y ist er etwa 74 Plätze vom Ziel entfernt. \\
+Während hier jedoch bei der Block count Heuristik die Approximationsgerade nahezu parallel zur X-Achse ist, ist sie bei x out of y fallend. Dies ist bei den beiden schlechtesten Heuristiken so. Auch die fixed distance Heuristik findet derzeit einen Parkplatz der etwa 68 Plätze von der Destination entfernt ist, hat sich jedoch im Verlauf der Simulation signifikant verbessert.\\
+Ebenso fällt auf, dass der Abstand von X zu Y etwas verkleinert wurde. Dieser beträgt nun lediglich noch 5, wobei auch die Blöcke verkleinert wurden. Hier müssen nun noch 37 von 42 Plätzen belegt sein, um danach einen Parkplatz zu wählen.\\
+Der Parameter der Block count Heuristik hat sich nahezu nicht mehr verändert und liegt nun bei 63.\\
+
+Würden also alle Anderen zufällig einen Parkplatz auswählen und nur man selbst würde lernen, so wäre es bei jedem Verkehrsaufkommen optimal die block count Heuristik anzuwenden und lediglich die Blocklänge an das Verkehrsaufkommen anzupassen. 
 
 \subsection{Ausblick}
+

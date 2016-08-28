@@ -162,4 +162,9 @@ public class HutchinsonStreetImpl extends Observable implements Street {
         }
 
     }
+
+    public void setObservers(Collection<Observer> observers){
+        observers.stream().forEach(this::addObserver);
+    }
+
 }

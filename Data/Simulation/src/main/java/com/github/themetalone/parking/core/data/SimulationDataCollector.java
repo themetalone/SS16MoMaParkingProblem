@@ -41,5 +41,5 @@ public interface SimulationDataCollector {
      */
     void close();
 
-    void putHeuristicData(long tick, String heuristic);
+    void putHeuristicData(long tick, String heuristicName, String parameters, int distance);
 }

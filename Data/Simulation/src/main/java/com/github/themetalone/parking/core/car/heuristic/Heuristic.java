@@ -1,12 +1,13 @@
 package com.github.themetalone.parking.core.car.heuristic;
 
+import com.github.themetalone.parking.core.car.heuristic.selfLearning.Parameter;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 
 /**
  * Base Interface for heuristics
  * Created by steff on 11.07.2016.
  */
-public interface Heuristic {
+public interface Heuristic<T> {
 
     /**
      * Decides if a parking slot is to be chosen by the car
@@ -19,6 +20,13 @@ public interface Heuristic {
     /**
      * @return a new Heuristic object with the same configuration as this one
      */
-    Heuristic copy();
+    Heuristic<T> copy();
+
+    /**
+     * @return the parameter of this heuristic
+     */
+    T getParam();
+
+    void setParam(T param);
 
 }

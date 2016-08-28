@@ -15,25 +15,10 @@ public class ParkingSlotImpl implements ParkingSlot {
 
     private SimulationDataCollector simulationDataCollector;
 
-    public ParkingSlotImpl(SimulationDataCollector simulationDataCollector) {
-        this.simulationDataCollector = simulationDataCollector;
-        this.id = getCounter();
-
-    }
-
     public ParkingSlotImpl(int id, SimulationDataCollector simulationDataCollector) {
         this.simulationDataCollector = simulationDataCollector;
         this.id = id;
-        counter = id;
     }
-
-    public static int getCounter() {
-        counter++;
-
-        return counter;
-    }
-
-    private static int counter = -1;
 
     private boolean occupied;
     private int distance = 0;

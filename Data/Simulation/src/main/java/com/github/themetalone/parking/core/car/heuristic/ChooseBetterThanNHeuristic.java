@@ -1,14 +1,15 @@
 package com.github.themetalone.parking.core.car.heuristic;
 
+import com.github.themetalone.parking.core.car.heuristic.selfLearning.Parameter;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 
 /**
  * Implementation of the ''Chose Better than n'' heuristic
  * Created by steff on 11.07.2016.
  */
-public class ChooseBetterThanNHeuristic implements Heuristic{
+public class ChooseBetterThanNHeuristic implements Heuristic<Integer>{
 
-    private final int threshold;
+    protected int threshold;
     private int lastDistance = Integer.MAX_VALUE;
 
     /**
@@ -34,6 +35,16 @@ public class ChooseBetterThanNHeuristic implements Heuristic{
     @Override
     public Heuristic copy() {
         return new ChooseBetterThanNHeuristic(threshold);
+    }
+
+    @Override
+    public Integer getParam() {
+        return threshold;
+    }
+
+    @Override
+    public void setParam(Integer param) {
+        this.threshold =  param;
     }
 
     @Override

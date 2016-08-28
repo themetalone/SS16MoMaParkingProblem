@@ -15,6 +15,8 @@ import java.util.function.Predicate;
  */
 public class ParkingSlotProviderImpl implements ParkingSlotProvider {
 
+    private int id = -1;
+
     private Collection<ParkingSlot> parkingSlots;
 
     public SimulationDataCollector getSimulationDataCollector() {
@@ -44,7 +46,7 @@ public class ParkingSlotProviderImpl implements ParkingSlotProvider {
         if (parkingSlots.stream().anyMatch(findId)) {
             return parkingSlots.stream().filter(findId).findFirst().get();
         } else {
-
+            this.id = id;
             ParkingSlot p = new ParkingSlotImpl(id, simulationDataCollector);
             parkingSlots.add(p);
             return p;
@@ -54,6 +56,7 @@ public class ParkingSlotProviderImpl implements ParkingSlotProvider {
 
     @Override
     public ParkingSlot next() {
-        return new ParkingSlotImpl(simulationDataCollector);
+        id++;
+        return new ParkingSlotImpl(id,simulationDataCollector);
     }
 }

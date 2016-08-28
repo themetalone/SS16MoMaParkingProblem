@@ -1,4 +1,4 @@
-package com.github.themetalone.parking.core;
+package com.github.themetalone.parking.core.simulations;
 
 import com.github.themetalone.parking.core.data.SimulationDataCollector;
 import com.github.themetalone.parking.core.street.Street;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Main Simulation class. Controls the simulation
  * Created by steff on 12.07.2016.
  */
-public class Simulation {
+public class SingleCaseSimulation implements Simulation {
 
     private Logger LOG = LoggerFactory.getLogger(Simulation.class);
     private long ticks;
@@ -18,7 +18,7 @@ public class Simulation {
     /**
      * @param simulationDataCollector the SimulationDataCollector to be used
      */
-    public void setSimulationDataCollector(SimulationDataCollector simulationDataCollector) {
+    @Override public void setSimulationDataCollector(SimulationDataCollector simulationDataCollector) {
         this.simulationDataCollector = simulationDataCollector;
     }
 
@@ -30,7 +30,7 @@ public class Simulation {
      * @param streetProvider the provider of a street object
      * @param ticks          number of ticks the simulation will run. A tick is the discrete time unit of the simulation
      */
-    public Simulation(StreetProvider streetProvider, long ticks) {
+    public SingleCaseSimulation(StreetProvider streetProvider, long ticks) {
         this.ticks = ticks;
         this.streetProvider = streetProvider;
     }
@@ -40,7 +40,7 @@ public class Simulation {
     /**
      * Simulates the Parking Problem
      */
-    public void simulate() {
+    @Override public void simulate() {
         LOG.info("Starting simulation with {} time steps", ticks);
         Street street = streetProvider.next();
         for (int i = 0; i < ticks; i++) {

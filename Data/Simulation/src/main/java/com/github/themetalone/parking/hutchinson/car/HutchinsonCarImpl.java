@@ -129,6 +129,6 @@ public class HutchinsonCarImpl extends Observable implements Car {
         if (sample < 0) {
             sample = 0;
         }
-        return (int) sample + parkingSlotProvider.getObject(parkingSlot).getDistance() * 5;
+        return (int) sample + parkingSlotProvider.getObject(parkingSlot).getDistance() * 2;
     }
 }

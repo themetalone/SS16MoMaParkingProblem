@@ -52,13 +52,15 @@ public class H2SimulationDataCollectorImpl implements SimulationDataCollector {
     }
 
     @Override
-    public void putHeuristicData(long tick, String heuristic) {
+    public void putHeuristicData(long tick, String heuristicName, String parameters, int distance) {
         try {
             if(heuristicBatchStatement == null || heuristicBatchStatement.isClosed()){
-                heuristicBatchStatement = connection.prepareStatement("INSERT INTO PS.HEURISTICS (ID, HEURISTIC) VALUES (?,?)");
+                heuristicBatchStatement = connection.prepareStatement("INSERT INTO PS.HEURISTICS (ID, HEURISTIC, PARAM, DISTANCE) VALUES (?,?,?,?)");
             }
             heuristicBatchStatement.setLong(1,tick);
-            heuristicBatchStatement.setString(2,heuristic);
+            heuristicBatchStatement.setString(2,heuristicName);
+            heuristicBatchStatement.setString(3,parameters);
+            heuristicBatchStatement.setInt(4,distance);
             heuristicBatchStatement.addBatch();
             heuristicBatchSize++;
             if(heuristicBatchSize > batchThreshold){
@@ -109,7 +111,7 @@ public class H2SimulationDataCollectorImpl implements SimulationDataCollector {
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.PARKING_SPOTS (ID INTEGER PRIMARY KEY ,DISTANCE INTEGER);");
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.CARDATA (ID INTEGER ,DISTANCE INTEGER,TICK BIGINT, PRIMARY KEY (ID,TICK));");
             stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.PARKINGDATA (STATE VARCHAR(255),TICK BIGINT PRIMARY KEY);");
-            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.HEURISTICS (ID BIGINT, HEURISTIC VARCHAR(255))");
+            stmnt.addBatch("CREATE TABLE IF NOT EXISTS PS.HEURISTICS (ID BIGINT, HEURISTIC VARCHAR(255), PARAM VARCHAR(255), DISTANCE INTEGER)");
             stmnt.addBatch("DELETE FROM PS.CARS WHERE TRUE");
             stmnt.addBatch("DELETE FROM PS.CARDATA WHERE TRUE");
             stmnt.addBatch("DELETE FROM PS.PARKING_SPOTS WHERE TRUE");
@@ -118,7 +120,7 @@ public class H2SimulationDataCollectorImpl implements SimulationDataCollector {
             stmnt.executeBatch();
             stmnt.close();
             connection = DriverManager.getConnection(jdbcUrl, "simulation", "simulation");
-            LOG.info("Storage Initialization done");
+            LOG.info("Storage Initialization done for {}.h2.db",location);
             LOG.info("usr:simulation, pw:simulation");
             LOG.info("schema:PS");
             LOG.info("Tables:CARS, CARSDATA, PARKING_SPOTS, PARKINGDATA, HEURISTICS");
