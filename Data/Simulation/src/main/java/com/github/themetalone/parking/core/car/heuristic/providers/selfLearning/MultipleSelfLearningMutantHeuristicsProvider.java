@@ -3,13 +3,14 @@ package com.github.themetalone.parking.core.car.heuristic.providers.selfLearning
 import com.github.themetalone.parking.core.car.heuristic.Heuristic;
 import com.github.themetalone.parking.core.car.heuristic.providers.HeuristicProvider;
 import com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningHeuristic;
-import com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic;
-import com.github.themetalone.parking.core.simulations.MultipleCasesParallelSimulation;
 import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by steff on 28.08.2016.
