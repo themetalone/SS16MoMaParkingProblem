@@ -33,6 +33,9 @@ public class SelfLearningIntegerHeuristic extends SelfLearningHeuristic<Integer>
 
     @Override
     public SelfLearningHeuristic<Integer> cleanCopy() {
-        return new SelfLearningIntegerHeuristic(heuristic, new IntegerMemory(memory.getMaxSize()), mutationRate, realDistribution, integerDistribution, simulationDataCollector);
+        SelfLearningHeuristic result =  new SelfLearningIntegerHeuristic(heuristic, new IntegerMemory(memory.getMaxSize()), mutationRate, realDistribution, integerDistribution, simulationDataCollector);
+        result.observable = this.observable;
+        this.observable.addObserver(result);
+        return result;
     }
 }

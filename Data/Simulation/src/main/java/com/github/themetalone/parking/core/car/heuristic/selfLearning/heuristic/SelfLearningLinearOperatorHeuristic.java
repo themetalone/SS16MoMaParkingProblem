@@ -38,6 +38,9 @@ public class SelfLearningLinearOperatorHeuristic extends SelfLearningHeuristic<L
 
     @Override
     public SelfLearningHeuristic<List<Double>> cleanCopy() {
-        return new SelfLearningLinearOperatorHeuristic(heuristic, new LinearOperatorMemory(memory.getMaxSize()), mutationRate, realDistribution, velocityDistribution, thresholdDistribution, simulationDataCollector);
+        SelfLearningHeuristic result = new SelfLearningLinearOperatorHeuristic(heuristic, new LinearOperatorMemory(memory.getMaxSize()), mutationRate, realDistribution, velocityDistribution, thresholdDistribution, simulationDataCollector);
+        result.observable = this.observable;
+        this.observable.addObserver(result);
+        return result;
     }
 }

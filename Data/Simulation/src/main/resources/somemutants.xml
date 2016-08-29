@@ -70,6 +70,16 @@
                 <constructor-arg index="1" value="80"/> <!--waits at most 80 ticks, mean of 2 Cars per minute -->
             </bean>
         </constructor-arg>
+        <property name="observers">
+            <list>
+                <ref bean="SomeMutants1pmBlockCount"/>
+                <ref bean="SomeMutants1pmCarCount"/>
+                <ref bean="SomeMutants1pmFixedDist"/>
+                <ref bean="SomeMutants1pmSpaceCount"/>
+                <ref bean="SomeMutants1pmXOutOfY"/>
+                <ref bean="SomeMutants1pmLinOp"/>
+            </list>
+        </property>
     </bean>
     <bean name="SomeMutants1pmCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
         <constructor-arg value="./SomeMutants1pm"/>
@@ -78,143 +88,18 @@
           class="com.github.themetalone.parking.core.car.heuristic.providers.selfLearning.MultipleSelfLearningMutantHeuristicsProvider">
         <constructor-arg index="0">
             <list>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
-                            <constructor-arg index="0" value="5"/>
-                            <constructor-arg index="1" value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="SomeMutants1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
-                            <constructor-arg index="0" value="0.5"/>
-                            <constructor-arg index="1" value="5"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="SomeMutants1pmCollector"/>
-                </bean>
+                <ref bean="SomeMutants1pmBlockCount"/>
+                <ref bean="SomeMutants1pmCarCount"/>
+                <ref bean="SomeMutants1pmFixedDist"/>
+                <ref bean="SomeMutants1pmSpaceCount"/>
+                <ref bean="SomeMutants1pmXOutOfY"/>
+                <ref bean="SomeMutants1pmLinOp"/>
             </list>
         </constructor-arg>
         <constructor-arg index="1" ref="PopulationHeuristic"/>
         <constructor-arg index="2" ref="SomeMutantsRatio"/>
         <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
         <constructor-arg index="4" ref="SomeMutantsLimit"/>
-        <property name="observable" ref="SomeMutants1pmStreet"/>
     </bean>
     <bean name="SomeMutants1pmParkingSpotProvider"
           class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
@@ -229,6 +114,143 @@
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="parkingSlotProvider" ref="SomeMutants1pmParkingSpotProvider"/>
     </bean>
+    <bean name="SomeMutants1pmBlockCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants1pmCollector"/>
+    </bean>
+    <bean name="SomeMutants1pmCarCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants1pmCollector"/>
+    </bean>
+    <bean name="SomeMutants1pmFixedDist"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants1pmCollector"/>
+    </bean>
+    <bean name="SomeMutants1pmSpaceCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants1pmCollector"/>
+    </bean>
+    <bean name="SomeMutants1pmXOutOfY"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
+                <constructor-arg index="0" value="5"/>
+                <constructor-arg index="1" value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="SomeMutants1pmCollector"/>
+    </bean>
+    <bean name="SomeMutants1pmLinOp"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
+                <constructor-arg index="0" value="0.5"/>
+                <constructor-arg index="1" value="5"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="SomeMutants1pmCollector"/>
+    </bean>
+
 
     <!-- Some Mutants with 2pm -->
     <bean name="SomeMutants2pmStreet" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetImpl">
@@ -242,6 +264,16 @@
                 <constructor-arg index="1" value="40"/> <!--waits at most 80 ticks, mean of 2 Cars per minute -->
             </bean>
         </constructor-arg>
+        <property name="observers">
+            <list>
+                <ref bean="SomeMutants2pmBlockCount"/>
+                <ref bean="SomeMutants2pmCarCount"/>
+                <ref bean="SomeMutants2pmFixedDist"/>
+                <ref bean="SomeMutants2pmSpaceCount"/>
+                <ref bean="SomeMutants2pmXOutOfY"/>
+                <ref bean="SomeMutants2pmLinOp"/>
+            </list>
+        </property>
     </bean>
     <bean name="SomeMutants2pmCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
         <constructor-arg value="./SomeMutants2pm"/>
@@ -250,143 +282,18 @@
           class="com.github.themetalone.parking.core.car.heuristic.providers.selfLearning.MultipleSelfLearningMutantHeuristicsProvider">
         <constructor-arg index="0">
             <list>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
-                            <constructor-arg index="0" value="5"/>
-                            <constructor-arg index="1" value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="SomeMutants2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
-                            <constructor-arg index="0" value="0.5"/>
-                            <constructor-arg index="1" value="5"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="SomeMutants2pmCollector"/>
-                </bean>
+                <ref bean="SomeMutants2pmBlockCount"/>
+                <ref bean="SomeMutants2pmCarCount"/>
+                <ref bean="SomeMutants2pmFixedDist"/>
+                <ref bean="SomeMutants2pmSpaceCount"/>
+                <ref bean="SomeMutants2pmXOutOfY"/>
+                <ref bean="SomeMutants2pmLinOp"/>
             </list>
         </constructor-arg>
         <constructor-arg index="1" ref="PopulationHeuristic"/>
         <constructor-arg index="2" ref="SomeMutantsRatio"/>
         <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
         <constructor-arg index="4" ref="SomeMutantsLimit"/>
-        <property name="observable" ref="SomeMutants2pmStreet"/>
     </bean>
     <bean name="SomeMutants2pmParkingSpotProvider"
           class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
@@ -401,6 +308,143 @@
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="parkingSlotProvider" ref="SomeMutants2pmParkingSpotProvider"/>
     </bean>
+    <bean name="SomeMutants2pmBlockCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants2pmCollector"/>
+    </bean>
+    <bean name="SomeMutants2pmCarCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants2pmCollector"/>
+    </bean>
+    <bean name="SomeMutants2pmFixedDist"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants2pmCollector"/>
+    </bean>
+    <bean name="SomeMutants2pmSpaceCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants2pmCollector"/>
+    </bean>
+    <bean name="SomeMutants2pmXOutOfY"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
+                <constructor-arg index="0" value="5"/>
+                <constructor-arg index="1" value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="SomeMutants2pmCollector"/>
+    </bean>
+    <bean name="SomeMutants2pmLinOp"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
+                <constructor-arg index="0" value="0.5"/>
+                <constructor-arg index="1" value="5"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="SomeMutants2pmCollector"/>
+    </bean>
+
 
     <!-- Some Mutants with 4pm -->
     <bean name="SomeMutants4pmStreet" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetImpl">
@@ -414,6 +458,16 @@
                 <constructor-arg index="1" value="20"/> <!--waits at most 80 ticks, mean of 2 Cars per minute -->
             </bean>
         </constructor-arg>
+        <property name="observers">
+            <list>
+                <ref bean="SomeMutants4pmBlockCount"/>
+                <ref bean="SomeMutants4pmCarCount"/>
+                <ref bean="SomeMutants4pmFixedDist"/>
+                <ref bean="SomeMutants4pmSpaceCount"/>
+                <ref bean="SomeMutants4pmXOutOfY"/>
+                <ref bean="SomeMutants4pmLinOp"/>
+            </list>
+        </property>
     </bean>
     <bean name="SomeMutants4pmCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
         <constructor-arg value="./SomeMutants4pm"/>
@@ -422,143 +476,18 @@
           class="com.github.themetalone.parking.core.car.heuristic.providers.selfLearning.MultipleSelfLearningMutantHeuristicsProvider">
         <constructor-arg index="0">
             <list>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="SomeMutants4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
-                            <constructor-arg index="0" value="5"/>
-                            <constructor-arg index="1" value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="SomeMutants4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
-                            <constructor-arg index="0" value="0.5"/>
-                            <constructor-arg index="1" value="5"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="SomeMutants4pmCollector"/>
-                </bean>
+                <ref bean="SomeMutants4pmBlockCount"/>
+                <ref bean="SomeMutants4pmCarCount"/>
+                <ref bean="SomeMutants4pmFixedDist"/>
+                <ref bean="SomeMutants4pmSpaceCount"/>
+                <ref bean="SomeMutants4pmXOutOfY"/>
+                <ref bean="SomeMutants4pmLinOp"/>
             </list>
         </constructor-arg>
         <constructor-arg index="1" ref="PopulationHeuristic"/>
         <constructor-arg index="2" ref="SomeMutantsRatio"/>
         <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
         <constructor-arg index="4" ref="SomeMutantsLimit"/>
-        <property name="observable" ref="SomeMutants2pmStreet"/>
     </bean>
     <bean name="SomeMutants4pmParkingSpotProvider"
           class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
@@ -573,6 +502,143 @@
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="parkingSlotProvider" ref="SomeMutants4pmParkingSpotProvider"/>
     </bean>
+    <bean name="SomeMutants4pmBlockCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants4pmCollector"/>
+    </bean>
+    <bean name="SomeMutants4pmCarCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants4pmCollector"/>
+    </bean>
+    <bean name="SomeMutants4pmFixedDist"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants4pmCollector"/>
+    </bean>
+    <bean name="SomeMutants4pmSpaceCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="SomeMutants4pmCollector"/>
+    </bean>
+    <bean name="SomeMutants4pmXOutOfY"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
+                <constructor-arg index="0" value="5"/>
+                <constructor-arg index="1" value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="SomeMutants4pmCollector"/>
+    </bean>
+    <bean name="SomeMutants4pmLinOp"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
+                <constructor-arg index="0" value="0.5"/>
+                <constructor-arg index="1" value="5"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="SomeMutants4pmCollector"/>
+    </bean>
+
 
     <!-- Battle Royal with 1pm -->
     <bean name="BR1pmStreet" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetImpl">
@@ -586,6 +652,16 @@
                 <constructor-arg index="1" value="80"/> <!--waits at most 80 ticks, mean of 2 Cars per minute -->
             </bean>
         </constructor-arg>
+        <property name="observers">
+            <list>
+                <ref bean="BR1pmBlockCount"/>
+                <ref bean="BR1pmCarCount"/>
+                <ref bean="BR1pmFixedDist"/>
+                <ref bean="BR1pmSpaceCount"/>
+                <ref bean="BR1pmXOutOfY"/>
+                <ref bean="BR1pmLinOp"/>
+            </list>
+        </property>
     </bean>
     <bean name="BR1pmCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
         <constructor-arg value="./BR1pm"/>
@@ -594,143 +670,18 @@
           class="com.github.themetalone.parking.core.car.heuristic.providers.selfLearning.MultipleSelfLearningMutantHeuristicsProvider">
         <constructor-arg index="0">
             <list>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
-                            <constructor-arg index="0" value="5"/>
-                            <constructor-arg index="1" value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="BR1pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
-                            <constructor-arg index="0" value="0.5"/>
-                            <constructor-arg index="1" value="5"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="BR1pmCollector"/>
-                </bean>
+                <ref bean="BR1pmBlockCount"/>
+                <ref bean="BR1pmCarCount"/>
+                <ref bean="BR1pmFixedDist"/>
+                <ref bean="BR1pmSpaceCount"/>
+                <ref bean="BR1pmXOutOfY"/>
+                <ref bean="BR1pmLinOp"/>
             </list>
         </constructor-arg>
         <constructor-arg index="1" ref="PopulationHeuristic"/> <!-- should never be used -->
         <constructor-arg index="2" value="1.1"/>
         <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
         <constructor-arg index="4" value="25"/>
-        <property name="observable" ref="BR1pmStreet"/>
     </bean>
     <bean name="BR1pmParkingSpotProvider"
           class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
@@ -745,6 +696,143 @@
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="parkingSlotProvider" ref="BR1pmParkingSpotProvider"/>
     </bean>
+    <bean name="BR1pmBlockCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR1pmCollector"/>
+    </bean>
+    <bean name="BR1pmCarCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR1pmCollector"/>
+    </bean>
+    <bean name="BR1pmFixedDist"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR1pmCollector"/>
+    </bean>
+    <bean name="BR1pmSpaceCount"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR1pmCollector"/>
+    </bean>
+    <bean name="BR1pmXOutOfY"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
+                <constructor-arg index="0" value="5"/>
+                <constructor-arg index="1" value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="BR1pmCollector"/>
+    </bean>
+    <bean name="BR1pmLinOp"
+          class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
+                <constructor-arg index="0" value="0.5"/>
+                <constructor-arg index="1" value="5"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="BR1pmCollector"/>
+    </bean>
+
 
     <!-- Battle Royal with 2pm -->
     <bean name="BR2pmStreet" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetImpl">
@@ -758,6 +846,16 @@
                 <constructor-arg index="1" value="40"/> <!--waits at most 80 ticks, mean of 2 Cars per minute -->
             </bean>
         </constructor-arg>
+        <property name="observers">
+            <list>
+                <ref bean="BR2pmBlockCount"/>
+                <ref bean="BR2pmCarCount"/>
+                <ref bean="BR2pmFixedDist"/>
+                <ref bean="BR2pmSpaceCount"/>
+                <ref bean="BR2pmXOutOfY"/>
+                <ref bean="BR2pmLinOp"/>
+            </list>
+        </property>
     </bean>
     <bean name="BR2pmCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
         <constructor-arg value="./BR2pm"/>
@@ -766,143 +864,18 @@
           class="com.github.themetalone.parking.core.car.heuristic.providers.selfLearning.MultipleSelfLearningMutantHeuristicsProvider">
         <constructor-arg index="0">
             <list>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
-                            <constructor-arg index="0" value="5"/>
-                            <constructor-arg index="1" value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="BR2pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
-                            <constructor-arg index="0" value="0.5"/>
-                            <constructor-arg index="1" value="5"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="BR2pmCollector"/>
-                </bean>
+                <ref bean="BR2pmBlockCount"/>
+                <ref bean="BR2pmCarCount"/>
+                <ref bean="BR2pmFixedDist"/>
+                <ref bean="BR2pmSpaceCount"/>
+                <ref bean="BR2pmXOutOfY"/>
+                <ref bean="BR2pmLinOp"/>
             </list>
         </constructor-arg>
         <constructor-arg index="1" ref="PopulationHeuristic"/> <!-- should never be used -->
         <constructor-arg index="2" value="1.1"/>
         <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
         <constructor-arg index="4" value="25"/>
-        <property name="observable" ref="BR2pmStreet"/>
     </bean>
     <bean name="BR2pmParkingSpotProvider"
           class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
@@ -917,6 +890,137 @@
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="parkingSlotProvider" ref="BR2pmParkingSpotProvider"/>
     </bean>
+    <bean name="BR2pmBlockCount" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR2pmCollector"/>
+    </bean>
+    <bean name="BR2pmCarCount" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR2pmCollector"/>
+    </bean>
+    <bean name="BR2pmFixedDist" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR2pmCollector"/>
+    </bean>
+    <bean name="BR2pmSpaceCount" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR2pmCollector"/>
+    </bean>
+    <bean name="BR2pmXOutOfY" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
+                <constructor-arg index="0" value="5"/>
+                <constructor-arg index="1" value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="BR2pmCollector"/>
+    </bean>
+    <bean name="BR2pmLinOp" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
+                <constructor-arg index="0" value="0.5"/>
+                <constructor-arg index="1" value="5"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="BR2pmCollector"/>
+    </bean>
+
 
     <!-- Battle Royal with 4pm -->
     <bean name="BR4pmStreet" class="com.github.themetalone.parking.hutchinson.street.HutchinsonStreetImpl">
@@ -930,6 +1034,16 @@
                 <constructor-arg index="1" value="20"/> <!--waits at most 80 ticks, mean of 2 Cars per minute -->
             </bean>
         </constructor-arg>
+        <property name="observers">
+            <list>
+                <ref bean="BR4pmBlockCount"/>
+                <ref bean="BR4pmCarCount"/>
+                <ref bean="BR4pmFixedDist"/>
+                <ref bean="BR4pmSpaceCount"/>
+                <ref bean="BR4pmXOutOfY"/>
+                <ref bean="BR4pmLinOp"/>
+            </list>
+        </property>
     </bean>
     <bean name="BR4pmCollector" class="com.github.themetalone.parking.core.data.H2SimulationDataCollectorImpl">
         <constructor-arg value="./BR4pm"/>
@@ -938,143 +1052,18 @@
           class="com.github.themetalone.parking.core.car.heuristic.providers.selfLearning.MultipleSelfLearningMutantHeuristicsProvider">
         <constructor-arg index="0">
             <list>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="5" ref="BR4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
-                            <constructor-arg index="0" value="5"/>
-                            <constructor-arg index="1" value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="BR4pmCollector"/>
-                </bean>
-                <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
-                    <constructor-arg index="0">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
-                            <constructor-arg index="0" value="0.5"/>
-                            <constructor-arg index="1" value="5"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="1">
-                        <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
-                            <constructor-arg value="10"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="2" ref="MutationRate"/>
-                    <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
-                    <constructor-arg index="5">
-                        <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
-                            <constructor-arg index="0" value="0"/>
-                            <constructor-arg index="1" value="100"/>
-                        </bean>
-                    </constructor-arg>
-                    <constructor-arg index="6" ref="BR4pmCollector"/>
-                </bean>
+                <ref bean="BR4pmBlockCount"/>
+                <ref bean="BR4pmCarCount"/>
+                <ref bean="BR4pmFixedDist"/>
+                <ref bean="BR4pmSpaceCount"/>
+                <ref bean="BR4pmXOutOfY"/>
+                <ref bean="BR4pmLinOp"/>
             </list>
         </constructor-arg>
         <constructor-arg index="1" ref="PopulationHeuristic"/> <!-- should never be used -->
         <constructor-arg index="2" value="1.1"/>
         <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
         <constructor-arg index="4" value="25"/>
-        <property name="observable" ref="BR4pmStreet"/>
     </bean>
     <bean name="BR4pmParkingSpotProvider"
           class="com.github.themetalone.parking.core.slot.ParkingSlotProviderImpl">
@@ -1089,5 +1078,136 @@
         <property name="realDistribution" ref="CarWaitingDistribution"/>
         <property name="parkingSlotProvider" ref="BR4pmParkingSpotProvider"/>
     </bean>
+    <bean name="BR4pmBlockCount" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.BlockCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR4pmCollector"/>
+    </bean>
+    <bean name="BR4pmCarCount" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.CarCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR4pmCollector"/>
+    </bean>
+    <bean name="BR4pmFixedDist" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.ChooseBetterThanNHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR4pmCollector"/>
+    </bean>
+    <bean name="BR4pmSpaceCount" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningIntegerHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.SpaceCountHeuristic">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.IntegerMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="5" ref="BR4pmCollector"/>
+    </bean>
+    <bean name="BR4pmXOutOfY" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningXOutOfYHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.XOutOfYHeuristic">
+                <constructor-arg index="0" value="5"/>
+                <constructor-arg index="1" value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.XOutOfYMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformIntegerDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="BR4pmCollector"/>
+    </bean>
+    <bean name="BR4pmLinOp" class="com.github.themetalone.parking.core.car.heuristic.selfLearning.heuristic.SelfLearningLinearOperatorHeuristic">
+        <constructor-arg index="0">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.LinearOperatorHeuristic">
+                <constructor-arg index="0" value="0.5"/>
+                <constructor-arg index="1" value="5"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.github.themetalone.parking.core.car.heuristic.selfLearning.memories.LinearOperatorMemory">
+                <constructor-arg value="10"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="2" ref="MutationRate"/>
+        <constructor-arg index="3" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="4" ref="ZeroToOneUniformRealDistribution"/>
+        <constructor-arg index="5">
+            <bean class="org.apache.commons.math3.distribution.UniformRealDistribution">
+                <constructor-arg index="0" value="0"/>
+                <constructor-arg index="1" value="100"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" ref="BR4pmCollector"/>
+    </bean>
+
 
 </beans>

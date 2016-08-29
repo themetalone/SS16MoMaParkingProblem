@@ -43,6 +43,9 @@ public class SelfLearningXOutOfYHeuristic extends SelfLearningHeuristic<List<Int
 
     @Override
     public SelfLearningHeuristic<List<Integer>> cleanCopy() {
-        return new SelfLearningXOutOfYHeuristic(heuristic, new XOutOfYMemory(memory.getMaxSize()), mutationRate, realDistribution, xRealDistribution, yIntegerDistribution, simulationDataCollector);
+        SelfLearningHeuristic result = new SelfLearningXOutOfYHeuristic(heuristic, new XOutOfYMemory(memory.getMaxSize()), mutationRate, realDistribution, xRealDistribution, yIntegerDistribution, simulationDataCollector);
+        result.observable = this.observable;
+        this.observable.addObserver(result);
+        return result;
     }
 }

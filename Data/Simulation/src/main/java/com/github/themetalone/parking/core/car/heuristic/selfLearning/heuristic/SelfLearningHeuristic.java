@@ -45,7 +45,7 @@ public abstract class SelfLearningHeuristic<T> implements Heuristic<T>, Observer
             memory.setStreetLength(slot.getDistance());
         }
         if (decision) {
-            this.simulationDataCollector.putHeuristicData(tick, heuristic.getClass().getName(), getParamString(heuristic.getParam()), slot.getDistance());
+            this.simulationDataCollector.putHeuristicData(tick, heuristic.getClass().getSimpleName(), getParamString(heuristic.getParam()), slot.getDistance());
             memory.add(new Parameter<>(heuristic.getParam(), slot.getDistance()));
             this.unused = true;
         }
