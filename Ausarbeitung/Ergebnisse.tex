@@ -7,10 +7,10 @@ Innerhalb der Arbeit wird zu jeder Situation lediglich der Graph der Heuristik, 
 \subsubsection{1 Auto pro Minute}
 
 Bei diesem geringen Verkehrsaufkommen unterscheiden sich die Heuristiken in ihrer Güte kaum. Nahezu immer liegt der Parkplatz im Mittel zwischen 26 und 28.\\
-Bei einem niedrigen Aufkommen an Autos findet die \emph{block count Heuristik} nach der oben beschriebenen Betrachtung die besten Parkplätze.
+Bei einem niedrigen Aufkommen an Autos findet die Block count Heuristik nach der oben beschriebenen Betrachtung die besten Parkplätze.
 %TODO Diagramm blockcount1 einfügen.\\
 Hierbei wird der Parkplatz gewählt, der etwa 26  Plätze von der Destination entfernt ist. Dabei liegt der Parameterwert, also die Menge an direkt hintereinander geparkten Autos, an denen der lernende Fahrer vorbei fährt, bei etwa 43.\\
-Der schlechteste Parkplatz wird von der \emph{car count Heuristik} gewählt. \\
+Der schlechteste Parkplatz wird von der Car count Heuristik gewählt. \\
 %TODO Diagramm carcount1 einfügen.\\
 Dieser ist sogar mehr als doppelt so weit von der Destination entfernt (54).
 Hierbei lernt der Fahrer an etwa 75 geparkten Autos vorbei zu fahren, bevor er den nächsten freien Parkplatz wählt.\\
@@ -20,25 +20,111 @@ Somit ist der Parkplatz im Mittel zwar wesentlich schlechter, jedoch ist es nahe
 \subsubsection{2 Autos pro Minute}
 
 Verändert sich das Verkehrsaufgebot, so werden Unterschiede in den Erfolgen der Heuristiken deutlicher.\\
-Auch bei mittlerem Verkehrsaufkommen erscheint es sinnvoll, die \emph{block count Heuristik} anzuwenden, denn auch hier findet diese den besten Parkplatz.
+Auch bei mittlerem Verkehrsaufkommen erscheint es sinnvoll, die Block count Heuristik anzuwenden, denn auch hier findet diese den besten Parkplatz.
 %TODO Diagramm blockcount2 einfügen.\\
 Aufgrund dessen, dass mehr Parkplätze belegt werden, entfernt sich der mittlere Parkplatz von der Destination, im Vergleich zum mittleren Parkplatz, wenn lediglich ein Auto pro Minute auf den Parkplatz fährt.\\
 Mit der block count Heuristik wird nun ein Platz gewählt, der etwa 46 Plätze vom Ziel entfernt ist. Wobei der lernende Fahrer beschließt an 62 hintereinander geparkten Autos vorbei zu fahren um danach einen Parkplatz zu finden. Dabei ist die Näherungsgerade jedoch steigend, was bedeutet, der Fahrer würde bei weiteren Wiederholungen weiter lernen und möglicherweise an mehr geparkten Autos vorbei fahren.\\
-Der schlechteste Parkplatz wird in diesem Fall bei der  \emph{x out of y Heuristik} gewählt. \\
-%TODO xy2 einfügen.\\
+Der schlechteste Parkplatz wird in diesem Fall bei der  x out of y Heuristik gewählt. \\
+%TODO Diagramm xy2 einfügen.\\
 Dabei beträgt der Abstand zum Ziel etwa 53 Plätze. Dieser wird dadurch gefunden, dass der Fahrer einen Parkplatz wählt, sobald er an einem Block von 53 Parkplätzen vorbeigefahren ist, von denen 40 besetzt waren.\\
 Hier hätte man erwarten können, dass X und Y sich annähern, da bei X=Y die block count Heuristik erreicht wird. Man stellt jedoch fest, dass in diesem Fall der Abstand zwischen X und Y relativ stabil bei 13 bleibt.\\
-Zusätzlich zeigt dieses Kapitel, dass es durchaus sinnvoll ist, verschiedene Dichten an ankommenden Autos zu betrachten, so ist die car count Heuristik nicht nur als schlechteste Heuristik ersetzt worden, man sieht sogar, dass dieses die einzige Heuristik ist, bei der sich der Parkplatz nicht verschlechtert, es wird dort sogar nur noch 53 Plätze vom Ziel entfernt geparkt.
+Zusätzlich zeigt dieses Kapitel, dass es durchaus sinnvoll ist, verschiedene Dichten an ankommenden Autos zu betrachten, so ist die Car count Heuristik nicht nur als schlechteste Heuristik ersetzt worden, man sieht sogar, dass dieses die einzige Heuristik ist, bei der sich der Parkplatz nicht verschlechtert, es wird dort sogar nur noch 53 Plätze vom Ziel entfernt geparkt.
 
 \subsubsection{4 Autos pro Minute} 
 
 In diesem Fall ändert sich nichts daran, welche Heuristik am besten und welche am schlechtesten abschneidet.\\
 Bei der Block count Heuristik wird nun ein Platz gewählt, der etwa 63 Plätze vom Ziel entfernt ist und bei x out of y ist er etwa 74 Plätze vom Ziel entfernt. \\
+%TODO Diagramme einfügen, blockcount4 und xy4
 Während hier jedoch bei der Block count Heuristik die Approximationsgerade nahezu parallel zur X-Achse ist, ist sie bei x out of y fallend. Dies ist bei den beiden schlechtesten Heuristiken so. Auch die fixed distance Heuristik findet derzeit einen Parkplatz der etwa 68 Plätze von der Destination entfernt ist, hat sich jedoch im Verlauf der Simulation signifikant verbessert.\\
 Ebenso fällt auf, dass der Abstand von X zu Y etwas verkleinert wurde. Dieser beträgt nun lediglich noch 5, wobei auch die Blöcke verkleinert wurden. Hier müssen nun noch 37 von 42 Plätzen belegt sein, um danach einen Parkplatz zu wählen.\\
 Der Parameter der Block count Heuristik hat sich nahezu nicht mehr verändert und liegt nun bei 63.\\
 
-Würden also alle Anderen zufällig einen Parkplatz auswählen und nur man selbst würde lernen, so wäre es bei jedem Verkehrsaufkommen optimal die block count Heuristik anzuwenden und lediglich die Blocklänge an das Verkehrsaufkommen anzupassen. 
+Würden also alle Anderen zufällig einen Parkplatz auswählen und nur man selbst würde lernen, so wäre es bei jedem Verkehrsaufkommen optimal die Block count Heuristik anzuwenden und lediglich die Blocklänge an das Verkehrsaufkommen anzupassen. 
+
+\subsection{Mehrere lernende Fahrer}
+
+Für dieses Kapitel wurde die Simulation erneut durchgeführt, wobei in jedem Durchlauf jede Heuristik von einigen Fahrern verfolgt wird. \\
+Auch hier wurde untersucht welche Heuristik den besten Parkplatz für ein bestimmtes Verkehrsaufkommen findet.
+
+\subsubsection{1 Auto pro Minute}
+
+Wenn einige Fahrer gezielt einen Parkplatz suchen, finden die gleichen Heuristiken den besten und den schlechtesten Parkplatz wie beim zufälligen Parken.\\
+Zusätzlich fällt auf, dass der beste Parkplatz sogar ein wenig besser ist, als der der vorher gefunden wird.\\
+%TODO block1 Diagramm einfügen
+In diesem Fall wird am Ende der Simulation ein Parkplatz gefunden der etwa 23 Plätze von der Destination entfernt ist.\\
+Jeder der lernenden Fahrer lernt einen eigenen Parameter, wie im Diagramm zu sehen ist.\\
+In der Realität müssten sich die Fahrer also absprechen, wer welchen Parameter benutzt. Dies ist jedoch sehr unrealistisch. Es bliebe also zu untersuchen, wie viel schlechter der gefundene Parkplatz wird, wenn ein mittlerer Parameter, der in diesem Fall am Ende bei 51 liegt, von allen gewählt würde.\\
+Die Car count Heuristik findet wieder den mit Abstand schlechtesten Parkplatz. Dieser ist sogar noch etwas schlechter als im ersten Durchlauf.\\
+%TODO car1 Diagramm einfügen
+Dabei wird nach 61 geparkten Autos ein Parkplatz gewählt, der 58 Plätze von der Destination entfernt ist.\\
+
+Es wurde bei der Untersuchung deutlich, dass der Lern-Algorithmus besser funktioniert als im ersten Durchlauf. Dies kann daran liegen, dass durch die Erhöhung der Lerner-Anzahl der Effekt des Lernens verstärkt wird.\\
+Am Ende der Simulation werden bei nahezu allen Heuristiken Plätze gewählt die wesentlich besser sind, als zu Beginn.
+
+\subsubsection{2 Autos pro Minute}
+
+Erhöht sich die Anzahl der ankommenden Autos so bleibt die Car count Heuristik weiterhin die schlechteste.
+%TODO carcount2 Diagramm einfügen
+Hier wird am Ende der Simulation ein Parkplatz gewählt, der 50 Plätze von der Destination entfernt ist. Dafür werden im Schnitt 85 Autos passiert.\\
+Es zeigt sich jedoch auch, dass innerhalb dieser Heuristik der Parkplatz am stärksten verbessert wird.\\
+Die Parkplätze die am Anfang der Simulation gewählt werden liegen 73 Plätze vom Ziel entfernt. Zusätzlich ist dies die einzige Heuristik, bei der bei diesem höheren Verkehrsaufkommen ein besserer Parkplatz gewählt wird. Dies wurde bereits im ersten Durchlauf festgestellt.\\
+Der beste Parkplatz wird durch die x out of y Heuristik gefunden.\\
+ %TODO xy2 Diagramm einfügen
+Hierbei wird ein Parkplatz gefunden, der 46 Plätze entfernt ist. Dabei wird im Schnitt ein Platz gewählt, wenn von den letzten 59 Plätzen 37 besetzt waren.
+
+\subsubsection{4 Autos pro Minute}
+
+Auch bei hohem Verkehrsaufkommen findet die Car count Heuristik den schlechtesten Parkplatz. \\
+%TODO car4 Diagramm einfügen
+Nach der Beobachtung von oben hätte man zu dem Schluss kommen können, dass eine höhere Fahrerdichte dazu führt, dass diese Heuristik immer besser wird. Sie findet nun jedoch wieder einen Platz, der schlechter ist als zuvor. Etwa 71 Plätze vom Ziel entfernt findet sie einen Parkplatz und fährt dafür an 65 geparkten Autos vorbei.\\
+Die Fixed distance Heuristik findet hier wiederum den besten Parkplatz. 
+%TODO Diagramm fixed4 einfügen
+Der Platz liegt etwa 59 Plätze vom Ziel entfernt, während der mittlere Fahrer auf 43 Plätze an das Ziel heran fährt. Dadurch, dass der letztendliche Abstand höher ist, als die fixierte Distanz, kann man schließen, dass der Fahrer am Ende des Platzes wenden muss, um auf dem Rückweg den ersten Platz zu wählen.\\
+  Daher bekommt man zwar den besten Parkplatz, aber ob die Heuristik dann als ,,gut'' einzuschätzen ist, ist fraglich. Es scheint eher sinnvoll zu sein, an allen Parkplätzen vorbeizufahren und nach dem Wenden den ersten Platz zu wählen. \\
+  
+  Im Gegensatz zur ersten Untersuchung hat sich nun also gezeigt, dass es in dieser Situation sinnvoll ist, seine Heuristik an das Verkehrsaufkommen anzupassen und nicht lediglich die Parameter zu verändern.\\
+  Außerdem hat sich gezeigt, dass für jede Dichte ein besserer Platz gefunden wird, wenn mehrere Fahrer lernen. Daher könnte man vermuten, dass es sinnvoll ist, Fahrern beizubringen wie sie gezielt Parkplätze finden. Ob diese Hypothese realistisch ist, kann nun in der nächsten Simulation überprüft werden. 
+  
+  \subsection{Alle Fahrer lernen}
+  
+Auch hier treten in jedem Durchlauf alle Heuristiken gegeneinander an. Werden jetzt jedoch schlechtere Parkplätze gefunden, als im letzten Durchlauf, so ist die aufgestellte Hypothese widerlegt.
+
+  \subsubsection{1 Auto pro Minute}
+  
+Wie auch in den vorherigen Beispielen findet auch hier die Car count Heuristik den mit Abstand schlechtesten Parkplatz. 
+%TODO car1 Diagramm einfügen
+Dieser ist wieder schlechter als im obigen Beispiel. Diesmal wird 63 Plätze vom Ziel entfernt geparkt. Diese Heuristik unterscheidet sich in mehreren Merkmalen signifikant von den Anderen. Sie verbessert sich nicht nur beim Übergang von der geringen zur mittleren Dichte. Sie verschlechtert sich auch, je mehr Fahrer gezielt einen Parkplatz wählen.\\
+In diesem Fall wird der beste Platz wieder von der x out of y Heuristik gewählt. 
+%TODO Diagramm xy1 einfügen
+Wenn von 58 Plätzen 37 besetzt sind wird ein Platz gewählt, der etwa 17 Plätze vom Ziel entfernt ist. \\
+Der beste Parkplatz der gefunden wird ist also besser als in den vorherigen Beispiel, womit die Hypothese nicht widerlegt werden konnte.\\
+
+\subsubsection{2 Autos pro Minute}
+
+Wie es zu erwarten war, hat sich die Car count Heuristik verbessert, bleibt jedoch weiterhin die Schlechteste.\\
+ %TODO car2 Diagramm einfügen
+Nachdem 78 Autos passiert wurden wird ein Platz gewählt, der 55 Plätze vom Ziel entfernt ist.\\
+Die Heuristik mit dem linearen Operator findet den besten Platz. 
+%TODO linopa und linopzt Diagramme einfügen.
+Mit den gelernten Parametern kann die Ungleichung $0,49\cdot z_i+b_i > 51$ aufgestellt werden. Sobald diese für einen freien Parkplatz erfüllt ist, wird dieser gewählt und ist, in der Simulation, etwa 35 Plätze von der Destination entfernt.\\
+Somit ist die Hypothese weiterhin nicht falsifiziert. Es ist jedoch fraglich, ob der lineare Operator in der Realität anwendbar ist. \\
+
+\subsubsection{4 Autos pro Minute}
+
+Wie im letzten Unterkapitel findet auch hier die Fixed distance Heuristik den besten Parkplatz.
+%TODO fixed4 Diagramm einfügen
+Es ist jedoch wieder so, dass der Fahrer auf 46 Plätze an das Ziel heran fährt und einen Platz erhält, der 62 Plätze vom Ziel entfernt ist. Die Platzwahl verschlechtert sich sogar im Verlauf der Simulation. Zu Beginn ist der Platz lediglich 61 Plätze entfernt.\\
+Die schlechtesten Plätze werden vom linearen Operator %TODO Referenz linopa4/linopzt4
+und der Space count Heuristik gefunden.
+%TODO space4 Diagramm
+Nachdem ein Fahrer an 46 freien Plätzen vorbeigefahren ist, wählt er einen Platz der im Schnitt 69 Plätze vom Ziel entfernt ist.\\
+
+Der beste Platz der hier gewählt wird ist also etwas schlechter, als im Fall von wenigen Lernenden. Jedoch wurde in diesen Fällen der beste Platz auch nicht von einer optimierten Heuristik gefunden, sondern durch Wenden und das Wählen eines Platzes auf dem Rückweg.\\
+Für die niedrige und mittlere Dichte konnte die Hypothese nicht widerlegt werden. Bei der hohen Dichte müssten weitere Untersuchungen angestellt werden.
 
 \subsection{Ausblick}
 
+Es hat sich herausgestellt, dass es sinnvoll ist, wenn alle Fahrer gezielt nach Parkplätzen suchen, wobei dies für eine hohe Dichte weiterer Untersuchungen bedarf. Da jedoch ein Austausch über die gewählten Parameter sehr unwahrscheinlich ist, sollte noch untersucht werden, wie sich die Wahl eines Mittelwertes als Parameter für alle auswirkt.\\
+Zusätzlich fand keine Untersuchung darüber statt, wie es sich verhält, wenn alle lernenden Fahrer die gleiche Heuristik verwenden. Würde dies jedoch untersucht werden, so könnten am effizientesten Anweisungen an Fahrer weitergegeben werden. \\
+Außerdem wäre sie Untersuchung realer Parkplätze möglich, um für einen real existierenden Parkplatz Strategien zu testen.\\
+All diese Untersuchungen sind nicht nur mathematisch interessant. Durch die erhöhte Wahrscheinlichkeit einen guten Parkplatz zu finden wird das Wohlbefinden der Autofahrer gestärkt, wodurch sie sich möglicherweise länger in einem Kaufhaus oder Restaurant aufhalten und dort mehr Geld ausgeben. Zusätzlich tritt bei der Parkplatzsuche weniger Stress auf, wodurch eventuell die Unfallwahrscheinlichkeit gesenkt werden kann.
