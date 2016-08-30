@@ -122,7 +122,15 @@ Nachdem ein Fahrer an 46 freien Plätzen vorbeigefahren ist, wählt er einen Pla
 Der beste Platz der hier gewählt wird ist also etwas schlechter, als im Fall von wenigen Lernenden. Jedoch wurde in diesen Fällen der beste Platz auch nicht von einer optimierten Heuristik gefunden, sondern durch Wenden und das Wählen eines Platzes auf dem Rückweg.\\
 Für die niedrige und mittlere Dichte konnte die Hypothese nicht widerlegt werden. Bei der hohen Dichte müssten weitere Untersuchungen angestellt werden.
 
-\subsection{Ausblick}
+\subsection{Zusammenfassung}
+
+Vorläufig lässt sich sagen, dass kein Fahrer zufällig einen Parkplatz wählen sollte. Demnach sollten Fahrschüler Heuristiken lernen. Falls spätere Untersuchungen zeigen, dass es sinnvoll ist, wenn alle die gleiche Heuristik nutzen und dort einen mittleren Wert für die Parameter wählen, können auch diese Informationen in der Fahrschule vermittelt werden.\\
+Am wahrscheinlichsten scheint es derzeit zu sein, davon auszugehen, dass einige, aber nicht alle Fahrer systematisch einen Parkplatz wählen. \\
+ Dann kann man Fahrern raten bei niedrigem Verkehrsaufkommen die Block count Heuristik zu verfolgen. Dabei kann mit einem Block von 51 Autos gestartet werden und dieser Parameter durch Variation verbessert werden.\\
+ Kommen etwa 2 Autos pro Minute auf dem Parkplatz an, so ist es sinnvoll diese Heuristik leicht zu verändern und die x out of y Heuristik zu verwenden. Dabei kann mit Blöcken von 59 Plätzen von denen 37 belegt sind gestartet werden.\\
+ Bei hohem Betrieb auf dem Platz scheint es am Besten zu sein, den kompletten Parkplatz zu passieren und auf dem Rückweg den ersten Platz zu wählen.\\
+ 
+ \subsection{Ausblick}
 
 Es hat sich herausgestellt, dass es sinnvoll ist, wenn alle Fahrer gezielt nach Parkplätzen suchen, wobei dies für eine hohe Dichte weiterer Untersuchungen bedarf. Da jedoch ein Austausch über die gewählten Parameter sehr unwahrscheinlich ist, sollte noch untersucht werden, wie sich die Wahl eines Mittelwertes als Parameter für alle auswirkt.\\
 Zusätzlich fand keine Untersuchung darüber statt, wie es sich verhält, wenn alle lernenden Fahrer die gleiche Heuristik verwenden. Würde dies jedoch untersucht werden, so könnten am effizientesten Anweisungen an Fahrer weitergegeben werden. \\
