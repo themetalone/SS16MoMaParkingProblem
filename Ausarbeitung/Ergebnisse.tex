@@ -53,7 +53,7 @@ Bei der Block count Heuristik wird nun ein Platz gewählt, der etwa 63 Plätze v
 	\includegraphics[width=\textwidth]{analyse/SingleMutant/xy4.png}
 	\caption{Schlechteste Heuristik bei einem lernenden Fahrer und vier Auto pro Minute: \emph{X-Out-Of-Y}-Heuristik}\label{fig:res_sm_4pm_worst}
 \end{figure}
-Während hier jedoch bei der \emph{Block-Count}-Heuristik die Approximationsgerade nahezu parallel zur $t$-Achse ist, ist sie bei \emph{X-Out-Of-Y}-Heuristik. Dies ist bei den beiden schlechtesten Heuristiken so. Auch die \emph{Fixed-Distance}-Heuristik findet derzeit einen Parkplatz der etwa 68 Plätze von der Destination entfernt ist, hat sich jedoch im Verlauf der Simulation signifikant verbessert.\\
+Während hier jedoch bei der \emph{Block-Count}-Heuristik die Approximationsgerade der Abstände zum Ziel nahezu parallel zur $t$-Achse ist, ist sie bei \emph{X-Out-Of-Y}-Heuristik fallend. Dies ist bei den beiden schlechtesten Heuristiken so. Auch die \emph{Fixed-Distance}-Heuristik findet derzeit einen Parkplatz der etwa 68 Plätze von der Destination entfernt ist, hat sich jedoch im Verlauf der Simulation signifikant verbessert.\\
 Ebenso fällt auf, dass der Abstand von X zu Y etwas verkleinert wurde. Dieser beträgt nun lediglich noch 5, wobei auch die Blöcke verkleinert wurden. Hier müssen nun noch 37 von 42 Plätzen belegt sein, um danach einen Parkplatz zu wählen.\\
 Der Parameter der Block count Heuristik hat sich nahezu nicht mehr verändert und liegt nun bei 63.\\
 
@@ -165,7 +165,7 @@ Wie im letzten Unterkapitel findet auch hier die \emph{Fixed-Distance}-Heuristik
 	\caption{Beste Heuristik bei nur lernenden Fahrern und zwei Autos pro Minute: \emph{Fixed-Distance}-Heuristik} \label{fig:res_jh_4pm_best}
 \end{figure}
 Es ist jedoch wieder so, dass der Fahrer auf 46 Plätze an das Ziel heran fährt und einen Platz erhält, der 62 Plätze vom Ziel entfernt ist (Abbildung \ref{fig:res_jh_4pm_best}). Die Platzwahl verschlechtert sich sogar im Verlauf der Simulation. Zu Beginn ist der Platz lediglich 61 Plätze entfernt.\\
-Die schlechtesten Plätze werden vom linearen Operator und der \emph{Space-Count}-Heuristik gefunden. Nachdem ein Fahrer an 46 freien Plätzen vorbeigefahren ist, wählt er einen Platz der im Schnitt 69 Plätze vom Ziel entfernt ist (Abbildungen \ref{fig:ap_jh_loz_4}, \ref{fig:ap_jh_loz_4} \& \ref{fig:ap_jh_sc_4} im Anhang).\\
+Die schlechtesten Plätze werden vom linearen Operator und der \emph{Space-Count}-Heuristik gefunden. Nachdem ein Fahrer an 46 freien Plätzen vorbeigefahren ist, wählt er einen Platz der im Schnitt 69 Plätze vom Ziel entfernt ist (Abbildungen \ref{fig:ap_jh_loz_4}, \ref{fig:ap_jh_loa_4} \& \ref{fig:ap_jh_sc_4} im Anhang).\\
 
 Der beste Platz der hier gewählt wird ist also etwas schlechter, als im Fall von wenigen Lernenden. Jedoch wurde in diesen Fällen der im Mittel beste Platz auch nicht von einer optimierten Heuristik gefunden, sondern durch Wenden und das Wählen eines Platzes auf dem Rückweg!\\
 Für die niedrige und mittlere Dichte konnte die Hypothese nicht widerlegt werden. Bei hohen Verkehrsaufkommen müssten weitere Untersuchungen angestellt werden.

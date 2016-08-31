@@ -2,13 +2,44 @@
 \addcontentsline{toc}{section}{Anhang}
 \subsection*{Technische Aspekte der Simulation}\label{sec:ap_tec}
 \addcontentsline{toc}{subsection}{Technische Aspekte der Simulation}
+\subsubsection*{Allgemeiner Aufbau des Projekts}
+Diese Arbeit und die dazugehörige Simulation wurden im Zuge des Seminars \emph{Moderne Mathematik: Mathematisches Modellieren} im Sommersemester 2016 erstellt. Beide liegen unter Versionsverwaltung als Git-Repository und sind öffentlich unter \url{http://github.com/themetalone/ss16momaparkingproblem} einsehbar. Zum Zeitpunkt dieser Arbeit steht der Inhalt des Repositorys unter der \emph{MIT Lizenz}.
+
+\subsubsection*{Implementierung der Simulation}
+Die Simulation ist in der Programmiersprache \emph{Java 8} geschrieben und lauffähig unter \emph{JRE 1.8}. Es wird die Projektverwaltung \emph{Maven} verwendet, eine Veröffentlichung auf \emph{Maven Central} ist nicht vorgesehen. 
+
+Im Gegensatz zu dem doch sehr einfachen Strukturdiagramm in Abbildung \ref{fig_simOver} ist der tatsächliche Aufbau der Simulation wesentlich komplexer und verfolgt die Prinzipien von maximaler Bindung und minimaler Kopplung. Um eine geringe Kopplung, also eine geringe Abhängigkeit der Simulationskomponenten untereinander, zu gewährleisten, werden Klassenhierarchien und Verteilerklassen verwendet. Erst durch die Verwendung einer Konfigurationsdatei, einer sogenannten \emph{Spring Beans} Konfiguration, wird eine Verbindung zwischen den verschiedenen Objekten einer Simulation hergestellt. Dadurch wird es möglich mehrere Simulationen mit verschiedenem Aufbau und Parametern zu starten, ohne am Quellcode der Simulation Änderungen vornehmen zu müssen. Ebenso werden Erweiterungen des Simulation um zusätzliche Heuristiken oder andere Straßentopologien vereinfacht. 
+
+Um auch mehrere große Simulationen zeitsparender abarbeiten zu können werden Multi-Kern Prozessoren unterstützt. 
+
+Während der Simulation werden die folgenden Daten erhoben:
 \begin{itemize}
-	\item Git
-	\item Java 8
-	\item Maven
-	\item Spring
-	\item[?] Komplexeres UML
-	\item Gebrauchsanweisung
-	\item Lizenzen
+	\item Bei der Erzeugung
+	\begin{itemize}
+		\item Eines Parkplatzes: ID und Entfernung zum Ziel
+		\item Eines Fahrzeuges: ID und verwendete Heuristik
+	\end{itemize}
+	\item Wenn geparkt wird
+	\begin{itemize}
+		\item den aktuellen Zustand des gesamten Parkplatzes
+		\item die ID des parkenden Autos, die Entfernung und die Simulationszeit
+		\item die Heuristik, die den Parkplatz ausgewählt hat, ihre Parameter, die Entfernung und die Simulationszeit
+	\end{itemize}
+\end{itemize}
+Für die Datenhaltung wurde eine \emph{H2-SQL} Datenbank gewählt. 
+
+\subsubsection*{How-To}
+\begin{description}
+	\item[Beschaffen des Frameworks:] Auf der Website \url{https://github.com/themetalone/SS16MoMaParkingProblem/releases} die Datei \texttt{parking.simulation-0.0.1-SNAPSHOT-runnable.jar} laden. Möchte man die Simulation um neue Klassen erweitern und verwendet \emph{Maven}, genügt die Datei \texttt{parking.simulation-0.0.1-SNAPSHOT-framework.jar}
+	\item[Beschaffen des Quellcodes:] \url{https://github.com/themetalone/SS16MoMaParkingProblem/archive/master.zip}
+	\item[Simulation mit Laden einer Konfiguration:] Durch setzen der Systemvariable \texttt{cfg} mit \texttt{-Dcfg=``spring-config.xml''} im Aufruf der Jar Datei, wobei \texttt{spring-config.xml} die Konfigurationsdatei ist.
+\end{description}
+
+\subsubsection*{Verwendete Technologien}
+\begin{itemize}
+	\item SimpleLoggerFacade4Java \url{http://www.slf4j.org/}
+	\item The Apache Commons Mathematics Library \url{http://commons.apache.org/proper/commons-math/}
+	\item H2 Database Engine \url{http://www.h2database.com/html/main.html}
+	\item Spring Framework \url{https://spring.io/}
 \end{itemize}
 \input{Streudiagramme.tex}
