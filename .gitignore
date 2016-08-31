@@ -10,3 +10,5 @@ Vortrag/ParkingProblem.pdf
 Ausarbeitung/ParkingProblem.pdf
 *.gz
 Data/Datenbanken/
+*.bbl
+*.blg

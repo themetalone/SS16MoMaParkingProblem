@@ -1,14 +1,17 @@
 \section{Einsatz in der Schule}
 \subsection{Einordnung in die Lehrpläne}
 
-Der Lehrplan %TODO Referenz Lehrplan? 
-legt viel Wert darauf, dass Schülerinnen und Schüler im Umgang mit Computern geschult werden. Dieser Umgang kann mit Hilfe eines Projektes, welches sich mit der vorliegenden Simulation befasst, erreicht werden. Zusätzlich ist der Prozess der Modellbildung aufgeführt, welcher auch mit Hilfe dieses Projektes verdeutlicht werden kann.\\
-Das Projekt kann innerhalb der Sekundarstufe II durchgeführt werden, im Bereich der Stochastik. \\
-In diesem Bereich sollen die Schülerinnen und Schüler des Leistungskurses sich mit Fragestellungen aus der beurteilenden Statistik befassen. Dies wird durch die Auswertung der Tabellen und Diagramme erreicht. 
+Der Lehrplan legt viel Wert darauf, dass Schülerinnen und Schüler im Umgang mit Computern geschult werden \cite[Kapitel 4]{sec1}. Dieser Umgang kann mit Hilfe eines Projektes, welches sich mit der vorliegenden Simulation befasst, erreicht werden. Zusätzlich ist der Prozess der Modellbildung aufgeführt, welcher auch mit Hilfe dieses Projektes verdeutlicht werden kann und der Förderung der allgemeinen mathematischen Kompetenz \emph{K3: Mathematisch modellieren} \cite[Kapitel 2.1]{sec1} dient.\\
+Das vollständige Projekt kann innerhalb der Sekundarstufe II durchgeführt werden, im Bereich der Stochastik. \\
+In diesem Bereich sollen die Schülerinnen und Schüler des Leistungskurses sich mit Fragestellungen aus der beurteilenden Statistik befassen. Dies wird durch die Auswertung der Tabellen und Diagramme erreicht. Zudem lässt sich ein solches Projekt mit den Anforderungen der Bildungsstandards der Oberstufe \cite[Problemlösen mit mathematischen Methoden - Modellbildung]{sec2} gut in Einklang bringen. Lediglich der 4. Schritt (,,Mathematische Lösung im gewählten Modell'') muss dabei angepasst werden, da die Lösung des Problems eine computergestützte Simulation und keine Verkettung bekannter mathematischer Operationen ist.
+
+Verzichtet man auf das doch sehr aufwendige Modellieren des Problems und beschränkt sich auf die Auswertung von Daten, so kann man dies schon in der Sekundarstufe I durchführen. Einfache Auswertungen im Sinne von Mittelwerten und arithmetischen Mitteln sind schon für die Klassenstufe 5/6 vorgesehen. Auch die Auswertung von grafischem Material wie die in dieser Arbeit verwendeten Streudiagramme können bereits im Unterricht eingesetzt und interpretiert werden. Ab Klassenstufe 9/10 der mittleren Reife kann auch die Simulation selbst durchgeführt werden. Hier bietet es sich aber, wie auch für die Oberstufe, an, eine bereits implementierte Simulation zu verwenden und diese an die eigenen Bedürfnisse anzupassen. Eine solches konfigurierbares Simulationsframework wurde im Zuge dieser Arbeit erstellt. Auf die Verwendung dieses Frameworks wird im Abschnitt \emph{\nameref{sec:ap_tec}} genauer eingegangen.
+
+Die nachfolgenden didaktischen und methodischen Anmerkungen beziehen sich auf eine Anwendung in einem Mathematik-Leistungskurses.
 
 \subsection{Didaktische Anmerkungen}
 
-Der komplette Aufbau der Simulation ist nicht geeignet, um ihn von Schülerinnen und Schülern durchführen zu lassen. Die Grundlegende Datei wurde jedoch so erstellt, dass es leicht möglich ist, gewünschte Parameter einfach zu verändern und die Simulation so an Gegebenheiten anzupassen.\\
+Der komplette Aufbau der Simulation ist nicht geeignet, um ihn von Schülerinnen und Schülern durchführen zu lassen. Die notwendigen Programmierkenntnisse werden selbst bei einem guten Informatik-Leistungskurs nicht gegeben sein. Die grundlegende Datei wurde jedoch so erstellt, dass es leicht möglich ist, gewünschte Parameter einfach zu verändern und die Simulation so an Gegebenheiten anzupassen.\\
 Die Schülerinnen und Schüler sollten innerhalb der Unterrichtsreihe Werte sammeln, die sie in die Simulation einfügen können. Dadurch lernen sie reale Situationen so zu beschreiben und zu strukturieren, dass sie die Modellbildung nachvollziehen und in Teilen sogar selbstständig durchführen zu können.\\
 Nachdem die Simulation durchgeführt wurde, sollen die Schülerinnen und Schüler entscheiden, welche Heuristik angewendet werden sollte. \\
 Durch die selbstständige Durchführung der Zählung bzw. Befragung, lernen die Schülerinnen und Schüler Methoden der Forschung kennen und anwenden. Dadurch dass sie sich entscheiden müssen, lernen sie das mathematische Argumentieren.
@@ -21,13 +24,16 @@ Diese rohen Werte sollen von den Schülerinnen und Schülern so aufgearbeitet we
  Ist die Simulation dann vorbereitet kann sie durchgeführt werden. Die daraus entstandenen Daten können dann in einem Tabellenkalkulationsprogramm zu Diagrammen verarbeitet werden. 
 
 \subsection{Unterrichtsreihe}
-
-\begin{tabular}{lll}
-Stunde & Stundentyp & Inhalt\\
+\begin{table}
+\caption{Grober Verlaufsplan der Unterrichtsreihe bzw. des Projekts}\label{tab:schule_reihe}
+\begin{tabular}{L{0.1\textwidth}L{0.2\textwidth}L{0.6\textwidth}}
+\textbf{Stunde} & \textbf{Stundentyp} & \textbf{Inhalt}\\
+\hline
 1+2 & Einstieg & Lehrperson/SuS berichten ihre Wahrnehmung; Fragestellung wird erarbeitet; Modellierungsprozess besprechen; Hausaufgabe: Werte ermitteln\\
 3 & Vertiefung & Besprechen, wie Daten ausgewertet werden; Besprechung der Simulation\\
 4 & Übung/Anwendung & SuS führen die Simulation mit ihren Daten durch\\
 5+6 & Abschluss & Ergebnisse der Simulationen werden ausgewertet; SuS formulieren Hypothese; SuS stellen fest, dass der Modellierungsprozess noch nicht abgeschlossen ist
-\end{tabular}\\
+\end{tabular}
+\end{table}
 
 Die Erarbeitung mit Schülerinnen und Schülern ist durchführbar, benötigt jedoch viel Zeit. Daher kann man überlegen, ob diese Aufgabe besser während einer Projektwoche oder innerhalb einer AG nach der Schule zu bearbeiten ist. Durch die Bearbeitung in einer AG kann das komplette Schuljahr genutzt werden und dadurch der Modellierungsprozess tatsächlich angepasst und wiederholt werden.
