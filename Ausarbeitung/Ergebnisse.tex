@@ -137,43 +137,45 @@ Dieser ist wieder schlechter als in der Simulation aus Abschnitt \ref{sec:sim_pm
 In dieser Simulation wird der beste Platz wieder von der \emph{X-Out-Of-Y}-Heuristik gewählt. 
 \begin{figure}
 	\includegraphics[width=\textwidth]{analyse/JustHeuristik/1pm/xy.png}
-	\caption{Beste Heuristik bei mehreren lernenden Fahrern und zwei Autos pro Minute: \emph{X-Out-Of-Y}-Heuristik}\label{fig:res_jh_1pm_best}
+	\caption{Beste Heuristik bei nur lernenden Fahrern und zwei Autos pro Minute: \emph{X-Out-Of-Y}-Heuristik}\label{fig:res_jh_1pm_best}
 \end{figure}
 Wenn von 58 Plätzen 37 besetzt sind wird ein Platz gewählt, der etwa 17 Plätze vom Ziel entfernt ist (Abbildung \ref{fig:res_jh_1pm_best}). \\
 Der beste Parkplatz der gefunden wird ist also besser als in den vorherigen Beispiel, womit die Hypothese nicht widerlegt werden konnte.\\
 
 \subsubsection{2 Autos pro Minute}
 
-Wie es zu erwarten war, hat sich die Car count Heuristik verbessert, bleibt jedoch weiterhin die Schlechteste.\\
- %TODO car2 Diagramm einfügen
-Nachdem 78 Autos passiert wurden wird ein Platz gewählt, der 55 Plätze vom Ziel entfernt ist.\\
+Wie es zu erwarten war, hat sich die \emph{Car-Count}-Heuristik verbessert, bleibt jedoch weiterhin die Schlechteste.\\
+Nachdem 78 Autos passiert wurden wird ein Platz gewählt, der 55 Plätze vom Ziel entfernt ist (Abbildung \ref{fig:ap_jh_cc_2} im Anhang).\\
 Die Heuristik mit dem linearen Operator findet den besten Platz. 
-%TODO linopa und linopzt Diagramme einfügen.
+\begin{figure}
+	\includegraphics[width=\textwidth]{analyse/JustHeuristik/2pm/linop.png}
+	\caption{Beste Heuristik bei nur lernenden Fahrern und zwei Autos pro Minute: \emph{Linear-Operator}-Heuristik}. Dargestellt ist nur der Schrankenparameter $z_T$. Die Geschwindigkeit ist in Abbildung \ref{fig:ap_jh_loa_2} zu finden.} \label{fig:res_jh_2pm_best}
+\end{figure}
 Mit den gelernten Parametern kann die Ungleichung 
 \begin{align}
 0,49\cdot z_i+b_i > 51
-\end{align} aufgestellt werden. Sobald diese für einen freien Parkplatz erfüllt ist, wird dieser gewählt und ist, in der Simulation, etwa 35 Plätze von der Destination entfernt.\\
+\end{align} aufgestellt werden. Sobald diese für einen freien Parkplatz erfüllt ist, wird dieser gewählt und ist, in der Simulation, etwa 35 Plätze von der Destination entfernt (Abbildung \ref{fig:res_jh_2pm_best}).\\
 Somit ist die Hypothese weiterhin nicht falsifiziert. Es ist jedoch fraglich, ob der lineare Operator in der Realität anwendbar ist. \\
 
 \subsubsection{4 Autos pro Minute}
 
-Wie im letzten Unterkapitel findet auch hier die Fixed distance Heuristik den besten Parkplatz.
-%TODO fixed4 Diagramm einfügen
-Es ist jedoch wieder so, dass der Fahrer auf 46 Plätze an das Ziel heran fährt und einen Platz erhält, der 62 Plätze vom Ziel entfernt ist. Die Platzwahl verschlechtert sich sogar im Verlauf der Simulation. Zu Beginn ist der Platz lediglich 61 Plätze entfernt.\\
-Die schlechtesten Plätze werden vom linearen Operator %TODO Referenz linopa4/linopzt4
-und der Space count Heuristik gefunden.
-%TODO space4 Diagramm
-Nachdem ein Fahrer an 46 freien Plätzen vorbeigefahren ist, wählt er einen Platz der im Schnitt 69 Plätze vom Ziel entfernt ist.\\
+Wie im letzten Unterkapitel findet auch hier die \emph{Fixed-Distance}-Heuristik den besten Parkplatz.
+\begin{figure}
+	\includegraphics[width=\textwidth]{analyse/JustHeuristik/4pm/fixed4just.png}
+	\caption{Beste Heuristik bei nur lernenden Fahrern und zwei Autos pro Minute: \emph{Fixed-Distance}-Heuristik}} \label{fig:res_jh_4pm_best}
+\end{figure}
+Es ist jedoch wieder so, dass der Fahrer auf 46 Plätze an das Ziel heran fährt und einen Platz erhält, der 62 Plätze vom Ziel entfernt ist (Abbildung \ref{fig:res_jh_4pm_best}). Die Platzwahl verschlechtert sich sogar im Verlauf der Simulation. Zu Beginn ist der Platz lediglich 61 Plätze entfernt.\\
+Die schlechtesten Plätze werden vom linearen Operator und der \emph{Space-Count}-Heuristik gefunden. Nachdem ein Fahrer an 46 freien Plätzen vorbeigefahren ist, wählt er einen Platz der im Schnitt 69 Plätze vom Ziel entfernt ist (Abbildungen \ref{fig:ap_jh_loz_4}, \ref{fig:ap_jh_loz_4} \& \ref{fig:ap_jh_sc_4} im Anhang).\\
 
-Der beste Platz der hier gewählt wird ist also etwas schlechter, als im Fall von wenigen Lernenden. Jedoch wurde in diesen Fällen der beste Platz auch nicht von einer optimierten Heuristik gefunden, sondern durch Wenden und das Wählen eines Platzes auf dem Rückweg.\\
-Für die niedrige und mittlere Dichte konnte die Hypothese nicht widerlegt werden. Bei der hohen Dichte müssten weitere Untersuchungen angestellt werden.
+Der beste Platz der hier gewählt wird ist also etwas schlechter, als im Fall von wenigen Lernenden. Jedoch wurde in diesen Fällen der im Mittel beste Platz auch nicht von einer optimierten Heuristik gefunden, sondern durch Wenden und das Wählen eines Platzes auf dem Rückweg!\\
+Für die niedrige und mittlere Dichte konnte die Hypothese nicht widerlegt werden. Bei hohen Verkehrsaufkommen müssten weitere Untersuchungen angestellt werden.
 
 \subsection{Zusammenfassung}
 
 Vorläufig lässt sich sagen, dass kein Fahrer zufällig einen Parkplatz wählen sollte. Demnach sollten Fahrschüler Heuristiken lernen. Falls spätere Untersuchungen zeigen, dass es sinnvoll ist, wenn alle die gleiche Heuristik nutzen und dort einen mittleren Wert für die Parameter wählen, können auch diese Informationen in der Fahrschule vermittelt werden.\\
 Am wahrscheinlichsten scheint es derzeit zu sein, davon auszugehen, dass einige, aber nicht alle Fahrer systematisch einen Parkplatz wählen. \\
- Dann kann man Fahrern raten bei niedrigem Verkehrsaufkommen die Block count Heuristik zu verfolgen. Dabei kann mit einem Block von 51 Autos gestartet werden und dieser Parameter durch Variation verbessert werden.\\
- Kommen etwa 2 Autos pro Minute auf dem Parkplatz an, so ist es sinnvoll diese Heuristik leicht zu verändern und die x out of y Heuristik zu verwenden. Dabei kann mit Blöcken von 59 Plätzen von denen 37 belegt sind gestartet werden.\\
+ Dann kann man Fahrern raten bei niedrigem Verkehrsaufkommen die \emph{Block-Count}-Heuristik zu verfolgen. Dabei kann mit einem Block von 51 Autos gestartet werden und dieser Parameter durch Variation verbessert werden.\\
+ Kommen etwa 2 Autos pro Minute auf dem Parkplatz an, so ist es sinnvoll diese Heuristik leicht zu verändern und die \emph{X-out-Of-Y}-Heuristik zu verwenden. Dabei kann mit Blöcken von 59 Plätzen von denen 37 belegt sind gestartet werden.\\
  Bei hohem Betrieb auf dem Platz scheint es am Besten zu sein, den kompletten Parkplatz zu passieren und auf dem Rückweg den ersten Platz zu wählen.\\
 All diese Erkenntnisse sind jedoch sehr theoretischer Natur und bedürfen praktischen Projekten zur Überprüfung und darauf basierenden Überarbeitungen der Simulation. 
  
