@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by steff on 20.08.2016.
+ * Implements the Linear Operator heuristic. Uses a fading memory of the density of occupied spots
  */
 public class LinearOperatorHeuristic implements Heuristic<List<Double>> {
 
@@ -17,12 +18,21 @@ public class LinearOperatorHeuristic implements Heuristic<List<Double>> {
     private boolean takeNext = false;
     protected boolean firstCarEncountered = false;
 
+    /**
+     * @param velocity double, describes how fast the memory of passed spots fades
+     * @param threshold double, >= 0, the density to find befor choosing a spot. Higher values refer higher densities
+     */
     public LinearOperatorHeuristic(double velocity, double threshold) {
         this.velocity = velocity;
         this.threshold = threshold;
     }
 
 
+    /**
+     * @param slot the parking spot to be tested
+     * @param peek the following parking spot
+     * @return true iff the density is at least that of threshold and the current spot is empty and the following is occupied or the condition was already fulfilled at the last spot and the last spot was not occupied, this spot isn't and the next one is or the car is moving away from the destination
+     */
     @SuppressWarnings("Duplicates")
     @Override
     public boolean decide(ParkingSlot slot, ParkingSlot peek) {
@@ -54,6 +64,9 @@ public class LinearOperatorHeuristic implements Heuristic<List<Double>> {
         return new LinearOperatorHeuristic(velocity, threshold);
     }
 
+    /**
+     * @return {@link List}&lt;double> = [velocity, threshold]
+     */
     @Override
     public List<Double> getParam() {
         List<Double> result = new LinkedList<>();
@@ -62,6 +75,9 @@ public class LinearOperatorHeuristic implements Heuristic<List<Double>> {
         return result;
     }
 
+    /**
+     * @param param {@link List}&lt;double> = [velocity, threshold]
+     */
     @Override
     public void setParam(List<Double> param) {
         if (param.size() < 2) {

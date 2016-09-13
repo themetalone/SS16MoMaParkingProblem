@@ -1,6 +1,5 @@
 package com.github.themetalone.parking.core.car.heuristic;
 
-import com.github.themetalone.parking.core.car.heuristic.selfLearning.Parameter;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 
 /**

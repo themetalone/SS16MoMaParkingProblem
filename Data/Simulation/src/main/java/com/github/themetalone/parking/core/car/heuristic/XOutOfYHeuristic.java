@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by steff on 19.08.2016.
+ * Implements the X out of Y heuristic. Utilizes the density of occupied spots in the last Y passed spots
  */
 public class XOutOfYHeuristic implements Heuristic<List<Integer>> {
 
@@ -16,11 +17,20 @@ public class XOutOfYHeuristic implements Heuristic<List<Integer>> {
     protected LinkedList<Integer> yBlock = new LinkedList<>();
     protected boolean takeNext= false;
 
+    /**
+     * @param x minimal number of occupied spots
+     * @param y window length
+     */
     public XOutOfYHeuristic(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * @param slot the parking spot to be tested
+     * @param peek the following parking spot
+     * @return true iff at least x out of y spots were occupied i and the current spot is empty and the following is occupied or the condition was already fulfilled at the last spot and the last spot was not occupied, this spot isn't and the next one is or the car is moving away from the destination
+     */
     @SuppressWarnings("Duplicates")
     @Override
     public boolean decide(ParkingSlot slot, ParkingSlot peek) {
@@ -54,6 +64,9 @@ public class XOutOfYHeuristic implements Heuristic<List<Integer>> {
         return new XOutOfYHeuristic(x, y);
     }
 
+    /**
+     * @return {@link List}&lt;Integer> = [x,y]
+     */
     @Override
     public List<Integer> getParam() {
         List<Integer> result = new LinkedList<>();
@@ -62,6 +75,9 @@ public class XOutOfYHeuristic implements Heuristic<List<Integer>> {
         return result;
     }
 
+    /**
+     * @param param {@link List}&lt;Integer> = [x,y]
+     */
     @Override
     public void setParam(List<Integer> param) {
         if (param.size() < 2) {

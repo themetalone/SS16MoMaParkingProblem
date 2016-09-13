@@ -3,7 +3,7 @@ package com.github.themetalone.parking.core.car.heuristic;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 
 /**
- * Implementation of the ''Space count'' heuristic
+ * Implementation of the ''Space count'' heuristic. Utilizes the unoccupied spots after passing the first occupied spot
  * Created by steff on 11.07.2016.
  */
 public class SpaceCountHeuristic implements Heuristic<Integer> {
@@ -53,16 +53,25 @@ public class SpaceCountHeuristic implements Heuristic<Integer> {
         return new SpaceCountHeuristic(n);
     }
 
+    /**
+     * @return number of spots to pass after passing the first occupied one before choosing a spot
+     */
     @Override
     public Integer getParam() {
         return n;
     }
 
+    /**
+     * @param param number of spots to pass after passing the first occupied one before choosing a spot
+     */
     @Override
     public void setParam(Integer param) {
         this.n = param;
     }
 
+    /**
+     * @return 'SpaceCountHeuristic[n:${number of spots to pass}]
+     */
     @Override
     public String toString() {
         return "SpaceCountHeuristic[n:" + n + "]";

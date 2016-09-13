@@ -1,10 +1,9 @@
 package com.github.themetalone.parking.core.car.heuristic;
 
-import com.github.themetalone.parking.core.car.heuristic.selfLearning.Parameter;
 import com.github.themetalone.parking.core.slot.ParkingSlot;
 
 /**
- * Implementation of the ''Chose Better than n'' heuristic
+ * Implementation of the ''Chose Better than n'' heuristic. Utilizes the distance to the destination.
  * Created by steff on 11.07.2016.
  */
 public class ChooseBetterThanNHeuristic implements Heuristic<Integer>{
@@ -33,15 +32,21 @@ public class ChooseBetterThanNHeuristic implements Heuristic<Integer>{
     }
 
     @Override
-    public Heuristic copy() {
+    public Heuristic<Integer> copy() {
         return new ChooseBetterThanNHeuristic(threshold);
     }
 
+    /**
+     * @return the minimal distance to the destination before taking a spot
+     */
     @Override
     public Integer getParam() {
         return threshold;
     }
 
+    /**
+     * @param param the minimal distance to the destination
+     */
     @Override
     public void setParam(Integer param) {
         this.threshold =  param;
